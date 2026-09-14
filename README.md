@@ -107,6 +107,8 @@ Two rules the components rely on:
 
 ## Contact
 
-The audit modal posts to FormSubmit at the address in `lib/contact.ts`
-(`deploy@proatops.com`), with a honeypot field and an autoresponse. Point
-`CONTACT_EMAIL` at the real inbox before launch.
+Enquiries from the audit modal are relayed by FormSubmit to `admin@proatops.in`
+(set in `lib/contact.ts`). FormSubmit must be activated once from that inbox:
+the first submission triggers an "Activate Form" email. The modal only shows
+"received" when FormSubmit confirms success; otherwise it shows an error with a
+direct mail link.

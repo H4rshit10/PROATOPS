@@ -1,43 +1,10 @@
-export const CONTACT_EMAIL = "deploy@proatops.com";
+/** Business inbox that receives every enquiry submitted on the site. */
+export const CONTACT_EMAIL = "admin@proatops.in";
 
 /**
- * Builds a Gmail web compose URL that opens a pre-filled message in a new tab.
+ * Plain mailto link, so it opens whatever mail app the visitor uses. The old
+ * Gmail compose URL sent anyone not signed in to Gmail to a Google login page.
  */
-export function gmailComposeUrl({
-  subject,
-  body,
-  to = CONTACT_EMAIL,
-}: {
-  subject: string;
-  body: string;
-  to?: string;
-}): string {
-  const params = new URLSearchParams({
-    view: "cm",
-    fs: "1",
-    to,
-    su: subject,
-    body,
-  });
-  return `https://mail.google.com/mail/?${params.toString()}`;
-}
-
-/** Default deployment inquiry draft. */
-export const HELLO_DRAFT = {
-  subject: "PROATOPS Deployment Inquiry",
-  body: `PROATOPS Systems,
-
-Organization: [your organization]
-Operational scope: [number of locations / nodes]
-
-Deployment requirements:
--
-
-Requested timeline and governance parameters.
-
-[Your name]
-[Title]`,
-};
-
-/** Convenience URL for email links. */
-export const HELLO_GMAIL_URL = gmailComposeUrl(HELLO_DRAFT);
+export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  "PROATOPS enquiry"
+)}`;

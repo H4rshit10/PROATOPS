@@ -28,8 +28,9 @@ export function useContact() {
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* FormSubmit delivers the brief from its own authenticated servers, so it
-   isn't spam-flagged the way a visitor-side mailto draft was. */
+/* Enquiries are relayed by FormSubmit to the business inbox. The inbox has to
+   confirm the form once (FormSubmit emails an "Activate Form" link on the first
+   submission); until then every submission is refused. */
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 
 const AUTORESPONSE = `Your audit request has been received by PROATOPS.
@@ -92,7 +93,9 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({
           Name: name,
           Business: business || "—",
-          Email: email,
+          /* Lower-case `email` is what FormSubmit reads for the visitor's
+             address: it drives reply-to and the confirmation autoresponse. */
+          email,
           Locations: String(data.get("locations") || "").trim(),
           "Operational issue": String(data.get("brief") || "").trim(),
           _subject: `Business audit request${business ? ` — ${business}` : ""}`,
@@ -104,7 +107,16 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
           _honey: String(data.get("_honey") || ""),
         }),
       });
-      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+      const result = (await res.json().catch(() => null)) as {
+        success?: string | boolean;
+        message?: string;
+      } | null;
+      /* FormSubmit answers 200 even when it refused the enquiry (form not yet
+         activated, submission blocked). Only an explicit success counts as
+         sent; anything else shows the error state with the direct email. */
+      if (!res.ok || String(result?.success) !== "true") {
+        throw new Error(result?.message || `Request failed: ${res.status}`);
+      }
       setStatus("sent");
     } catch {
       setStatus("error");

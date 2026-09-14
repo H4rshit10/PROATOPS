@@ -13,7 +13,7 @@ import {
 import { useContact } from "@/components/providers/ContactProvider";
 import { Coordinates, Crosshair } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
-import { CONTACT_EMAIL, HELLO_GMAIL_URL } from "@/lib/contact";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
 const { footer, meta, nav } = PROATOPS;
 
@@ -204,9 +204,7 @@ export default function Footer() {
                     {footer.statement}
                   </p>
                   <a
-                    href={HELLO_GMAIL_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={CONTACT_MAILTO}
                     className="mt-6 inline-block border-b border-op-border pb-0.5 font-mono text-mono-sm uppercase tracking-tracker text-op-white transition-colors duration-op-micro ease-op-micro hover:border-op-crimson hover:text-op-crimson"
                   >
                     {CONTACT_EMAIL}

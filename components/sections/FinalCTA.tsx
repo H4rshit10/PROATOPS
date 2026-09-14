@@ -8,7 +8,7 @@ import ArrowRevealButton from "@/components/ui/ArrowRevealButton";
 import { Coordinates } from "@/components/ui/Marker";
 import { useContact } from "@/components/providers/ContactProvider";
 import { PROATOPS } from "@/config/proatops";
-import { CONTACT_EMAIL, HELLO_GMAIL_URL } from "@/lib/contact";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
 const { finalCta, meta } = PROATOPS;
 
@@ -130,9 +130,7 @@ export default function FinalCTA() {
                     tone="light"
                   />
                   <a
-                    href={HELLO_GMAIL_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={CONTACT_MAILTO}
                     className="inline-flex h-[54px] max-w-full items-center truncate rounded-[10px] border border-op-rule-strong px-6 font-mono text-mono-sm uppercase tracking-tracker text-op-charcoal transition-colors duration-300 ease-op-editorial hover:border-op-crimson hover:text-op-crimson"
                   >
                     {CONTACT_EMAIL}
