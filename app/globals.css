@@ -1,0 +1,556 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   PROATOPS — EDITORIAL OPERATIONS SYSTEM
+   Parchment canvas, charcoal set-pieces, crimson as the only accent.
+   ========================================================================== */
+
+:root {
+  --op-parchment: #e8e6e0;
+  --op-charcoal: #0b0b0b;
+  --op-surface: #121215;
+  --op-border: #2d2d35;
+  --op-muted: #6b6b6b;
+  --op-crimson: #e11d2e;
+  --op-white: #fafafa;
+
+  /* Structural rules — the only elevation device in the system. */
+  --op-rule: rgba(11, 11, 11, 0.15);
+  --op-rule-strong: rgba(11, 11, 11, 0.32);
+
+  --radius-none: 0px;
+  --radius-sm: 2px;
+
+  --ease-micro: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 180ms;
+  --dur-slow: 420ms;
+}
+
+/* ========== BASE ========== */
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(env(safe-area-inset-top) + 5rem);
+}
+
+body {
+  background: var(--op-parchment);
+  color: var(--op-charcoal);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: "kern" 1;
+}
+
+::selection {
+  background: var(--op-crimson);
+  color: var(--op-white);
+}
+
+/* Bebas Neue ships lowercase glyphs that are simply small caps. Force the
+   case so a stray lowercase string can never break the display rhythm. */
+.headline {
+  font-family: var(--font-display), Impact, sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.script {
+  font-family: var(--font-script), cursive;
+  text-transform: none;
+  font-weight: 400;
+  /* Allura sits high on the baseline against condensed caps — nudge it down
+     so the script and the display line share an optical baseline. */
+  line-height: 1.05;
+  padding-right: 0.06em;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* ========== RESPONSIVE SHELL ========== */
+
+.shell-x {
+  padding-left: max(1.25rem, env(safe-area-inset-left));
+  padding-right: max(1.25rem, env(safe-area-inset-right));
+}
+@media (min-width: 1024px) {
+  .shell-x {
+    padding-left: max(4rem, env(safe-area-inset-left));
+    padding-right: max(4rem, env(safe-area-inset-right));
+  }
+}
+
+.safe-t {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-b {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ========== GRAIN ==========
+   Two densities. Parchment carries a heavier, warmer grain so it reads as
+   stock rather than as flat #E8E6E0; charcoal takes a lighter dusting so the
+   black stays deep. Both are pure CSS — no image requests. */
+
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.42'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+.grain-dark::after {
+  opacity: 0.34;
+  mix-blend-mode: screen;
+}
+
+/* ========== TECHNICAL SUBSTRATE ========== */
+
+/* Faint blueprint grid for the parchment canvas. */
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgba(11, 11, 11, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 11, 11, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.blueprint-dark {
+  background-image:
+    linear-gradient(to right, rgba(250, 250, 250, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(250, 250, 250, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* ========== CROSSHAIR MARKERS ==========
+   A crimson `+` pinned at a section bound. Drawn with two pseudo-element
+   bars rather than a glyph so the arms stay exactly 1px at any size. */
+
+.crosshair {
+  position: relative;
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  flex: none;
+}
+.crosshair::before,
+.crosshair::after {
+  content: "";
+  position: absolute;
+  background: var(--op-crimson);
+}
+.crosshair::before {
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+.crosshair::after {
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+/* ========== FOCUS ========== */
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--op-crimson);
+  outline-offset: 2px;
+}
+
+/* ========== FORM CONTROLS ==========
+   Underline-only fields. A box would compete with the structural rules. */
+
+.op-field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--op-border);
+  border-radius: 0;
+  padding: 0.625rem 0 0.5rem;
+  color: var(--op-white);
+  /* 16px minimum or iOS Safari zooms the page on focus and never zooms back. */
+  font-size: 16px;
+  line-height: 1.5;
+  transition: border-color var(--dur-micro) var(--ease-micro);
+}
+.op-field::placeholder {
+  color: var(--op-muted);
+}
+.op-field:focus {
+  outline: none;
+  border-bottom-color: var(--op-crimson);
+}
+.op-field:focus-visible {
+  outline: none;
+}
+@media (min-width: 640px) {
+  .op-field {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Native select arrow is rounded and platform-coloured — replace it with a
+   flat crimson chevron so the control matches the rest of the system. */
+select.op-field {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23E11D2E' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.125rem center;
+  padding-right: 1.5rem;
+}
+select.op-field option {
+  background: var(--op-surface);
+  color: var(--op-white);
+}
+
+/* ========== HERO ATMOSPHERE ==========
+   Both loops are long and low-amplitude on purpose: the form should feel like
+   it is breathing under a fixed light, not sliding around. The global
+   reduced-motion block below switches them off. */
+
+@keyframes afDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-1.2%, 1.6%, 0) scale(1.035);
+  }
+}
+.af-drift {
+  animation: afDrift 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes afScroll {
+  0% {
+    transform: translateY(-3px);
+    opacity: 0.25;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(6px);
+    opacity: 0.25;
+  }
+}
+.af-scroll {
+  animation: afScroll 2.6s ease-in-out infinite;
+}
+
+/* ========== SHINY BORDER ==========
+   A conic highlight travelling around a 1px frame. `@property` is what makes
+   the angle animatable — a plain custom property is a string to the engine and
+   would jump rather than sweep. Border only, via mask-composite, so nothing
+   bleeds onto the surface at rest. */
+
+@property --sb-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes sbSpin {
+  to {
+    --sb-angle: 360deg;
+  }
+}
+
+.shiny-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  background: conic-gradient(
+    from var(--sb-angle),
+    transparent 0%,
+    rgba(225, 29, 46, 0.85) 9%,
+    rgba(250, 250, 250, 0.9) 15%,
+    rgba(225, 29, 46, 0.85) 21%,
+    transparent 38%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: sbSpin 7s linear infinite;
+}
+
+/* ========== GLITTER ==========
+   Jewellery for the close of the page: a glittering frame around the final
+   CTA card and a glittering wordmark in the footer. Pure CSS, built the same
+   way in both places: a brushed-metal base, layers of tiny radial "flakes"
+   drifting at different rates, and a travelling highlight on top. Flake shifts
+   in the keyframes are whole multiples of each tile size, so every loop is
+   seamless. Under reduced motion the global rule below stops the animation
+   and both surfaces rest as static, still-glittering metal. */
+
+@property --gl-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Inherits, so one animation on the word drives the sweep in every letter. */
+@property --gl-sweep {
+  syntax: "<percentage>";
+  initial-value: -30%;
+  inherits: true;
+}
+
+@keyframes glAngle {
+  to {
+    --gl-angle: 360deg;
+  }
+}
+
+@keyframes glFrameFlakes {
+  to {
+    background-position: 0 0, 14px 22px, -13px 18px, 10px -17px, 19px 26px,
+      -22px 14px, 0 0;
+  }
+}
+
+@keyframes glTwinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  60% {
+    opacity: 0.85;
+    transform: scale(0.8) rotate(60deg);
+  }
+}
+
+@keyframes glSweep {
+  0% {
+    --gl-sweep: -30%;
+  }
+  55%,
+  100% {
+    --gl-sweep: 130%;
+  }
+}
+
+@keyframes glLetterFlakes {
+  to {
+    background-position: calc(var(--i) / (var(--n) - 1) * 100%) 0, 26px 38px,
+      -46px 34px, 14px -22px, 31px 58px, 0 0;
+  }
+}
+
+/* --- CTA frame --- */
+
+.glitter-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+.glitter-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px;
+  z-index: 3;
+  pointer-events: none;
+  /* Order: travelling highlight, five flake layers, metal base. Flake centres
+     sit off-centre in tiles of different, mostly prime, sizes so no grid ever
+     shows; a centred dot in a square tile reads as polka dots, not glitter. */
+  background:
+    conic-gradient(
+      from var(--gl-angle),
+      transparent 0deg 15deg,
+      rgba(225, 29, 46, 0.95) 40deg,
+      #ffffff 52deg,
+      rgba(225, 29, 46, 0.95) 64deg,
+      transparent 92deg 195deg,
+      rgba(255, 255, 255, 0.9) 215deg,
+      transparent 240deg 360deg
+    ),
+    radial-gradient(circle at 17% 73%, #ffffff 0 0.8px, transparent 1.4px) 0 0 / 7px 11px,
+    radial-gradient(circle at 61% 29%, rgba(225, 29, 46, 0.95) 0 0.9px, transparent 1.5px) 0 0 / 13px 9px,
+    radial-gradient(circle at 83% 57%, rgba(11, 11, 11, 0.5) 0 0.6px, transparent 1.2px) 0 0 / 5px 17px,
+    radial-gradient(circle at 39% 41%, #ffffff 0 1.1px, transparent 1.8px) 0 0 / 19px 13px,
+    radial-gradient(circle at 71% 88%, rgba(255, 120, 130, 0.9) 0 0.7px, transparent 1.3px) 0 0 / 11px 7px,
+    linear-gradient(
+      115deg,
+      #9a9ea3 0%,
+      #eceeef 18%,
+      #7d8186 34%,
+      #f5f5f2 52%,
+      #8a8e93 70%,
+      #e1e3e5 86%,
+      #7a7e83 100%
+    );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation:
+    glAngle 6s linear infinite,
+    glFrameFlakes 2.6s linear infinite;
+}
+
+/* A four-point star. `translate` centres it on the frame line and stays out of
+   the way of the `transform` the twinkle animates. */
+.glint {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  translate: -50% -50%;
+  background:
+    linear-gradient(90deg, transparent 44%, #ffffff 50%, transparent 56%),
+    linear-gradient(0deg, transparent 44%, #ffffff 50%, transparent 56%),
+    radial-gradient(circle, #ffffff 0%, #ffffff 14%, #ffc2c9 32%, #e11d2e 60%);
+  clip-path: polygon(
+    50% 0%,
+    61% 39%,
+    100% 50%,
+    61% 61%,
+    50% 100%,
+    39% 61%,
+    0% 50%,
+    39% 39%
+  );
+  animation: glTwinkle 3.2s ease-in-out infinite;
+}
+
+/* --- Footer wordmark --- */
+
+.glitter-word {
+  animation: glSweep 6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.glitter-letter {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  /* Rise opacity arrives as a custom property written by JS, not as an
+     animated `opacity`. Framer Motion hands scroll-linked opacity to an
+     accelerated browser animation, and on this wrapper that animation ran on
+     the wrong timeline and faded every letter out at the bottom of the page.
+     A custom property is never accelerated, so the value on screen is always
+     the value the scroll computed. */
+  opacity: var(--lo, 1);
+  /* The wordmark runs at line-height 0.8, tighter than the glyphs. Background
+     only paints inside the box, so without this padding the tops of the
+     letters would lose their fill. The negative margin keeps the layout. */
+  padding-block: 0.1em;
+  margin-block: -0.1em;
+  /* Order: sweep, four flake layers, brushed-metal base. Flakes sit off-centre
+     in tiles of unequal, mostly prime, sizes — centred dots in square tiles
+     line up into a visible grid and read as polka dots, not glitter. */
+  background-image:
+    linear-gradient(
+      100deg,
+      transparent calc(var(--gl-sweep) - 9%),
+      rgba(255, 255, 255, 0.9) var(--gl-sweep),
+      transparent calc(var(--gl-sweep) + 9%)
+    ),
+    radial-gradient(circle at 23% 67%, rgba(255, 255, 255, 0.95) 0 1px, transparent 1.9px),
+    radial-gradient(circle at 71% 31%, rgba(255, 70, 85, 0.95) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 47% 83%, rgba(245, 245, 242, 0.6) 0 0.7px, transparent 1.4px),
+    radial-gradient(circle at 89% 13%, rgba(255, 255, 255, 0.8) 0 1.3px, transparent 2.3px),
+    linear-gradient(
+      180deg,
+      #16181b 0%,
+      #4c5157 36%,
+      #aeb2b6 50%,
+      #454a4f 64%,
+      #121417 100%
+    );
+  /* Layer 1 is the whole word wide and offset per letter, so the sweep reads
+     as one band crossing all the letters rather than eight separate ones. */
+  background-size:
+    calc(var(--n) * 100%) 100%,
+    13px 19px,
+    23px 17px,
+    7px 11px,
+    31px 29px,
+    100% 100%;
+  background-position:
+    calc(var(--i) / (var(--n) - 1) * 100%) 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat, repeat, no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: glLetterFlakes 4.2s linear infinite;
+}
+
+/* Off screen, hold still. */
+.glitter-word:not([data-live]),
+.glitter-word:not([data-live]) .glitter-letter {
+  animation-play-state: paused;
+}
+
+/* ========== MOTION ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========== SCROLLBAR ========== */
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail {
+  scrollbar-width: none;
+}
+
+/* ========== NUMERICS ========== */
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
