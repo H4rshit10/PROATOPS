@@ -47,7 +47,7 @@ export const PROATOPS = {
     title: "PROATOPS — Professional Operations & Management",
     description:
       "You Own the Business. We Run the Operation. Founded by operators who ran the floor at Anytime Fitness, Cult.fit, Gold's Gym and Healthism — we embed dedicated management and assume operational responsibility for multi-unit fitness locations.",
-    domain: "https://proatops.com",
+    domain: "https://proatops.in",
     coordinates: "28.6139° N / 77.2090° E · EST. 2026",
   },
 
