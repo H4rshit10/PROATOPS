@@ -11,7 +11,8 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useContact } from "@/components/providers/ContactProvider";
-import { Coordinates, Crosshair } from "@/components/ui/Marker";
+import { BrandMark } from "@/components/ui/BrandMark";
+import { Coordinates } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
 import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
@@ -192,7 +193,7 @@ export default function Footer() {
               <div className="grid gap-12 pb-16 md:grid-cols-[1.4fr_repeat(2,0.6fr)] lg:gap-16">
                 <div>
                   <div className="flex items-baseline gap-3">
-                    <Crosshair className="translate-y-[-1px]" />
+                    <BrandMark tone="dark" animate={false} className="h-7 w-auto shrink-0" />
                     <span className="headline text-[1.65rem] leading-none tracking-display text-op-white">
                       {nav.brand}
                     </span>

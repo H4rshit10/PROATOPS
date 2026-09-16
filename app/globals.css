@@ -554,3 +554,64 @@ select.op-field option {
 .tabular {
   font-variant-numeric: tabular-nums;
 }
+
+/* ========== BRAND MARK ==========
+   The logo's entrance: the P slides in from the left and the pin drops onto
+   it, the way a pin lands on a map. Runs once on mount — the header mark is on
+   screen for the whole visit, so anything looping there would become noise.
+   Hover lifts the pin a few percent; the global reduced-motion rule below
+   already flattens both to an instant, fully-visible state. */
+
+@keyframes mkPinDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-14%) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mkPSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-18%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* `fill-box` is what makes the percentage origins below resolve against each
+   half's own bounds rather than the whole SVG viewport. */
+.pa-mark .pa-mark-pin,
+.pa-mark .pa-mark-p,
+.pa-mark .pa-mark-pin-h,
+.pa-mark .pa-mark-p-h {
+  transform-box: fill-box;
+}
+
+.pa-mark .pa-mark-pin {
+  transform-origin: 50% 100%;
+}
+.pa-mark .pa-mark-p {
+  transform-origin: 0% 50%;
+}
+
+.pa-mark-enter .pa-mark-p {
+  animation: mkPSlide 520ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.pa-mark-enter .pa-mark-pin {
+  animation: mkPinDrop 620ms cubic-bezier(0.4, 0, 0.2, 1) 140ms both;
+}
+
+/* Hover — inner groups, so the entrance's fill-mode can't hold the transform. */
+.pa-mark .pa-mark-pin-h {
+  transform-origin: 50% 100%;
+  transition: transform 340ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group:hover .pa-mark .pa-mark-pin-h {
+  transform: translateY(-7%);
+}

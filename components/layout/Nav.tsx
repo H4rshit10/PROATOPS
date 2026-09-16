@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useContact } from "@/components/providers/ContactProvider";
-import { Crosshair } from "@/components/ui/Marker";
+import { BrandMark } from "@/components/ui/BrandMark";
 import { ShinyButton } from "@/components/ui/ShinyButton";
 import { PROATOPS } from "@/config/proatops";
 
@@ -53,7 +53,7 @@ export default function Nav() {
           aria-label={`${nav.brand} home`}
         >
           <span className="flex items-center gap-2.5">
-            <Crosshair className="translate-y-[-1px] transition-transform duration-500 ease-op-editorial group-hover:rotate-45" />
+            <BrandMark tone={onDark ? "dark" : "light"} className="h-7 w-auto shrink-0" />
             <span
               className={`headline text-[1.65rem] leading-none tracking-display transition-colors duration-op-slow ease-op-micro ${
                 onDark ? "text-pa-chalk" : "text-op-charcoal"
