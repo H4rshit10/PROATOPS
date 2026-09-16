@@ -363,6 +363,7 @@ export const PROATOPS = {
       "10+ locations",
       "Pre-launch",
     ],
+    emailPrompt: "Prefer email?",
     submit: "SUBMIT FOR AUDIT",
     sending: "TRANSMITTING",
     sentTitle: "AUDIT REQUEST RECEIVED",
@@ -381,6 +382,14 @@ export const PROATOPS = {
     legal: "© 2026 PROATOPS. ALL RIGHTS RESERVED.",
     signoff: "YOU OWN THE BUSINESS. WE RUN THE OPERATION.",
     wordmark: "PROATOPS",
+  },
+
+  notFound: {
+    code: "404",
+    eyebrow: "OFF THE GRID",
+    title: "THIS LOCATION ISN'T IN THE PROTOCOL.",
+    body: "The page you're looking for has been decommissioned or never existed. Every other coordinate is still live.",
+    cta: "RETURN TO BASE",
   },
 } as const;
 

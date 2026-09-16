@@ -3,11 +3,11 @@
 import { useRef } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 /**
  * Words fill from dim to bright as the block scrolls through the viewport —
@@ -25,7 +25,7 @@ export default function ScrollFillText({
   brightClass?: string;
 }) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "start 0.35"],

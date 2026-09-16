@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 /**
  * Arrow-reveal CTA, adapted from the Originkit component.
@@ -18,7 +19,7 @@ import { motion, useReducedMotion } from "framer-motion";
  *  - `border-radius: 100%` became 10px, matching the hero CTA pair rather than
  *    introducing a third radius into the system.
  *  - The badge is crimson on charcoal instead of blue on white.
- *  - `useReducedMotion` collapses it to a plain colour swap; the original has
+ *  - `useReducedMotionSafe` collapses it to a plain colour swap; the original has
  *    a reduced-motion path for the tween but still runs the cover animation.
  */
 export default function ArrowRevealButton({
@@ -39,7 +40,7 @@ export default function ArrowRevealButton({
   const badgeRef = useRef<HTMLSpanElement>(null);
   const [cover, setCover] = useState(1);
   const [hovered, setHovered] = useState(false);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   /* The badge must scale until it covers the furthest corner of the button.
      Measured from the badge centre, not the button centre — the badge is

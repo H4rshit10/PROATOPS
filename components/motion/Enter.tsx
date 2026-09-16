@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -23,7 +24,7 @@ export default function Enter({
   y?: number;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   if (reduced) {
     return <div className={className}>{children}</div>;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 /**
  * A surface that lights where the cursor is.
@@ -28,7 +28,7 @@ export default function SpotlightCard({
   radius?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   /* Pointer position is written straight to CSS custom properties rather than
      React state — this fires on every mousemove, and re-rendering the subtree

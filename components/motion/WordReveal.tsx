@@ -1,7 +1,8 @@
 "use client";
 
 import { Fragment } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 type WordRevealProps = {
   text: string;
@@ -17,7 +18,7 @@ export default function WordReveal({
   delay = 0,
   as: Tag = "h1",
 }: WordRevealProps) {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const words = text.split(" ");
 
   /* Reduced motion gets the text outright — no fade, no hidden initial state.
@@ -28,7 +29,14 @@ export default function WordReveal({
   }
 
   return (
-    <Tag className={className} aria-label={text}>
+    <Tag className={className}>
+      {/* `aria-label` on the visible markup below would do this job on a
+         heading or paragraph, but a plain `span` has role "generic", which
+         the ARIA spec explicitly excludes from taking an accessible name —
+         assistive tech drops the label silently. A real visually-hidden text
+         node works on every tag and every screen reader, so it's used for
+         all of them rather than branching on `as`. */}
+      <span className="sr-only">{text}</span>
       {words.map((word, i) => (
         /* Words are separated by a real space character that sits *between*
            the masked inline-blocks, never inside one: a trailing space inside

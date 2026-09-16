@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import Reveal from "@/components/motion/Reveal";
 import { BracketTag, Crosshair, SectionRule } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
@@ -16,7 +17,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * feature list.
  */
 export default function Sectors() {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   return (
     <section

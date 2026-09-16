@@ -18,7 +18,12 @@ const toneText: Record<Tone, string> = {
 
 const toneMuted: Record<Tone, string> = {
   light: "text-op-muted",
-  dark: "text-op-muted",
+  /* op-muted (#6B6B6B) is tuned for parchment — 3.69:1 on charcoal, short of
+     WCAG AA's 4.5:1 for body-sized text. White-at-opacity is what the rest of
+     the dark surfaces already use for secondary text (the footer statement,
+     the sent-state body); /50 sits one step dimmer, appropriate for a label
+     this quiet, while still clearing 5.19:1. */
+  dark: "text-op-white/50",
 };
 
 const toneRule: Record<Tone, string> = {

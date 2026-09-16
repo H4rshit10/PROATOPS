@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 /* Glyphs the label resolves through. Kept to bracket/operator characters —
    the technical register the rest of the page already speaks in. */
@@ -36,7 +36,7 @@ export default function ScrambleButton({
   const textRef = useRef<HTMLSpanElement>(null);
   const raf = useRef<number | null>(null);
   const [, force] = useState(0);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   const stop = useCallback(() => {
     if (raf.current !== null) cancelAnimationFrame(raf.current);
@@ -101,6 +101,10 @@ export default function ScrambleButton({
   return (
     <Tag
       {...(href ? { href } : { type: "button" as const, onClick })}
+      /* The visible label lives in two spans, one `invisible` (reserves
+         width) and one `aria-hidden` (does the scrambling) — neither
+         contributes to the accessible name, so the element needs its own. */
+      aria-label={label}
       onPointerEnter={start}
       onPointerLeave={stop}
       onFocus={start}

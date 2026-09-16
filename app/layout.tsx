@@ -9,6 +9,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import ContactProvider from "@/components/providers/ContactProvider";
 import { PROATOPS } from "@/config/proatops";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 /* Headline / display — condensed, uppercase, single weight by design. */
 const bebasNeue = Bebas_Neue({
@@ -68,6 +69,29 @@ export const metadata: Metadata = {
     description: PROATOPS.meta.description,
   },
   robots: { index: true, follow: true },
+  alternates: {
+    canonical: PROATOPS.meta.domain,
+  },
+};
+
+/**
+ * Organization, not LocalBusiness — LocalBusiness requires a verified
+ * physical address, and the coordinates in `meta.coordinates` are a design
+ * placeholder rather than a confirmed one. Everything below is a claim this
+ * site can actually stand behind: the legal name, the URL, and the inbox
+ * that enquiries really land in.
+ */
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: PROATOPS.nav.brand,
+  url: PROATOPS.meta.domain,
+  description: PROATOPS.meta.description,
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: CONTACT_EMAIL,
+    contactType: "sales",
+  },
 };
 
 export const viewport: Viewport = {
@@ -86,6 +110,11 @@ export default function RootLayout({
       <body
         className={`${bebasNeue.variable} ${montserrat.variable} ${allura.variable} ${jetbrainsMono.variable} bg-op-parchment font-sans text-op-charcoal antialiased`}
       >
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
         <ContactProvider>
           <SmoothScroll>{children}</SmoothScroll>
         </ContactProvider>

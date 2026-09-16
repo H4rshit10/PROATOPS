@@ -4,12 +4,12 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   motion,
   useInView,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionStyle,
   type MotionValue,
 } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import { useContact } from "@/components/providers/ContactProvider";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { Coordinates } from "@/components/ui/Marker";
@@ -121,7 +121,7 @@ function FooterWordmark({
  */
 export default function Footer() {
   const { openForm } = useContact();
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const wrapRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const [box, setBox] = useState<{ h: number; vh: number } | null>(null);
@@ -197,7 +197,7 @@ export default function Footer() {
                     <span className="headline text-[1.65rem] leading-none tracking-display text-op-white">
                       {nav.brand}
                     </span>
-                    <span className="font-mono text-mono-xs uppercase tracking-micro text-op-muted">
+                    <span className="font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
                       {nav.tagline}
                     </span>
                   </div>
@@ -248,7 +248,7 @@ export default function Footer() {
                     hero, so this keeps working with Lenis and with JS off. */}
                 <a
                   href="#top"
-                  className="group flex items-center gap-2.5 font-mono text-mono-xs uppercase tracking-micro text-op-muted transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
+                  className="group flex items-center gap-2.5 font-mono text-mono-xs uppercase tracking-micro text-op-white/50 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
                 >
                   <span
                     aria-hidden="true"

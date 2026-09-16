@@ -3,11 +3,11 @@
 import { useRef } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import Reveal from "@/components/motion/Reveal";
 import { Coordinates, SectionRule } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
@@ -23,7 +23,7 @@ const { protocol, meta } = PROATOPS;
  */
 function Stage({ stage }: { stage: (typeof protocol.steps)[number] }) {
   const ref = useRef<HTMLLIElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const { scrollYProgress: p } = useScroll({
     target: ref,
     offset: ["start 0.78", "start 0.34"],
@@ -111,7 +111,7 @@ function Stage({ stage }: { stage: (typeof protocol.steps)[number] }) {
 
 export default function Protocol() {
   const spineRef = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const { scrollYProgress } = useScroll({
     target: spineRef,
     offset: ["start 0.78", "end 0.4"],

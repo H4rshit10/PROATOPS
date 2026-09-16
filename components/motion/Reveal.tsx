@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import { ReactNode } from "react";
 
 type RevealProps = {
@@ -21,7 +22,7 @@ export default function Reveal({
   className,
   once = true,
 }: RevealProps) {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   /* Reduced motion renders the content plainly. Holding it at opacity 0 and
      waiting on an intersection callback is both still motion and a way for

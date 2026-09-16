@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import Reveal from "@/components/motion/Reveal";
 import { BracketTag, Crosshair, SectionRule } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
@@ -17,7 +18,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  */
 function StruckStep({ text, index }: { text: string; index: number }) {
   const ref = useRef<HTMLLIElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "start 0.45"],
@@ -31,7 +32,7 @@ function StruckStep({ text, index }: { text: string; index: number }) {
       ref={ref}
       className="flex items-baseline gap-4 border-t border-op-border py-5"
     >
-      <span className="font-mono text-mono-xs tabular text-op-muted">
+      <span className="font-mono text-mono-xs tabular text-op-white/50">
         {String(index + 1).padStart(2, "0")}
       </span>
       <span className="relative">
@@ -56,7 +57,7 @@ function StruckStep({ text, index }: { text: string; index: number }) {
 
 /** A step in the right column — reveals with a crimson index that fills in. */
 function ExecutedStep({ text, index }: { text: string; index: number }) {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   return (
     <motion.li
@@ -89,7 +90,7 @@ function ColumnHead({
         {accent && <Crosshair />}
         <h3
           className={`headline text-display-sm tracking-display ${
-            accent ? "text-op-white" : "text-op-muted"
+            accent ? "text-op-white" : "text-op-white/50"
           }`}
         >
           {title}
@@ -97,7 +98,7 @@ function ColumnHead({
       </div>
       <p
         className={`mt-2 font-mono text-mono-xs uppercase tracking-micro ${
-          accent ? "text-op-crimson" : "text-op-muted"
+          accent ? "text-op-crimson" : "text-op-white/50"
         }`}
       >
         {tagline}

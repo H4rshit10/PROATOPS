@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useContact } from "@/components/providers/ContactProvider";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ShinyButton } from "@/components/ui/ShinyButton";
 import { PROATOPS } from "@/config/proatops";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
 const { nav, meta } = PROATOPS;
 
@@ -13,6 +14,12 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { openForm } = useContact();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    toggleRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -25,12 +32,17 @@ export default function Nav() {
      parchment page behind it from scrolling under the overlay on iOS. */
   useEffect(() => {
     if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
     return () => {
+      window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [open]);
+  }, [open, closeMenu]);
 
   /* At rest the bar floats over the black hero; once scrolled it lands on the
      parchment body. `onDark` drives every ink colour so the two states stay in
@@ -119,6 +131,7 @@ export default function Nav() {
 
         {/* Mobile toggle */}
         <button
+          ref={toggleRef}
           type="button"
           className={`relative z-10 grid h-11 w-11 place-items-center rounded-sm border transition-colors duration-op-slow ease-op-micro xl:hidden ${
             onDark ? "border-pa-hair-2" : "border-op-rule-strong"
@@ -179,7 +192,13 @@ export default function Nav() {
                 {nav.cta}
                 <span aria-hidden="true">&rarr;</span>
               </button>
-              <p className="mt-8 font-mono text-mono-xs uppercase tracking-micro text-op-muted">
+              <a
+                href={CONTACT_MAILTO}
+                className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-micro text-op-white/70 underline decoration-op-border underline-offset-4"
+              >
+                {CONTACT_EMAIL}
+              </a>
+              <p className="mt-4 font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
                 {meta.coordinates}
               </p>
             </div>

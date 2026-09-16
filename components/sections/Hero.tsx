@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import Enter from "@/components/motion/Enter";
 import WordReveal from "@/components/motion/WordReveal";
 import ArchitecturalForm from "@/components/sections/hero/ArchitecturalForm";
@@ -24,7 +25,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * easing. Only the colour token moved from crimson to the hero red.
  */
 function ScriptWord({ children }: { children: string }) {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   if (reduced) {
     return <span className="script inline-block text-pa-red">{children}</span>;

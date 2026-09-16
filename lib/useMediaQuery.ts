@@ -57,3 +57,23 @@ export function useShedDesktopOnly() {
 export function useIsTouch() {
   return useMediaQuery("(hover: none) and (pointer: coarse)");
 }
+
+/**
+ * SSR-safe replacement for framer-motion's own `useReducedMotion`.
+ *
+ * Framer's hook reads `window.matchMedia` synchronously during render (via a
+ * lazy `useState` initialiser), not in an effect. That's fine on the server —
+ * there is no `window`, so it falls back — but on a client whose OS actually
+ * has Reduced Motion on, the browser's very first render (hydration) reads
+ * the real value immediately, while the server rendered assuming `false`.
+ * Two different trees on the same pass is exactly a React #418 hydration
+ * error, and it only fires for the accessibility-conscious users these
+ * animations exist to protect in the first place.
+ *
+ * `useMediaQuery` above already has the right shape for this: `false` on the
+ * server and on the first client render, the real answer arriving one effect
+ * tick later, after hydration has committed.
+ */
+export function useReducedMotionSafe() {
+  return useMediaQuery("(prefers-reduced-motion: reduce)");
+}

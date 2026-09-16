@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -47,31 +48,82 @@ ${CONTACT_EMAIL}`;
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export default function ContactProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const isTouch = useIsTouch();
+  const cardRef = useRef<HTMLDivElement>(null);
+  /* Whatever had focus before the modal opened — usually the "Book an Audit"
+     trigger — so it can be given focus back on close instead of dropping the
+     keyboard user's position on the page. */
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
 
   const openForm = useCallback(() => {
+    restoreFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
     setStatus("idle");
     setOpen(true);
   }, []);
 
-  const closeForm = useCallback(() => setOpen(false), []);
+  const closeForm = useCallback(() => {
+    setOpen(false);
+    restoreFocusRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (!open) return;
+
+    /* Card content varies by status (form vs. sent vs. error), so the
+       focusable set is queried fresh on every keypress rather than cached. */
+    const focusable = () =>
+      Array.from(cardRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []);
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        closeForm();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const els = focusable();
+      if (els.length === 0) return;
+      const first = els[0];
+      const last = els[els.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !cardRef.current?.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !cardRef.current?.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
     };
+
+    /* Seed focus inside the dialog. On desktop the Name field's own
+       `autoFocus` (below) lands one step ahead of this and wins, which is
+       fine — this is the fallback for touch, and for the sent/error states
+       that render no field at all. */
+    const seed = window.setTimeout(() => {
+      if (!cardRef.current?.contains(document.activeElement)) {
+        focusable()[0]?.focus();
+      }
+    }, 0);
+
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
     return () => {
+      window.clearTimeout(seed);
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [open]);
+  }, [open, closeForm]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -139,15 +191,20 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
             aria-modal="true"
             aria-label={audit.title}
           >
-            {/* Backdrop — flat parchment at low alpha, no blur. Blur is a
-                depth cue this system does not use. */}
-            <div
-              className="fixed inset-0 bg-op-parchment/70"
-              onClick={closeForm}
-            />
+            {/* Backdrop fill only — flat parchment at low alpha, no blur (blur
+                is a depth cue this system does not use). The close-on-click
+                handler lives on the wrapper below, which fully overlaps this
+                in paint order; a handler here would never fire. */}
+            <div className="fixed inset-0 bg-op-parchment/70" aria-hidden="true" />
 
+            {/* This wrapper visually sits over the backdrop div above (same
+                fixed parent, later in the DOM), so a click on its own empty
+                gutter — anywhere around the card — never reaches that div's
+                onClick. It needs the close handler itself; the card below
+                stops the click before it bubbles back up to here. */}
             <div
               className="relative flex min-h-full items-center justify-center"
+              onClick={closeForm}
               style={{
                 paddingTop: "max(1rem, env(safe-area-inset-top))",
                 paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
@@ -156,7 +213,9 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
               }}
             >
               <motion.div
+                ref={cardRef}
                 className="grain grain-dark relative w-full max-w-xl border border-op-border bg-op-charcoal"
+                onClick={(e) => e.stopPropagation()}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 16 }}
@@ -184,6 +243,16 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
                       ✕
                     </button>
                   </div>
+
+                  {/* The direct address, visible in every state — not just
+                      after an error — so a visitor never has to submit the
+                      form to find a fallback way to reach us. */}
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="mt-4 inline-block font-mono text-mono-xs uppercase tracking-micro text-op-white/50 underline decoration-op-border underline-offset-4 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
+                  >
+                    {audit.emailPrompt} {CONTACT_EMAIL}
+                  </a>
 
                   {status === "sent" ? (
                     <div className="py-10">
@@ -304,7 +373,7 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
                             </a>
                           </p>
                         ) : (
-                          <p className="font-mono text-mono-xs uppercase tracking-micro text-op-muted">
+                          <p className="font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
                             {meta.coordinates}
                           </p>
                         )}
@@ -331,7 +400,7 @@ function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-1 block font-mono text-mono-xs uppercase tracking-micro text-op-muted"
+      className="mb-1 block font-mono text-mono-xs uppercase tracking-micro text-op-white/50"
     >
       {children}
     </label>

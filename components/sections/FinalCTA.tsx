@@ -1,7 +1,8 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import Reveal from "@/components/motion/Reveal";
 import WordReveal from "@/components/motion/WordReveal";
 import ArrowRevealButton from "@/components/ui/ArrowRevealButton";
@@ -61,7 +62,7 @@ function glintStyle(g: (typeof GLINTS)[number]): CSSProperties {
  */
 export default function FinalCTA() {
   const { openForm } = useContact();
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   return (
     <section

@@ -112,7 +112,7 @@ export default function Dispatches() {
                   </BracketTag>
                   <span
                     aria-hidden="true"
-                    className="font-mono text-mono-sm text-op-muted transition-colors duration-op-slow ease-op-micro group-hover:text-op-crimson"
+                    className="font-mono text-mono-sm text-op-white/50 transition-colors duration-op-slow ease-op-micro group-hover:text-op-crimson"
                   >
                     &#8599;
                   </span>

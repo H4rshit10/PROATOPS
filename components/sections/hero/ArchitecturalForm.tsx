@@ -3,11 +3,11 @@
 import { useRef } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionStyle,
 } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 /**
  * The hero's architectural form.
@@ -25,7 +25,7 @@ import {
  */
 export default function ArchitecturalForm() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
 
   /* Extremely slow parallax — the form settles a little as the hero leaves.
      Range is deliberately small; anything larger reads as a carousel. */

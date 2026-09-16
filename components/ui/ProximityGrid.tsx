@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 /**
  * A grid whose cell borders light as the pointer approaches them.
@@ -43,7 +43,7 @@ export default function ProximityGrid({
   falloff?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotionSafe();
   const frame = useRef<number | null>(null);
 
   const clear = useCallback(() => {

@@ -31,7 +31,10 @@ const config: Config = {
           charcoal: "#0B0B0B",
           surface: "#121215",
           border: "#2D2D35",
-          muted: "#6B6B6B",
+          /* 5.36:1 on parchment — #6B6B6B measured 4.27:1, short of WCAG AA's
+             4.5:1 for body-sized text. Only used on parchment/light surfaces;
+             dark surfaces use text-op-white/50 instead (see ui/Marker.tsx). */
+          muted: "#5C5C5C",
           crimson: "#E11D2E",
           white: "#FAFAFA",
           /* Structural border on the parchment canvas. */
