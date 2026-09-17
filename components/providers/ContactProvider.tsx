@@ -29,22 +29,9 @@ export function useContact() {
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* Enquiries are relayed by FormSubmit to the business inbox. The inbox has to
-   confirm the form once (FormSubmit emails an "Activate Form" link on the first
-   submission); until then every submission is refused. */
-const FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
-
-const AUTORESPONSE = `Your audit request has been received by PROATOPS.
-
-What happens next:
-- Within two working days: a written operational read on your locations.
-- A 30-minute call to walk through staffing, SOP gaps and unit economics.
-- A deployment proposal with the staffing blueprint and the numbers behind it.
-
-Prefer email? Reply directly to this message.
-
-PROATOPS — Business Operations & Management
-${CONTACT_EMAIL}`;
+/* Submission goes to our own /api/contact route, which sends through Resend
+   from an authenticated proatops.in identity — see app/api/contact/route.ts
+   for why (and for the autoresponse copy, which lives there now too). */
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -130,43 +117,26 @@ export default function ContactProvider({ children }: { children: ReactNode }) {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    const name = String(data.get("name") || "").trim();
-    const business = String(data.get("business") || "").trim();
-    const email = String(data.get("email") || "").trim();
-
     setStatus("sending");
     try {
-      const res = await fetch(FORM_ENDPOINT, {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          Name: name,
-          Business: business || "—",
-          /* Lower-case `email` is what FormSubmit reads for the visitor's
-             address: it drives reply-to and the confirmation autoresponse. */
-          email,
-          Locations: String(data.get("locations") || "").trim(),
-          "Operational issue": String(data.get("brief") || "").trim(),
-          _subject: `Business audit request${business ? ` — ${business}` : ""}`,
-          _template: "table",
-          _replyto: email,
-          _autoresponse: AUTORESPONSE,
-          _captcha: "false",
+          name: String(data.get("name") || "").trim(),
+          business: String(data.get("business") || "").trim(),
+          email: String(data.get("email") || "").trim(),
+          locations: String(data.get("locations") || "").trim(),
+          brief: String(data.get("brief") || "").trim(),
           // honeypot — bots fill this, humans never see it
-          _honey: String(data.get("_honey") || ""),
+          honey: String(data.get("_honey") || ""),
         }),
       });
       const result = (await res.json().catch(() => null)) as {
-        success?: string | boolean;
+        success?: boolean;
         message?: string;
       } | null;
-      /* FormSubmit answers 200 even when it refused the enquiry (form not yet
-         activated, submission blocked). Only an explicit success counts as
-         sent; anything else shows the error state with the direct email. */
-      if (!res.ok || String(result?.success) !== "true") {
+      if (!res.ok || result?.success !== true) {
         throw new Error(result?.message || `Request failed: ${res.status}`);
       }
       setStatus("sent");

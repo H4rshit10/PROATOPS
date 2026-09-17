@@ -6,3 +6,8 @@ next-env.d.ts
 .DS_Store
 *.mp4
 .vercel
+
+# Secrets — never committed. Real values live in Vercel's project env vars.
+.env
+.env.local
+.env.*.local
