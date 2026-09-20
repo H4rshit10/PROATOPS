@@ -19,12 +19,15 @@ export const metadata: Metadata = {
  * be — a 63-question assessment is a destination, not a dialog you can
  * dismiss by clicking outside it. Nav and Footer stay so it's still visibly
  * part of the same site, not a disconnected typeform.
+ *
+ * Charcoal canvas, same surface (and grain) the old modal used — this system
+ * treats a long, serious form as a dark document, not a parchment page.
  */
 export default function AuditPage() {
   return (
     <main>
-      <Nav hasDarkHero={false} />
-      <section className="min-h-[90svh] bg-op-parchment pt-[72px]">
+      <Nav headerTheme="dark" />
+      <section className="grain grain-dark min-h-[90svh] bg-op-charcoal pt-[72px]">
         <div className="shell-x mx-auto max-w-3xl py-16 sm:py-24">
           <AuditForm />
         </div>

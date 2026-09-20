@@ -29,13 +29,13 @@ export default function AuditField({
     <div>
       <label
         htmlFor={["text", "email", "tel", "textarea", "select"].includes(field.type) ? id : undefined}
-        className="block font-mono text-mono-xs uppercase tracking-micro text-op-muted"
+        className="block font-mono text-mono-xs uppercase tracking-micro text-op-white/50"
       >
         {field.label}
         {field.required && <span className="text-op-crimson"> *</span>}
       </label>
       {field.helper && (
-        <p className="mt-1.5 text-body-sm text-op-charcoal/60">{field.helper}</p>
+        <p className="mt-1.5 text-body-sm text-op-white/60">{field.helper}</p>
       )}
 
       <div className="mt-3">
@@ -146,7 +146,7 @@ function CheckboxGroup({
   return (
     <div>
       {field.max && (
-        <p className="mb-2 font-mono text-mono-xs uppercase tracking-micro text-op-muted">
+        <p className="mb-2 font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
           Select up to {field.max} — {value.length}/{field.max} selected
         </p>
       )}
@@ -208,7 +208,7 @@ function Scale10({
           </label>
         ))}
       </div>
-      <div className="mt-1.5 flex justify-between font-mono text-mono-xs uppercase tracking-micro text-op-muted">
+      <div className="mt-1.5 flex justify-between font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
         <span>Low</span>
         <span>High</span>
       </div>

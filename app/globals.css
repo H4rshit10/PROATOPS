@@ -184,25 +184,28 @@ body {
 
 /* ========== FORM CONTROLS ==========
    Underline-only fields. A box would compete with the structural rules.
-   Light-toned — parchment is the only surface these appear on now (the
-   audit form); a dark modifier can be added the day something else needs
-   one, rather than carrying it unused. */
+   Dark-toned — charcoal is the audit form's canvas, same surface the old
+   modal used. If a light page ever needs these, add a `--light` modifier
+   then rather than flipping this block back and forth again. */
 
 .op-field {
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--op-rule-strong);
+  border-bottom: 1px solid var(--op-border);
   border-radius: 0;
   padding: 0.625rem 0 0.5rem;
-  color: var(--op-charcoal);
+  color: var(--op-white);
   /* 16px minimum or iOS Safari zooms the page on focus and never zooms back. */
   font-size: 16px;
   line-height: 1.5;
   transition: border-color var(--dur-micro) var(--ease-micro);
 }
 .op-field::placeholder {
-  color: var(--op-muted);
+  /* Not op-muted — that token is tuned for parchment (#5C5C5C, 5.36:1 there)
+     and reads as almost invisible on charcoal (~2.9:1). White-at-opacity is
+     what every other dark surface in this system uses for secondary text. */
+  color: rgba(250, 250, 250, 0.5);
 }
 .op-field:focus {
   outline: none;
@@ -228,19 +231,19 @@ select.op-field {
   padding-right: 1.5rem;
 }
 select.op-field option {
-  background: var(--op-parchment);
-  color: var(--op-charcoal);
+  background: var(--op-surface);
+  color: var(--op-white);
 }
 
 /* ---- Audit wizard: pills, checkboxes, scales ----
    Same underline system, extended to controls .op-field can't express —
    single/multi choice and numeric scales. All share one selected state
-   (crimson fill, parchment ink) so a glance across a section shows what's
+   (crimson fill, white ink) so a glance across a section shows what's
    answered. */
 
 .op-choice {
-  border: 1px solid var(--op-rule-strong);
-  color: var(--op-charcoal);
+  border: 1px solid var(--op-border);
+  color: var(--op-white);
   background: transparent;
   transition:
     border-color var(--dur-micro) var(--ease-micro),
@@ -258,7 +261,7 @@ select.op-field option {
 /* Scale controls read left-to-right as a single connected strip rather than
    loose chips — a 1-10 scale is one measurement, not ten separate choices. */
 .op-scale {
-  border: 1px solid var(--op-rule-strong);
+  border: 1px solid var(--op-border);
   border-left-width: 0;
 }
 .op-scale:first-child {

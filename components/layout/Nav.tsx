@@ -10,14 +10,22 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 const { nav, meta } = PROATOPS;
 
 export default function Nav({
-  hasDarkHero = true,
+  headerTheme = "auto",
 }: {
-  /** False on any page that opens straight onto parchment (no dark hero
-      section under the header) — /audit, /not-found. Without this, the
-      header defaults to its "over a dark hero" treatment at scroll 0 (near-
-      white text, transparent background) regardless of what's actually
-      behind it, which is illegible on a light page. */
-  hasDarkHero?: boolean;
+  /**
+   * What's actually behind the fixed header, since it can't be inferred from
+   * scroll position alone:
+   *  - "auto"  — the homepage: a dark hero at the top, parchment below.
+   *              Floats transparent-and-white until scrolled past ~24px.
+   *  - "dark"  — the page is charcoal throughout (the audit form). Stays in
+   *              the "over dark" treatment regardless of scroll or the
+   *              mobile menu being open.
+   *  - "light" — the page is parchment throughout (/not-found). Never
+   *              switches into the "over dark" treatment.
+   * Getting this wrong is a contrast bug, not a cosmetic one — "auto"'s
+   * near-white text is illegible on a light page, and vice versa.
+   */
+  headerTheme?: "auto" | "dark" | "light";
 } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -54,7 +62,8 @@ export default function Nav({
   /* At rest the bar floats over the black hero; once scrolled it lands on the
      parchment body. `onDark` drives every ink colour so the two states stay in
      step — the background alone switching would leave charcoal text on black. */
-  const onDark = hasDarkHero && !scrolled && !open;
+  const onDark =
+    headerTheme === "dark" ? true : headerTheme === "light" ? false : !scrolled && !open;
 
   return (
     <header
