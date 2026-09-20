@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useContact } from "@/components/providers/ContactProvider";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ShinyButton } from "@/components/ui/ShinyButton";
 import { PROATOPS } from "@/config/proatops";
@@ -10,10 +9,18 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
 const { nav, meta } = PROATOPS;
 
-export default function Nav() {
+export default function Nav({
+  hasDarkHero = true,
+}: {
+  /** False on any page that opens straight onto parchment (no dark hero
+      section under the header) — /audit, /not-found. Without this, the
+      header defaults to its "over a dark hero" treatment at scroll 0 (near-
+      white text, transparent background) regardless of what's actually
+      behind it, which is illegible on a light page. */
+  hasDarkHero?: boolean;
+} = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { openForm } = useContact();
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   const closeMenu = useCallback(() => {
@@ -47,7 +54,7 @@ export default function Nav() {
   /* At rest the bar floats over the black hero; once scrolled it lands on the
      parchment body. `onDark` drives every ink colour so the two states stay in
      step — the background alone switching would leave charcoal text on black. */
-  const onDark = !scrolled && !open;
+  const onDark = hasDarkHero && !scrolled && !open;
 
   return (
     <header
@@ -109,9 +116,8 @@ export default function Nav() {
         {/* Over the hero the CTA is a red-edged glass chip so it reads as part
             of the film; on parchment it reverts to the site's shiny button. */}
         {onDark ? (
-          <button
-            type="button"
-            onClick={openForm}
+          <a
+            href="/audit"
             className="group hidden h-11 items-center gap-3 rounded-[999px] border border-pa-red/45 bg-white/[0.04] px-6 font-mono text-mono-sm uppercase tracking-tracker text-pa-chalk transition-all duration-300 ease-op-editorial hover:border-pa-red hover:bg-pa-red/10 md:inline-flex"
             style={{ boxShadow: "0 0 22px -8px rgba(255,31,45,0.75)" }}
           >
@@ -122,9 +128,9 @@ export default function Nav() {
             >
               &rarr;
             </span>
-          </button>
+          </a>
         ) : (
-          <ShinyButton onClick={openForm} className="hidden md:inline-flex">
+          <ShinyButton href="/audit" className="hidden md:inline-flex">
             {nav.cta}
           </ShinyButton>
         )}
@@ -181,17 +187,14 @@ export default function Nav() {
                   </span>
                 </a>
               ))}
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  openForm();
-                }}
+              <a
+                href="/audit"
+                onClick={() => setOpen(false)}
                 className="mt-8 flex h-14 w-full items-center justify-center gap-3 rounded-sm bg-op-white font-mono text-mono-sm uppercase tracking-tracker text-op-charcoal"
               >
                 {nav.cta}
                 <span aria-hidden="true">&rarr;</span>
-              </button>
+              </a>
               <a
                 href={CONTACT_MAILTO}
                 className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-micro text-op-white/70 underline decoration-op-border underline-offset-4"

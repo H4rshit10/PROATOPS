@@ -12,7 +12,11 @@
   --op-charcoal: #0b0b0b;
   --op-surface: #121215;
   --op-border: #2d2d35;
-  --op-muted: #6b6b6b;
+  /* Kept in sync with tailwind.config.ts's op.muted — that token was
+     darkened from #6b6b6b to #5c5c5c for WCAG AA contrast on parchment
+     (5.36:1 vs 4.27:1); this raw CSS var backed the same colour and had
+     drifted out of sync. */
+  --op-muted: #5c5c5c;
   --op-crimson: #e11d2e;
   --op-white: #fafafa;
 
@@ -179,16 +183,19 @@ body {
 }
 
 /* ========== FORM CONTROLS ==========
-   Underline-only fields. A box would compete with the structural rules. */
+   Underline-only fields. A box would compete with the structural rules.
+   Light-toned — parchment is the only surface these appear on now (the
+   audit form); a dark modifier can be added the day something else needs
+   one, rather than carrying it unused. */
 
 .op-field {
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--op-border);
+  border-bottom: 1px solid var(--op-rule-strong);
   border-radius: 0;
   padding: 0.625rem 0 0.5rem;
-  color: var(--op-white);
+  color: var(--op-charcoal);
   /* 16px minimum or iOS Safari zooms the page on focus and never zooms back. */
   font-size: 16px;
   line-height: 1.5;
@@ -221,8 +228,41 @@ select.op-field {
   padding-right: 1.5rem;
 }
 select.op-field option {
-  background: var(--op-surface);
+  background: var(--op-parchment);
+  color: var(--op-charcoal);
+}
+
+/* ---- Audit wizard: pills, checkboxes, scales ----
+   Same underline system, extended to controls .op-field can't express —
+   single/multi choice and numeric scales. All share one selected state
+   (crimson fill, parchment ink) so a glance across a section shows what's
+   answered. */
+
+.op-choice {
+  border: 1px solid var(--op-rule-strong);
+  color: var(--op-charcoal);
+  background: transparent;
+  transition:
+    border-color var(--dur-micro) var(--ease-micro),
+    background-color var(--dur-micro) var(--ease-micro),
+    color var(--dur-micro) var(--ease-micro);
+}
+.op-choice:hover {
+  border-color: var(--op-crimson);
+}
+.op-choice[data-selected="true"] {
+  background: var(--op-crimson);
+  border-color: var(--op-crimson);
   color: var(--op-white);
+}
+/* Scale controls read left-to-right as a single connected strip rather than
+   loose chips — a 1-10 scale is one measurement, not ten separate choices. */
+.op-scale {
+  border: 1px solid var(--op-rule-strong);
+  border-left-width: 0;
+}
+.op-scale:first-child {
+  border-left-width: 1px;
 }
 
 /* ========== HERO ATMOSPHERE ==========

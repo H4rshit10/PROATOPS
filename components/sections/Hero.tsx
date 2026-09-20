@@ -9,7 +9,6 @@ import CapabilityIcon, {
   type CapabilityIconName,
 } from "@/components/ui/icons/CapabilityIcon";
 import ScrambleButton from "@/components/ui/ScrambleButton";
-import { useContact } from "@/components/providers/ContactProvider";
 import { PROATOPS } from "@/config/proatops";
 
 const { hero } = PROATOPS;
@@ -50,17 +49,10 @@ function ScriptWord({ children }: { children: string }) {
    ScrambleButton, a glass surface that only fills on hover, so the pair never
    compete. Radius is 10px — rounded enough to read premium, short of a pill. */
 
-function PrimaryCta({
-  children,
-  onClick,
-}: {
-  children: string;
-  onClick: () => void;
-}) {
+function PrimaryCta({ children }: { children: string }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
+    <a
+      href="/audit"
       className="group relative inline-flex h-[54px] items-center justify-center gap-3 overflow-hidden rounded-[10px] px-8 text-left transition-transform duration-300 ease-op-editorial hover:-translate-y-[2px] sm:px-9"
       style={{
         background:
@@ -87,7 +79,7 @@ function PrimaryCta({
       >
         &rarr;
       </span>
-    </button>
+    </a>
   );
 }
 
@@ -167,8 +159,6 @@ function RightRail() {
 }
 
 export default function Hero() {
-  const { openForm } = useContact();
-
   return (
     <section
       id="top"
@@ -227,7 +217,7 @@ export default function Hero() {
           {/* Actions */}
           <Enter delay={1.28}>
             <div className="mt-9 flex flex-wrap items-center gap-3.5 sm:mt-10 sm:gap-4">
-              <PrimaryCta onClick={openForm}>{hero.primaryCta}</PrimaryCta>
+              <PrimaryCta>{hero.primaryCta}</PrimaryCta>
               <ScrambleButton
                 href="#what-we-do"
                 label={hero.secondaryCta}

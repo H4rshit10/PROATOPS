@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main>
-      <Nav />
+      <Nav hasDarkHero={false} />
       <section className="grain relative flex min-h-[90svh] items-center bg-op-parchment pt-[72px]">
         <div className="shell-x mx-auto w-full max-w-shell py-24">
           <div className="flex items-center gap-3">

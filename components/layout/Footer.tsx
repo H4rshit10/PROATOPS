@@ -10,7 +10,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useMediaQuery";
-import { useContact } from "@/components/providers/ContactProvider";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { Coordinates } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
@@ -120,7 +119,6 @@ function FooterWordmark({
  * page.
  */
 export default function Footer() {
-  const { openForm } = useContact();
   const reduced = useReducedMotionSafe();
   const wrapRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
@@ -220,22 +218,12 @@ export default function Footer() {
                     <ul className="mt-4 space-y-3">
                       {col.links.map((link) => (
                         <li key={link.label}>
-                          {link.action === "form" ? (
-                            <button
-                              type="button"
-                              onClick={openForm}
-                              className="text-left font-mono text-mono-sm uppercase tracking-tracker text-op-white/70 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
-                            >
-                              {link.label}
-                            </button>
-                          ) : (
-                            <a
-                              href={link.href}
-                              className="font-mono text-mono-sm uppercase tracking-tracker text-op-white/70 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
-                            >
-                              {link.label}
-                            </a>
-                          )}
+                          <a
+                            href={link.href}
+                            className="font-mono text-mono-sm uppercase tracking-tracker text-op-white/70 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
+                          >
+                            {link.label}
+                          </a>
                         </li>
                       ))}
                     </ul>

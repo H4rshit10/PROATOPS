@@ -7,14 +7,13 @@
  */
 
 /**
- * Footer links come in two flavours — anchors and the audit-modal trigger.
- * They are typed to one shape so a single `.map` can render the whole column;
- * a union of two literal shapes would make that map uncallable.
+ * Footer links are plain anchors — the audit used to be a JS-triggered
+ * modal, which is why this type once carried an `action: "form"` escape
+ * hatch, but the audit lives at its own route now like everything else.
  */
 export type FooterLink = {
   label: string;
-  href?: string;
-  action?: "form";
+  href: string;
 };
 
 export type FooterColumn = {
@@ -36,7 +35,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: "CONTACT",
     links: [
-      { label: "Book an Audit", action: "form" },
+      { label: "Book an Audit", href: "/audit" },
       { label: "Philosophy", href: "#philosophy" },
     ],
   },

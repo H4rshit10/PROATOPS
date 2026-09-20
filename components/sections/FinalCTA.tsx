@@ -7,7 +7,6 @@ import Reveal from "@/components/motion/Reveal";
 import WordReveal from "@/components/motion/WordReveal";
 import ArrowRevealButton from "@/components/ui/ArrowRevealButton";
 import { Coordinates } from "@/components/ui/Marker";
-import { useContact } from "@/components/providers/ContactProvider";
 import { PROATOPS } from "@/config/proatops";
 import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
@@ -61,7 +60,6 @@ function glintStyle(g: (typeof GLINTS)[number]): CSSProperties {
  * edge also gives the footer reveal below a visible seam to lift away from.
  */
 export default function FinalCTA() {
-  const { openForm } = useContact();
   const reduced = useReducedMotionSafe();
 
   return (
@@ -126,7 +124,7 @@ export default function FinalCTA() {
               <Reveal delay={0.25}>
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                   <ArrowRevealButton
-                    onClick={openForm}
+                    href="/audit"
                     label={finalCta.cta}
                     tone="light"
                   />

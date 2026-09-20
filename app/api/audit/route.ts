@@ -1,0 +1,278 @@
+import { Resend } from "resend";
+import { CONTACT_EMAIL } from "@/lib/contact";
+import { PROATOPS } from "@/config/proatops";
+import { AUDIT_SECTIONS, AUDIT_THANKS, INDUSTRY_SECTIONS, type AuditField } from "@/config/audit";
+
+const { nav } = PROATOPS;
+
+/**
+ * Sends the 63-question business audit as a structured "Business
+ * Intelligence Sheet" rather than a raw form dump — the spec is explicit
+ * that the team shouldn't just receive field-by-field answers. This builds
+ * that sheet from config/audit.ts directly (labels, section membership,
+ * which industry block applies), so it can never drift from the questions
+ * actually being asked.
+ *
+ * Deliberately not built here: a computed weighted "PROATOPS Business
+ * Operating Score". The source spec calls that a *future* addition to
+ * validate methodology against, not a day-one requirement — inventing
+ * weights now would present a made-up number as if it meant something.
+ * What ships instead is every 1-10 answer actually given, read as what it
+ * is: the owner's own rating of that one thing, not a composite score.
+ *
+ * Sends through Resend from an authenticated proatops.in identity rather
+ * than a shared third-party relay — a free relay used by an unknown number
+ * of unrelated sites is exactly the sender profile mail providers flag as
+ * spam. RESEND_API_KEY isn't set until the domain is verified with Resend
+ * (SPF/DKIM in DNS) and the key is added to the project's env vars, so
+ * until then this falls back to the same FormSubmit relay the site used
+ * before (server-side now, with the Referer header FormSubmit's API
+ * requires from a non-browser caller) — the form keeps working through
+ * that gap and switches over automatically the day the key is set.
+ */
+
+const FROM = `${nav.brand} <enquiries@proatops.in>`;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/* Long-answer fields are free text from an anonymous POST — cap length
+   defensively regardless of transport. */
+const MAX_FIELD_LEN = 4000;
+
+type Values = Record<string, string | string[] | undefined>;
+
+function str(v: string | string[] | undefined): string {
+  if (Array.isArray(v)) return v.join(", ");
+  return (v ?? "").toString().slice(0, MAX_FIELD_LEN);
+}
+
+/** Every field that could legitimately appear, in spec order: base 13
+    sections plus whichever industry block Q8's answer selects. */
+function fieldsForIndustry(industry: string | undefined): AuditField[] {
+  const [profile, ...rest] = AUDIT_SECTIONS;
+  const industrySection = industry ? INDUSTRY_SECTIONS[industry] : undefined;
+  const sections = industrySection ? [profile, industrySection, ...rest] : [profile, ...rest];
+  return sections.flatMap((s) => s.fields);
+}
+
+function requiredFieldIds(industry: string | undefined): string[] {
+  return fieldsForIndustry(industry)
+    .filter((f) => f.required)
+    .map((f) => f.id);
+}
+
+function escapeHtml(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function row(label: string, value: string) {
+  if (!value.trim()) return "";
+  return `<tr><td style="padding:6px 14px 6px 0;color:#6b6b6b;white-space:nowrap;vertical-align:top;"><strong>${escapeHtml(
+    label
+  )}</strong></td><td style="padding:6px 0;">${escapeHtml(value).replace(/\n/g, "<br/>")}</td></tr>`;
+}
+
+function section(title: string, rows: string) {
+  if (!rows) return "";
+  return `<h3 style="margin:28px 0 6px;font-family:monospace;text-transform:uppercase;letter-spacing:0.08em;color:#E11D2E;">${escapeHtml(
+    title
+  )}</h3><table cellpadding="0" cellspacing="0">${rows}</table>`;
+}
+
+function buildSheet(values: Values): string {
+  const g = (id: string) => str(values[id]);
+  const industry = g("q8");
+
+  const snapshot = section(
+    "Business Snapshot",
+    [
+      row("Business", g("q1")),
+      row("Industry", industry),
+      row("Locations", g("q11")),
+      row("Team Size", g("q12")),
+      row("Revenue Band", g("q14")),
+      row("Business Stage", g("q13")),
+      row("Owner", `${g("q3")} — ${g("q4")}`),
+      row("Website / Social", g("q2")),
+      row("Email", g("q5")),
+      row("Phone / WhatsApp", g("q6")),
+      row("City / Country", g("q7")),
+    ].join("")
+  );
+
+  const health = section(
+    "Operational Health (owner's own 1-10 ratings)",
+    [
+      row("Operations clarity", g("q20")),
+      row("SOP consistency", g("q22")),
+      row("Team performance", g("q26")),
+      row("Team accountability", g("q27")),
+      row("Management structure", g("q28")),
+      row("Sales performance", g("q33")),
+      row("Customer experience", g("q40")),
+      row("Weekly financial visibility", g("q45")),
+      row("Systems integration", g("q50")),
+      row("Confidence operating without owner", g("q19")),
+      row("Urgency to improve", g("q61")),
+    ].join("")
+  );
+
+  const mostImportant = section(
+    "Most Important",
+    [
+      row("Owner involvement day-to-day", g("q15")),
+      row("If fixed one thing tomorrow", g("q57")),
+      row("Biggest thing holding the business back", g("q59")),
+      row("12-month concern if nothing changes", g("q64")),
+      row("Where revenue is being lost", g("q39")),
+      row("Biggest team issue to change", g("q32")),
+      row("3-year vision", g("q56")),
+      row("What's preventing faster scaling", g("q55")),
+      row("Ready to begin", g("q62")),
+      row("Already working with a consultant/agency", `${g("q63")}${g("q63_followup") ? ` — ${g("q63_followup")}` : ""}`),
+    ].join("")
+  );
+
+  const opportunity = section("Proatops Opportunity", row("Owner thinks we could help with", g("q60")));
+
+  const fields = fieldsForIndustry(industry);
+  const highlighted = new Set([
+    "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q11", "q12", "q13", "q14",
+    "q15", "q19", "q20", "q22", "q26", "q27", "q28", "q32", "q33", "q39", "q40",
+    "q45", "q50", "q55", "q56", "q57", "q59", "q60", "q61", "q62", "q63", "q63_followup", "q64",
+  ]);
+  const appendixRows = fields
+    .filter((f) => !highlighted.has(f.id))
+    .map((f) => row(f.label, g(f.id)))
+    .join("");
+  const appendix = section("Full Responses", appendixRows);
+
+  return `<div style="font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:14px;color:#0B0B0B;">
+    ${snapshot}${health}${mostImportant}${opportunity}${appendix}
+  </div>`;
+}
+
+const VISITOR_AUTORESPONSE_TEXT = `${AUDIT_THANKS.title}
+
+${AUDIT_THANKS.body.join("\n\n")}
+
+${AUDIT_THANKS.nextLabel}
+${AUDIT_THANKS.steps.map((s) => `${s.index} — ${s.title}: ${s.body}`).join("\n")}
+
+PROATOPS — Business Operations & Management
+${CONTACT_EMAIL}`;
+
+async function sendViaFormSubmitFallback(values: Values, origin: string) {
+  const industry = str(values.q8);
+  const flat: Record<string, string> = {};
+  for (const f of fieldsForIndustry(industry)) {
+    const v = str(values[f.id]);
+    if (v.trim()) flat[f.label] = v;
+  }
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        /* FormSubmit's API refuses a server-to-server call with no Referer —
+           see app/api/contact/route.ts for the full explanation. */
+        Referer: origin,
+      },
+      body: JSON.stringify({
+        ...flat,
+        email: str(values.q5),
+        _subject: `Business audit — ${str(values.q1) || "New submission"}`,
+        _template: "table",
+        _replyto: str(values.q5),
+        _autoresponse: VISITOR_AUTORESPONSE_TEXT,
+        _captcha: "false",
+      }),
+    });
+    const result = (await res.json().catch(() => null)) as { success?: string | boolean } | null;
+    if (!res.ok || String(result?.success) !== "true") {
+      throw new Error(`FormSubmit fallback failed: ${res.status}`);
+    }
+    return Response.json({ success: true });
+  } catch (err) {
+    console.error("Audit FormSubmit fallback failed:", err);
+    return Response.json(
+      { success: false, message: "Could not send your assessment. Please email us directly." },
+      { status: 502 }
+    );
+  }
+}
+
+export async function POST(req: Request) {
+  let body: { values?: Values; honey?: string };
+  try {
+    body = await req.json();
+  } catch {
+    return Response.json({ success: false, message: "Malformed request." }, { status: 400 });
+  }
+
+  const values = body.values ?? {};
+  if (str(body.honey)) {
+    return Response.json({ success: true });
+  }
+
+  const industry = str(values.q8);
+  const missing = requiredFieldIds(industry).filter((id) => {
+    const v = values[id];
+    return Array.isArray(v) ? v.length === 0 : !str(v).trim();
+  });
+  if (missing.length > 0) {
+    return Response.json(
+      { success: false, message: "Please complete all required fields." },
+      { status: 400 }
+    );
+  }
+  const email = str(values.q5);
+  if (!EMAIL_RE.test(email)) {
+    return Response.json(
+      { success: false, message: "That email address doesn't look right." },
+      { status: 400 }
+    );
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    const origin = req.headers.get("origin") || PROATOPS.meta.domain;
+    return sendViaFormSubmitFallback(values, origin);
+  }
+
+  const resend = new Resend(apiKey);
+  const business = str(values.q1);
+
+  const [notification, autoresponse] = await Promise.allSettled([
+    resend.emails.send({
+      from: FROM,
+      to: CONTACT_EMAIL,
+      replyTo: email,
+      subject: `Business audit — ${business || "New submission"}`,
+      html: buildSheet(values),
+    }),
+    resend.emails.send({
+      from: FROM,
+      to: email,
+      replyTo: CONTACT_EMAIL,
+      subject: "PROATOPS — We've got your business audit",
+      text: VISITOR_AUTORESPONSE_TEXT,
+    }),
+  ]);
+
+  if (notification.status === "rejected") {
+    console.error("Resend audit notification failed:", notification.reason);
+    return Response.json(
+      { success: false, message: "Could not send your assessment. Please email us directly." },
+      { status: 502 }
+    );
+  }
+  if (autoresponse.status === "rejected") {
+    console.error("Resend audit autoresponse failed:", autoresponse.reason);
+  }
+
+  return Response.json({ success: true });
+}

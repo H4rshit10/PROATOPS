@@ -7,7 +7,6 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
-import ContactProvider from "@/components/providers/ContactProvider";
 import { PROATOPS } from "@/config/proatops";
 import { CONTACT_EMAIL } from "@/lib/contact";
 
@@ -115,9 +114,7 @@ export default function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
-        <ContactProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </ContactProvider>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
