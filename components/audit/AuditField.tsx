@@ -29,7 +29,7 @@ export default function AuditField({
     <div>
       <label
         htmlFor={["text", "email", "tel", "textarea", "select"].includes(field.type) ? id : undefined}
-        className="block font-mono text-mono-xs uppercase tracking-micro text-op-white/50"
+        className="block font-mono text-[0.8125rem] uppercase tracking-wide text-op-white/70"
       >
         {field.label}
         {field.required && <span className="text-op-crimson"> *</span>}
@@ -89,7 +89,7 @@ export default function AuditField({
               <label
                 key={o}
                 data-selected={value === o}
-                className="op-choice inline-flex cursor-pointer items-center rounded-sm px-4 py-2 font-mono text-mono-xs uppercase tracking-micro"
+                className="op-choice inline-flex cursor-pointer items-center rounded-sm px-5 py-2.5 font-sans text-body-md"
               >
                 <input
                   type="radio"
@@ -146,7 +146,7 @@ function CheckboxGroup({
   return (
     <div>
       {field.max && (
-        <p className="mb-2 font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
+        <p className="mb-2 font-mono text-[0.75rem] uppercase tracking-wide text-op-white/50">
           Select up to {field.max} — {value.length}/{field.max} selected
         </p>
       )}
@@ -157,7 +157,7 @@ function CheckboxGroup({
             <label
               key={o}
               data-selected={checked}
-              className={`op-choice inline-flex items-center rounded-sm px-4 py-2 font-mono text-mono-xs uppercase tracking-micro ${
+              className={`op-choice inline-flex items-center rounded-sm px-5 py-2.5 font-sans text-body-md ${
                 !checked && atMax ? "cursor-not-allowed opacity-40" : "cursor-pointer"
               }`}
             >
@@ -193,7 +193,7 @@ function Scale10({
           <label
             key={n}
             data-selected={value === String(n)}
-            className="op-choice op-scale flex-1 cursor-pointer py-2.5 text-center font-mono text-mono-sm tabular"
+            className="op-choice op-scale flex-1 cursor-pointer py-3 text-center font-mono text-base tabular"
           >
             <input
               type="radio"
@@ -208,7 +208,7 @@ function Scale10({
           </label>
         ))}
       </div>
-      <div className="mt-1.5 flex justify-between font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
+      <div className="mt-2 flex justify-between font-mono text-[0.75rem] uppercase tracking-wide text-op-white/50">
         <span>Low</span>
         <span>High</span>
       </div>
@@ -233,7 +233,7 @@ function Scale5({
           <label
             key={n}
             data-selected={value === String(n)}
-            className="op-choice flex cursor-pointer flex-col items-center gap-1.5 rounded-sm px-1.5 py-3 text-center"
+            className="op-choice flex cursor-pointer flex-col items-center gap-2 rounded-sm px-2 py-4 text-center"
           >
             <input
               type="radio"
@@ -244,8 +244,8 @@ function Scale5({
               required={field.required}
               className="sr-only"
             />
-            <span className="font-mono text-mono-sm tabular">{n}</span>
-            <span className="text-[0.65rem] leading-tight tracking-micro">{label}</span>
+            <span className="font-mono text-lg tabular">{n}</span>
+            <span className="text-[0.75rem] leading-tight tracking-wide">{label}</span>
           </label>
         );
       })}

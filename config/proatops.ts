@@ -21,22 +21,30 @@ export type FooterColumn = {
   links: FooterLink[];
 };
 
+/* Every in-page anchor is prefixed "/" (not bare "#section") — this site now
+   has a second real page (/audit), and a bare hash href only resolves on
+   whatever page you're already on. From /audit, "#dispatches" tries to find
+   that id on /audit itself, finds nothing, and does nothing — which is
+   exactly the "the buttons don't work, I'm stuck" bug. "/#dispatches"
+   always resolves against the homepage regardless of where the click
+   happened, and is identical to a bare hash when already on "/" (same
+   pathname, so the browser scrolls in place rather than reloading). */
 const FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: "SITE",
     links: [
-      { label: "Field Dispatches", href: "#dispatches" },
-      { label: "What We Do", href: "#what-we-do" },
-      { label: "Our Model", href: "#model" },
-      { label: "The Protocol", href: "#protocol" },
-      { label: "Sectors", href: "#sectors" },
+      { label: "Field Dispatches", href: "/#dispatches" },
+      { label: "What We Do", href: "/#what-we-do" },
+      { label: "Our Model", href: "/#model" },
+      { label: "The Protocol", href: "/#protocol" },
+      { label: "Sectors", href: "/#sectors" },
     ],
   },
   {
     heading: "CONTACT",
     links: [
       { label: "Book an Audit", href: "/audit" },
-      { label: "Philosophy", href: "#philosophy" },
+      { label: "Philosophy", href: "/#philosophy" },
     ],
   },
 ];
@@ -53,13 +61,15 @@ export const PROATOPS = {
   nav: {
     brand: "PROATOPS",
     tagline: "PROFESSIONAL OPERATIONS",
+    /* This bar is shared across every page (Nav.tsx) — see the FOOTER_COLUMNS
+       comment above for why these are "/#section" and not bare "#section". */
     links: [
-      { label: "DISPATCHES", href: "#dispatches" },
-      { label: "WHAT WE DO", href: "#what-we-do" },
-      { label: "OUR MODEL", href: "#model" },
-      { label: "THE PROTOCOL", href: "#protocol" },
-      { label: "SECTORS", href: "#sectors" },
-      { label: "PHILOSOPHY", href: "#philosophy" },
+      { label: "DISPATCHES", href: "/#dispatches" },
+      { label: "WHAT WE DO", href: "/#what-we-do" },
+      { label: "OUR MODEL", href: "/#model" },
+      { label: "THE PROTOCOL", href: "/#protocol" },
+      { label: "SECTORS", href: "/#sectors" },
+      { label: "PHILOSOPHY", href: "/#philosophy" },
     ],
     cta: "BOOK AN AUDIT",
   },

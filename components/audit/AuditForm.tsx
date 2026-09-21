@@ -224,13 +224,13 @@ export default function AuditForm() {
           </div>
 
           {touched && !stepIsValid() && (
-            <p className="mt-6 font-mono text-mono-xs uppercase tracking-micro text-op-crimson">
+            <p className="mt-6 font-mono text-[0.8125rem] uppercase tracking-wide text-op-crimson">
               Please fill in the required fields marked with *.
             </p>
           )}
 
           {status === "error" && isLastStep && (
-            <p className="mt-6 font-mono text-mono-xs uppercase tracking-micro text-op-crimson">
+            <p className="mt-6 font-mono text-[0.8125rem] uppercase tracking-wide text-op-crimson">
               {AUDIT_THANKS.errorBody}{" "}
               <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">
                 {CONTACT_EMAIL}

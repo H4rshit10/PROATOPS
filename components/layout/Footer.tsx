@@ -233,9 +233,12 @@ export default function Footer() {
 
               <div className="flex flex-col gap-3 border-t border-op-border py-6 sm:flex-row sm:items-center sm:justify-between">
                 {/* Anchor rather than scrollTo: #top already exists on the
-                    hero, so this keeps working with Lenis and with JS off. */}
+                    hero, so this keeps working with Lenis and with JS off.
+                    "/#top" (not bare "#top") — the footer renders on /audit
+                    too, where a bare hash would try to scroll within that
+                    page, find nothing, and do nothing. */}
                 <a
-                  href="#top"
+                  href="/#top"
                   className="group flex items-center gap-2.5 font-mono text-mono-xs uppercase tracking-micro text-op-white/50 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
                 >
                   <span

@@ -74,9 +74,11 @@ export default function Nav({
       }`}
     >
       <div className="shell-x mx-auto flex h-[72px] max-w-shell items-center justify-between gap-6">
-        {/* Wordmark — the crimson crosshair is the mark. */}
+        {/* Wordmark — the crimson crosshair is the mark. "/#top" (not bare
+            "#top") so it actually goes home from any page, not just scrolls
+            in place on whichever page is currently open. */}
         <a
-          href="#top"
+          href="/#top"
           className="group relative z-10 flex items-baseline gap-3"
           aria-label={`${nav.brand} home`}
         >
