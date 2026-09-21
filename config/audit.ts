@@ -13,6 +13,16 @@
  * fields are prefixed by vertical (ind_retail_*, ind_fitness_*, etc.).
  */
 
+/**
+ * The page's canvas — parchment or charcoal — and every dark/light-toned
+ * class in AuditForm.tsx / AuditField.tsx / app/audit/page.tsx reads this
+ * one value. It's been flipped twice already; the point of routing
+ * everything through a single constant is that the third time is a
+ * one-line edit here, not another sweep through every file that renders
+ * the form.
+ */
+export const AUDIT_THEME: "light" | "dark" = "light";
+
 export type AuditFieldType =
   | "text"
   | "email"

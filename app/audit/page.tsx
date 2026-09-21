@@ -3,8 +3,10 @@ import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import AuditForm from "@/components/audit/AuditForm";
 import { PROATOPS } from "@/config/proatops";
+import { AUDIT_THEME } from "@/config/audit";
 
 const { meta } = PROATOPS;
+const isDark = AUDIT_THEME === "dark";
 
 export const metadata: Metadata = {
   title: `Business Audit — ${meta.title}`,
@@ -20,14 +22,19 @@ export const metadata: Metadata = {
  * dismiss by clicking outside it. Nav and Footer stay so it's still visibly
  * part of the same site, not a disconnected typeform.
  *
- * Charcoal canvas, same surface (and grain) the old modal used — this system
- * treats a long, serious form as a dark document, not a parchment page.
+ * Canvas and header both follow AUDIT_THEME (config/audit.ts) — see that
+ * file for why this is one constant rather than a background class
+ * hardcoded here.
  */
 export default function AuditPage() {
   return (
     <main>
-      <Nav headerTheme="dark" />
-      <section className="grain grain-dark min-h-[90svh] bg-op-charcoal pt-[72px]">
+      <Nav headerTheme={isDark ? "dark" : "light"} />
+      <section
+        className={`grain min-h-[90svh] pt-[72px] ${
+          isDark ? "grain-dark bg-op-charcoal" : "bg-op-parchment"
+        }`}
+      >
         <div className="shell-x mx-auto max-w-3xl py-16 sm:py-24">
           <AuditForm />
         </div>

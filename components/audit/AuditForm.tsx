@@ -7,6 +7,7 @@ import {
   AUDIT_INTRO,
   AUDIT_SECTIONS,
   AUDIT_THANKS,
+  AUDIT_THEME,
   INDUSTRY_SECTIONS,
   type AuditSection,
 } from "@/config/audit";
@@ -21,6 +22,25 @@ type HistoryState = { status: "form" | "sent"; step: number };
 
 const STORAGE_KEY = "proatops-audit-draft-v1";
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+/* Every tone-dependent class in this file reads AUDIT_THEME once, here —
+   see that constant in config/audit.ts for why. */
+const TONE = AUDIT_THEME;
+const isDark = TONE === "dark";
+const ink = isDark ? "text-op-white" : "text-op-charcoal";
+const inkBody = isDark ? "text-op-white/80" : "text-op-charcoal/80";
+const inkMuted = isDark ? "text-op-white/55" : "text-op-muted";
+const rule = isDark ? "border-op-border" : "border-op-rule";
+const ruleBg = isDark ? "bg-op-border" : "bg-op-rule";
+const primaryBtn = isDark
+  ? "bg-op-white text-op-charcoal hover:bg-op-crimson hover:text-op-white"
+  : "bg-op-charcoal text-op-white hover:bg-op-crimson hover:text-op-white";
+const ghostBtn = isDark
+  ? "border-op-border text-op-white hover:border-op-crimson hover:text-op-crimson"
+  : "border-op-rule-strong text-op-charcoal hover:border-op-crimson hover:text-op-crimson";
+const backLink = isDark
+  ? "text-op-white/70 hover:text-op-white"
+  : "text-op-charcoal/70 hover:text-op-charcoal";
 
 /** Best-effort only — a private window or blocked storage should never break
     the form, just silently lose the resume convenience. */
@@ -184,11 +204,11 @@ export default function AuditForm() {
     <div ref={topRef} className="scroll-mt-24">
       {/* Progress */}
       <div className="mb-8">
-        <div className="flex items-center justify-between font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
+        <div className={`flex items-center justify-between font-mono text-[0.75rem] uppercase tracking-wide ${inkMuted}`}>
           <span>{AUDIT_CTA.step(step + 1, sections.length)}</span>
           <span>{Math.round(((step + 1) / sections.length) * 100)}%</span>
         </div>
-        <div className="mt-2 h-px w-full bg-op-border">
+        <div className={`mt-2 h-px w-full ${ruleBg}`}>
           <motion.div
             className="h-px bg-op-crimson"
             initial={false}
@@ -206,31 +226,32 @@ export default function AuditForm() {
           exit={reduced ? undefined : { opacity: 0, y: -8 }}
           transition={{ duration: reduced ? 0 : 0.32, ease: EASE }}
         >
-          <SectionRule index={current.index} label={current.title} tone="dark" />
+          <SectionRule index={current.index} label={current.title} tone={TONE} />
           {current.intro && (
-            <p className="mt-4 max-w-xl text-body-sm text-op-white/70">{current.intro}</p>
+            <p className={`mt-4 max-w-xl text-body-md ${inkBody}`}>{current.intro}</p>
           )}
 
-          <div className="mt-8 space-y-8">
+          <div className="mt-8 space-y-9">
             {visibleFields.map((field, i) => (
               <AuditField
                 key={field.id}
                 field={field}
                 value={values[field.id]}
                 onChange={setValue}
+                tone={TONE}
                 autoFocus={i === 0 && step > 0}
               />
             ))}
           </div>
 
           {touched && !stepIsValid() && (
-            <p className="mt-6 font-mono text-[0.8125rem] uppercase tracking-wide text-op-crimson">
+            <p className="mt-6 font-mono text-[0.875rem] uppercase tracking-wide text-op-crimson">
               Please fill in the required fields marked with *.
             </p>
           )}
 
           {status === "error" && isLastStep && (
-            <p className="mt-6 font-mono text-[0.8125rem] uppercase tracking-wide text-op-crimson">
+            <p className="mt-6 font-mono text-[0.875rem] uppercase tracking-wide text-op-crimson">
               {AUDIT_THANKS.errorBody}{" "}
               <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">
                 {CONTACT_EMAIL}
@@ -243,7 +264,7 @@ export default function AuditForm() {
               <button
                 type="button"
                 onClick={goBack}
-                className="font-mono text-mono-sm uppercase tracking-tracker text-op-white/60 transition-colors duration-op-micro ease-op-micro hover:text-op-white"
+                className={`font-mono text-mono-sm uppercase tracking-tracker transition-colors duration-op-micro ease-op-micro ${backLink}`}
               >
                 &larr; {AUDIT_CTA.back}
               </button>
@@ -252,7 +273,7 @@ export default function AuditForm() {
               type="button"
               onClick={goNext}
               disabled={status === "sending"}
-              className="group ml-auto inline-flex h-14 items-center justify-center gap-3 rounded-sm bg-op-white px-8 font-mono text-mono-sm uppercase tracking-tracker text-op-charcoal transition-colors duration-op-micro ease-op-micro hover:bg-op-crimson hover:text-op-white disabled:cursor-not-allowed disabled:opacity-60"
+              className={`group ml-auto inline-flex h-14 items-center justify-center gap-3 rounded-sm px-8 font-mono text-mono-sm uppercase tracking-tracker transition-colors duration-op-micro ease-op-micro disabled:cursor-not-allowed disabled:opacity-60 ${primaryBtn}`}
             >
               {isLastStep
                 ? status === "sending"
@@ -267,9 +288,7 @@ export default function AuditForm() {
               </span>
             </button>
           </div>
-          {isLastStep && (
-            <p className="mt-4 text-body-sm text-op-white/60">{AUDIT_CTA.subCta}</p>
-          )}
+          {isLastStep && <p className={`mt-4 text-body-md ${inkBody}`}>{AUDIT_CTA.subCta}</p>}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -285,23 +304,23 @@ function AuditIntro({ onStart }: { onStart: () => void }) {
           {AUDIT_INTRO.eyebrow}
         </span>
       </div>
-      <h1 className="headline mt-5 text-display-lg tracking-display text-op-white">
+      <h1 className={`headline mt-5 text-display-lg tracking-display ${ink}`}>
         {AUDIT_INTRO.title}
       </h1>
-      <p className="mt-6 max-w-xl text-body-md font-medium text-op-white">{AUDIT_INTRO.lede}</p>
-      <p className="mt-4 max-w-xl text-body-sm text-op-white/70">{AUDIT_INTRO.body}</p>
+      <p className={`mt-6 max-w-xl text-body-lg font-medium ${ink}`}>{AUDIT_INTRO.lede}</p>
+      <p className={`mt-4 max-w-xl text-body-md ${inkBody}`}>{AUDIT_INTRO.body}</p>
 
-      <div className="mt-8 space-y-2 border-t border-op-border pt-6">
-        <p className="font-mono text-mono-xs uppercase tracking-micro text-op-white/50">
+      <div className={`mt-8 space-y-2 border-t ${rule} pt-6`}>
+        <p className={`font-mono text-[0.75rem] uppercase tracking-wide ${inkMuted}`}>
           {AUDIT_INTRO.time}
         </p>
-        <p className="max-w-xl text-body-sm text-op-white/70">{AUDIT_INTRO.confidentiality}</p>
+        <p className={`max-w-xl text-body-md ${inkBody}`}>{AUDIT_INTRO.confidentiality}</p>
       </div>
 
       <button
         type="button"
         onClick={onStart}
-        className="group mt-10 inline-flex h-14 items-center justify-center gap-3 rounded-sm bg-op-white px-8 font-mono text-mono-sm uppercase tracking-tracker text-op-charcoal transition-colors duration-op-micro ease-op-micro hover:bg-op-crimson hover:text-op-white"
+        className={`group mt-10 inline-flex h-14 items-center justify-center gap-3 rounded-sm px-8 font-mono text-mono-sm uppercase tracking-tracker transition-colors duration-op-micro ease-op-micro ${primaryBtn}`}
       >
         {AUDIT_INTRO.start}
         <span
@@ -324,11 +343,11 @@ function AuditThanks() {
           {AUDIT_INTRO.eyebrow}
         </span>
       </div>
-      <h1 className="headline mt-5 text-display-lg tracking-display text-op-white">
+      <h1 className={`headline mt-5 text-display-lg tracking-display ${ink}`}>
         {AUDIT_THANKS.title}
       </h1>
       {AUDIT_THANKS.body.map((p) => (
-        <p key={p} className="mt-4 max-w-xl text-body-sm text-op-white/70">
+        <p key={p} className={`mt-4 max-w-xl text-body-md ${inkBody}`}>
           {p}
         </p>
       ))}
@@ -336,15 +355,13 @@ function AuditThanks() {
       <p className="mt-10 font-mono text-mono-xs uppercase tracking-micro text-op-crimson">
         {AUDIT_THANKS.nextLabel}
       </p>
-      <ol className="mt-4 divide-y divide-op-border border-t border-op-border">
+      <ol className={`mt-4 divide-y ${isDark ? "divide-op-border" : "divide-op-rule"} border-t ${rule}`}>
         {AUDIT_THANKS.steps.map((s) => (
           <li key={s.index} className="flex gap-5 py-5">
-            <span className="font-mono text-mono-sm tabular text-op-white/50">{s.index}</span>
+            <span className={`font-mono text-mono-sm tabular ${inkMuted}`}>{s.index}</span>
             <div>
-              <p className="headline text-display-sm tracking-display text-op-white">
-                {s.title}
-              </p>
-              <p className="mt-1 text-body-sm text-op-white/70">{s.body}</p>
+              <p className={`headline text-display-sm tracking-display ${ink}`}>{s.title}</p>
+              <p className={`mt-1 text-body-md ${inkBody}`}>{s.body}</p>
             </div>
           </li>
         ))}
@@ -352,7 +369,7 @@ function AuditThanks() {
 
       <a
         href="/"
-        className="group mt-10 inline-flex h-14 items-center justify-center gap-3 rounded-sm border border-op-border px-8 font-mono text-mono-sm uppercase tracking-tracker text-op-white transition-colors duration-op-micro ease-op-micro hover:border-op-crimson hover:text-op-crimson"
+        className={`group mt-10 inline-flex h-14 items-center justify-center gap-3 rounded-sm border px-8 font-mono text-mono-sm uppercase tracking-tracker transition-colors duration-op-micro ease-op-micro ${ghostBtn}`}
       >
         {AUDIT_THANKS.backHome}
       </a>
