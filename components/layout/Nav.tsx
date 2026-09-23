@@ -5,9 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ShinyButton } from "@/components/ui/ShinyButton";
 import { PROATOPS } from "@/config/proatops";
+import { V2_NAV } from "@/config/v2";
 import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
-const { nav, meta } = PROATOPS;
+const { meta } = PROATOPS;
+
+/* V2 nav: real routes rather than homepage anchors, and the blueprint's own
+   descriptor and CTA wording. */
+const nav = {
+  brand: V2_NAV.brand,
+  tagline: V2_NAV.descriptor,
+  links: V2_NAV.links.map((l) => ({ label: l.label.toUpperCase(), href: l.href })),
+  cta: V2_NAV.cta,
+};
 
 export default function Nav({
   headerTheme = "auto",
@@ -78,7 +88,7 @@ export default function Nav({
             "#top") so it actually goes home from any page, not just scrolls
             in place on whichever page is currently open. */}
         <a
-          href="/#top"
+          href="/"
           className="group relative z-10 flex items-baseline gap-3"
           aria-label={`${nav.brand} home`}
         >

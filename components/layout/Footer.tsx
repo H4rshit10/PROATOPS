@@ -13,9 +13,26 @@ import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { Coordinates } from "@/components/ui/Marker";
 import { PROATOPS } from "@/config/proatops";
+import { V2_FOOTER } from "@/config/v2";
 import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/contact";
 
-const { footer, meta, nav } = PROATOPS;
+const { meta } = PROATOPS;
+
+/* V2 footer: the blueprint's own descriptor, positioning line and column
+   structure (company / start / legal / social). */
+const nav = { brand: V2_FOOTER.brand, tagline: V2_FOOTER.descriptor };
+const footer = {
+  statement: V2_FOOTER.line,
+  columns: [
+    ...V2_FOOTER.columns,
+    { heading: V2_FOOTER.legalHeading, links: V2_FOOTER.legal },
+    { heading: V2_FOOTER.socialHeading, links: V2_FOOTER.social },
+  ],
+  backToTop: PROATOPS.footer.backToTop,
+  legal: PROATOPS.footer.legal,
+  signoff: PROATOPS.footer.signoff,
+  wordmark: PROATOPS.footer.wordmark,
+};
 
 /**
  * One letter of the closing wordmark. It rises out of the floor as the footer
@@ -188,7 +205,7 @@ export default function Footer() {
             className="grain grain-dark safe-b relative overflow-hidden border-t border-op-border bg-op-charcoal pt-16 sm:pt-20"
           >
             <div className="shell-x relative z-[2] mx-auto max-w-shell">
-              <div className="grid gap-12 pb-16 md:grid-cols-[1.4fr_repeat(2,0.6fr)] lg:gap-16">
+              <div className="grid gap-12 pb-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,0.6fr)] lg:gap-10">
                 <div>
                   <div className="flex items-baseline gap-3">
                     <BrandMark tone="dark" animate={false} className="h-7 w-auto shrink-0" />
