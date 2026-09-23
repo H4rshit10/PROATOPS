@@ -176,7 +176,14 @@ export default function AuditForm() {
   /* Not a direct step change — see the popstate effect above for why. */
   const goBack = () => window.history.back();
 
+  const succeed = () => {
+    clearDraft();
+    window.history.pushState({ status: "sent", step } satisfies HistoryState, "", window.location.href);
+    setStatus("sent");
+  };
+
   const submit = async () => {
+    if (honey) return;
     setStatus("sending");
     try {
       const res = await fetch("/api/audit", {
@@ -186,11 +193,49 @@ export default function AuditForm() {
       });
       const result = (await res.json().catch(() => null)) as { success?: boolean } | null;
       if (!res.ok || result?.success !== true) throw new Error("send failed");
-      clearDraft();
-      window.history.pushState({ status: "sent", step } satisfies HistoryState, "", window.location.href);
-      setStatus("sent");
+      succeed();
     } catch {
-      setStatus("error");
+      /* Last resort, straight from the browser.
+         The server route's own FormSubmit fallback is blocked in production:
+         FormSubmit sits behind Cloudflare, which refuses the request when it
+         originates from Vercel's data-centre IPs — verified by the same
+         request succeeding from an ordinary connection and failing from the
+         deployed function, minutes apart. Sent from the visitor's own
+         browser it is exactly the client-side request FormSubmit is built
+         for, and it works. This keeps enquiries arriving while Resend's
+         domain verification (the real fix, and the one that also solves the
+         spam-folder problem) is still outstanding, and stops being reached
+         at all the moment the server route can send on its own. */
+      try {
+        const flat: Record<string, string> = {};
+        for (const section of sections) {
+          for (const f of section.fields) {
+            const v = values[f.id];
+            const text = Array.isArray(v) ? v.join(", ") : (v ?? "").toString();
+            if (text.trim()) flat[f.label] = text;
+          }
+        }
+        const email = (values.q5 ?? "").toString();
+        const relay = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            ...flat,
+            email,
+            _subject: `Business audit — ${(values.q1 ?? "New submission").toString()}`,
+            _template: "table",
+            _replyto: email,
+            _captcha: "false",
+          }),
+        });
+        const relayResult = (await relay.json().catch(() => null)) as {
+          success?: string | boolean;
+        } | null;
+        if (!relay.ok || String(relayResult?.success) !== "true") throw new Error("relay failed");
+        succeed();
+      } catch {
+        setStatus("error");
+      }
     }
   };
 
