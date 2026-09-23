@@ -3,6 +3,7 @@
 import Reveal from "@/components/motion/Reveal";
 import { RuleDraw } from "@/components/motion/Revealers";
 import { SOLUTION_GLYPHS } from "@/components/svg/Glyphs";
+import { OperatingLayerDiagram } from "@/components/svg/Diagrams";
 import { SectionRule } from "@/components/ui/Marker";
 import { V2_SOLUTION, V2_DIFFERENTIATOR } from "@/config/v2";
 
@@ -20,14 +21,21 @@ export default function V2Solution() {
       <div className="shell-x mx-auto max-w-shell">
         <SectionRule index={V2_SOLUTION.index} label={V2_SOLUTION.eyebrow} tone="light" />
 
-        <div className="mt-10 max-w-4xl">
-          <h2 className="headline text-display-lg tracking-display text-op-charcoal">
-            {V2_SOLUTION.headline}
-          </h2>
-          <Reveal delay={0.1}>
-            <p className="mt-6 max-w-2xl text-pretty text-body-md text-op-charcoal/80">
-              {V2_SOLUTION.body}
-            </p>
+        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
+          <div className="mt-10 max-w-2xl">
+            <h2 className="headline text-display-lg tracking-display text-op-charcoal">
+              {V2_SOLUTION.headline}
+            </h2>
+            <Reveal delay={0.1}>
+              <p className="mt-6 text-pretty text-body-lg text-op-charcoal/80">
+                {V2_SOLUTION.body}
+              </p>
+            </Reveal>
+          </div>
+
+          {/* the operating layer itself — owner, through Proatops, to scale */}
+          <Reveal delay={0.15}>
+            <OperatingLayerDiagram className="h-auto w-full text-op-charcoal" />
           </Reveal>
         </div>
 

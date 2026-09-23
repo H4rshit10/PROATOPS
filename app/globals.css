@@ -679,3 +679,94 @@ select.op-field--dark option {
 .group:hover .pa-mark .pa-mark-pin-h {
   transform: translateY(-7%);
 }
+
+/* ========== DIAGRAM GROUND ==========
+   Schematic nodes are filled with the surface they sit on, so a connector
+   passing behind a box is masked by it instead of running through the
+   label. The value inherits, so a diagram picks it up from whichever
+   section wraps it without needing a prop. */
+
+.bg-op-parchment {
+  --diagram-ground: #e8e6e0;
+}
+.bg-op-charcoal {
+  --diagram-ground: #0b0b0b;
+}
+.bg-op-surface {
+  --diagram-ground: #121215;
+}
+
+/* ========== BORDER BEAM ==========
+   A travelling light along the top rule of a card, adapted from the
+   extracted Jingi component — crimson rather than gold, and the beam runs
+   the card's own width rather than a fixed 1000%, so the timing reads the
+   same on a narrow card as a wide one. Paused until hover on pointer
+   devices so a grid of cards isn't a wall of motion at rest. */
+
+.beam-card {
+  position: relative;
+  overflow: hidden;
+}
+.beam-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--op-crimson), transparent);
+  transform: translateX(-90px);
+  animation: beamTravel 4.5s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+@keyframes beamTravel {
+  0% {
+    transform: translateX(-90px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100% + 90px));
+    opacity: 0;
+  }
+}
+/* On a hover-capable pointer the beam rests and runs on approach. */
+@media (hover: hover) {
+  .beam-card::before {
+    animation-play-state: paused;
+  }
+  .beam-card:hover::before,
+  .beam-card:focus-within::before {
+    animation-play-state: running;
+  }
+}
+
+/* ========== MARQUEE ==========
+   Duplicated track, translated -50%, so the seam never shows. */
+
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 34s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}

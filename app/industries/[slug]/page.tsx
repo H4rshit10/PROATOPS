@@ -7,6 +7,8 @@ import V2PageHeader from "@/components/v2/PageHeader";
 import V2FinalCta from "@/components/v2/FinalCta";
 import { INDUSTRY_GLYPHS, LAYER_GLYPHS } from "@/components/svg/Glyphs";
 import { SectionRule } from "@/components/ui/Marker";
+import { Btn } from "@/components/ui/Btn";
+import { RuleDraw } from "@/components/motion/Revealers";
 import { PROATOPS } from "@/config/proatops";
 import { V2_INDUSTRIES, V2_LAYERS, INDUSTRY_PAGES } from "@/config/v2";
 
@@ -48,11 +50,13 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
 
   return (
     <main>
-      <Nav headerTheme="dark" />
+      <Nav />
       <V2PageHeader
         eyebrow={`PROATOPS FOR ${industry.title}`}
         headline={page.headline}
         subhead={page.lede}
+        cta={{ label: "BOOK A BUSINESS AUDIT", href: "/audit" }}
+        secondary={{ label: "ALL INDUSTRIES", href: "/industries" }}
       />
 
       {/* what's actually going wrong in this vertical */}
@@ -71,11 +75,11 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
             <ul className="grid gap-px border border-op-rule-strong bg-op-rule-strong sm:grid-cols-2">
               {page.problems.map((p, i) => (
                 <Reveal key={p} delay={i * 0.06}>
-                  <li className="h-full bg-op-parchment p-6">
-                    <span className="font-mono text-mono-xs tabular text-op-crimson">
+                  <li className="beam-card h-full bg-op-parchment p-6">
+                    <span className="font-mono text-mono-sm tabular text-op-crimson">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="mt-3 text-body-md text-op-charcoal">{p}</p>
+                    <p className="mt-3 text-body-lg text-op-charcoal">{p}</p>
                   </li>
                 </Reveal>
               ))}
@@ -94,22 +98,41 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
               const LayerGlyph = LAYER_GLYPHS[l.key];
               return (
                 <Reveal key={l.key} delay={i * 0.06}>
-                  <div className="h-full bg-op-charcoal p-6">
-                    {LayerGlyph && <LayerGlyph className="h-8 w-8 text-op-crimson" />}
-                    <h3 className="headline mt-5 text-display-sm tracking-display text-op-white">
+                  <div className="beam-card h-full bg-op-charcoal p-6">
+                    {LayerGlyph && <LayerGlyph className="h-9 w-9 text-op-crimson" />}
+                    <h3 className="headline mt-5 text-display-md tracking-display text-op-white">
                       {l.title}
                     </h3>
-                    <p className="mt-2 text-body-sm text-op-white/70">{l.summary}</p>
+                    <p className="mt-2 text-body-md text-op-white/70">{l.summary}</p>
                   </div>
                 </Reveal>
               );
             })}
           </div>
 
-          <Reveal delay={0.2}>
-            <p className="mt-14 max-w-3xl text-pretty text-body-lg font-medium text-op-white">
+        </div>
+      </section>
+
+      {/* The statement gets its own parchment band rather than trailing the
+          dark grid — otherwise this section and the charcoal CTA below it run
+          together into one unbroken black stretch. */}
+      <section className="grain blueprint bg-op-parchment py-section-gap">
+        <div className="shell-x mx-auto max-w-shell">
+          <RuleDraw />
+          <Reveal delay={0.1}>
+            <p className="headline mt-12 max-w-4xl text-pretty text-display-md tracking-display text-op-charcoal">
               {page.statement}
             </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Btn href="/audit" tone="light" variant="primary">
+                BOOK A BUSINESS AUDIT
+              </Btn>
+              <Btn href="/industries" tone="light" variant="ghost">
+                ALL INDUSTRIES
+              </Btn>
+            </div>
           </Reveal>
         </div>
       </section>

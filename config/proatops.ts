@@ -174,10 +174,8 @@ export const PROATOPS = {
     headline: "OPERATIONAL PROOF, NOT PROMISES.",
     intro:
       "Direct records from live deployments — multi-brand rollout history and on-site floor execution, unedited.",
-    /* Drop files in /public/dispatches and set `image` to enable the visual
-       card layout; null keeps the text-only card. */
     viewAll: "VIEW ALL DISPATCHES",
-    viewAllHref: "https://www.instagram.com/",
+    viewAllHref: "https://www.instagram.com/proatops",
     items: [
       {
         code: "01",
@@ -186,11 +184,6 @@ export const PROATOPS = {
         subtitle: "Gold's Gym · Cult.fit · Anytime Fitness · Healthism",
         desc: "Operational rollout record spanning four national fitness brands.",
         href: "https://www.instagram.com/p/DdG_kWrCRFu/?img_index=2",
-        image: {
-          src: "/dispatches/archive-01.png",
-          /* Source is portrait; bias the crop upward so faces stay in frame. */
-          focus: "50% 16%",
-        } as { src: string; focus?: string } | null,
         cta: "OPEN DISPATCH",
       },
       {
@@ -200,7 +193,6 @@ export const PROATOPS = {
         subtitle: "Live Deployment Reel",
         desc: "Direct floor-level execution footage from an active deployment.",
         href: "https://www.instagram.com/reel/DdJAHXVNCtp/",
-        image: null as { src: string; focus?: string } | null,
         cta: "OPEN DISPATCH",
       },
     ],

@@ -19,6 +19,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/why-proatops", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/audit", priority: 0.9, changeFrequency: "monthly" as const },
+    /* Indexable, so they belong here — low priority, they're reference pages. */
+    { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
+    { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const },
   ];
 
   return [

@@ -20,9 +20,16 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main>
-      <Nav headerTheme="dark" />
-      <V2PageHeader eyebrow={page.eyebrow} headline={page.headline} subhead={page.subhead} />
-      <V2Proof />
+      <Nav />
+      <V2PageHeader
+        eyebrow={page.eyebrow}
+        headline={page.headline}
+        subhead={page.subhead}
+        cta={{ label: "BOOK A BUSINESS AUDIT", href: "/audit" }}
+        secondary={{ label: "HOW WE WORK", href: "/how-we-work" }}
+      />
+      {/* Light, so header → proof → ownership alternates instead of stacking dark. */}
+      <V2Proof tone="light" />
       {/* The operating model is the clearest statement of what this company is. */}
       <V2Ownership />
       <V2FinalCta />

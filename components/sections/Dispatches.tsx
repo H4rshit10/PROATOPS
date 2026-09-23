@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import { BracketTag, SectionRule } from "@/components/ui/Marker";
@@ -15,6 +14,9 @@ const { dispatches } = PROATOPS;
  * archival plate rather than page. Each card is a single anchor: the whole
  * block is the hit target, and the crimson border plus the north-east reticle
  * on hover signal that following it leaves the site.
+ *
+ * Text only — the cards carry the record and the link out to it, not a
+ * photograph of it.
  */
 export default function Dispatches() {
   return (
@@ -84,28 +86,6 @@ export default function Dispatches() {
                 rel="noopener noreferrer"
                 className="group relative z-[2] flex h-full flex-col rounded-none border border-op-border bg-op-surface p-7 transition-colors duration-op-slow ease-op-micro hover:border-op-crimson sm:p-8"
               >
-                {item.image && (
-                  <div className="relative -mx-7 -mt-7 mb-7 h-[200px] overflow-hidden border-b border-op-border sm:-mx-8 sm:-mt-8 sm:h-[230px]">
-                    <Image
-                      src={item.image.src}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      style={{ objectPosition: item.image.focus ?? "50% 50%" }}
-                      className="object-cover transition-transform duration-[900ms] ease-op-editorial group-hover:scale-[1.04]"
-                    />
-                    {/* Ties the photograph into the card's surface. */}
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-0"
-                      style={{
-                        background:
-                          "linear-gradient(to top, rgba(18,18,21,0.92) 0%, rgba(18,18,21,0.25) 45%, transparent 100%)",
-                      }}
-                    />
-                  </div>
-                )}
-
                 <div className="flex items-center justify-between gap-4">
                   <BracketTag tone="dark" accent>
                     {item.tag}

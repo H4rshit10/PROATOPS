@@ -529,12 +529,11 @@ export const V2_FOOTER = {
   legal: [
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookies" },
   ],
   socialHeading: "SOCIAL",
   social: [
     { label: "LinkedIn", href: "https://www.linkedin.com" },
-    { label: "Instagram", href: "https://www.instagram.com" },
+    { label: "Instagram", href: "https://www.instagram.com/proatops" },
   ],
 };
 
@@ -640,17 +639,20 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
   },
 };
 
-/* Page-level intros for the standalone routes. */
+/* Page-level intros for the standalone routes.
+   These deliberately do not repeat the headline of the first section on each
+   page — a page header that restates the H2 immediately below it reads as a
+   mistake, not as emphasis. */
 export const V2_PAGES = {
   whatWeDo: {
     eyebrow: "WHAT WE OPERATE",
-    headline: "THE OPERATING LAYERS WE BUILD",
+    headline: "SEVEN LAYERS. ONE OPERATING SYSTEM.",
     subhead:
       "Seven layers that turn a business run on individual effort into one run on structure. We build them, and where agreed, we operate them.",
   },
   industries: {
     eyebrow: "INDUSTRIES",
-    headline: "ONE OPERATING DISCIPLINE. MANY BUSINESS MODELS.",
+    headline: "EVERY BUSINESS BREAKS IN THE SAME PLACES.",
     subhead:
       "The business model changes. The operating discipline remains. That is where Proatops works.",
     closing: "WE BUILD THE OPERATING CAPABILITY THAT BUSINESSES NEED TO GROW.",
@@ -674,7 +676,7 @@ export const V2_PAGES = {
   },
   about: {
     eyebrow: "WHO'S BEHIND PROATOPS",
-    headline: "BUILT BY OPERATORS.",
+    headline: "WE'VE RUN THE OPERATION, NOT JUST ADVISED ON IT.",
     subhead:
       "Our operating experience comes from working inside real businesses — not simply studying them from the outside.",
   },
