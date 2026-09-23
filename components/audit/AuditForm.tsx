@@ -72,6 +72,10 @@ export default function AuditForm() {
   const [step, setStep] = useState(0);
   const [values, setValues] = useState<Values>({});
   const [touched, setTouched] = useState(false);
+  /* Honeypot — a real hidden field, not just a payload key. `values.q_`
+     never gets set by anything a human can reach; a bot that indiscrimin-
+     ately fills every input on the page fills this one too. */
+  const [honey, setHoney] = useState("");
   const reduced = useReducedMotionSafe();
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -178,7 +182,7 @@ export default function AuditForm() {
       const res = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ values, honey: values._honey ?? "" }),
+        body: JSON.stringify({ values, honey }),
       });
       const result = (await res.json().catch(() => null)) as { success?: boolean } | null;
       if (!res.ok || result?.success !== true) throw new Error("send failed");
@@ -202,6 +206,18 @@ export default function AuditForm() {
 
   return (
     <div ref={topRef} className="scroll-mt-24">
+      {/* Honeypot — present for the whole "form" status regardless of which
+          step is showing, not nested inside the per-step AnimatePresence. */}
+      <input
+        type="text"
+        value={honey}
+        onChange={(e) => setHoney(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
+
       {/* Progress */}
       <div className="mb-8">
         <div className={`flex items-center justify-between font-mono text-[0.75rem] uppercase tracking-wide ${inkMuted}`}>

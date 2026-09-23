@@ -238,8 +238,8 @@ export async function POST(req: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
+  const origin = req.headers.get("origin") || PROATOPS.meta.domain;
   if (!apiKey) {
-    const origin = req.headers.get("origin") || PROATOPS.meta.domain;
     return sendViaFormSubmitFallback(values, origin);
   }
 
@@ -263,15 +263,34 @@ export async function POST(req: Request) {
     }),
   ]);
 
-  if (notification.status === "rejected") {
-    console.error("Resend audit notification failed:", notification.reason);
-    return Response.json(
-      { success: false, message: "Could not send your assessment. Please email us directly." },
-      { status: 502 }
-    );
+  /* The Resend SDK doesn't throw on a failed send — even an invalid key or
+     an unverified sending domain comes back as a normally *resolved*
+     { data: null, error: {...} }, not a rejected promise. Checking
+     `.status === "rejected"` here (the natural-looking check) can never be
+     true for that shape and silently missed every real failure — the send
+     would fail and the visitor would still see the thank-you screen. Both
+     shapes are checked below: `.value.error` for how this SDK actually
+     reports it, `.reason` as a defensive fallback for a genuine throw
+     (network layer, a future SDK version) that never reaches that shape. */
+  const notificationError =
+    notification.status === "rejected" ? notification.reason : notification.value.error;
+
+  if (notificationError) {
+    /* RESEND_API_KEY being set doesn't mean Resend can actually send yet —
+       the domain has to finish verifying (SPF/DKIM propagated) first, and
+       there's a real window where the key exists but sends still fail. That
+       state used to be an outright failure for every visitor; falling back
+       to the same relay used when the key is absent means the form keeps
+       working through that window too, exactly as it does before the key
+       is set at all. */
+    console.error("Resend audit notification failed, falling back to FormSubmit:", notificationError);
+    return sendViaFormSubmitFallback(values, origin);
   }
-  if (autoresponse.status === "rejected") {
-    console.error("Resend audit autoresponse failed:", autoresponse.reason);
+
+  const autoresponseError =
+    autoresponse.status === "rejected" ? autoresponse.reason : autoresponse.value.error;
+  if (autoresponseError) {
+    console.error("Resend audit autoresponse failed:", autoresponseError);
   }
 
   return Response.json({ success: true });
