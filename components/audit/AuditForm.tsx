@@ -46,7 +46,7 @@ const backLink = isDark
 
 /** Best-effort only — a private window or blocked storage should never break
     the form, just silently lose the resume convenience. */
-function loadDraft(): { values: Values; step: number } | null {
+function loadDraft(): { values: Values; step: number; id?: string } | null {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : null;
@@ -54,9 +54,9 @@ function loadDraft(): { values: Values; step: number } | null {
     return null;
   }
 }
-function saveDraft(values: Values, step: number) {
+function saveDraft(values: Values, step: number, id: string) {
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ values, step }));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ values, step, id }));
   } catch {
     /* ignore */
   }
@@ -69,6 +69,18 @@ function clearDraft() {
   }
 }
 
+/** One id per assessment, not per click. crypto.randomUUID needs a secure
+    context and a 2022+ browser; the fallback only has to be unique enough to
+    tell one visitor's submission from another's. */
+function newSubmissionId(): string {
+  try {
+    if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+  } catch {
+    /* fall through */
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export default function AuditForm() {
   const [status, setStatus] = useState<Status>("intro");
   const [step, setStep] = useState(0);
@@ -78,6 +90,11 @@ export default function AuditForm() {
      never gets set by anything a human can reach; a bot that indiscrimin-
      ately fills every input on the page fills this one too. */
   const [honey, setHoney] = useState("");
+  /* Identifies this assessment across retries and reloads. A visitor whose
+     send fails and who presses submit again is the same submission, and the
+     sheet updates that row rather than recording them twice — which matters
+     most exactly then, when the sheet may be the only record that arrived. */
+  const [submissionId, setSubmissionId] = useState("");
   const reduced = useReducedMotionSafe();
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +108,7 @@ export default function AuditForm() {
     if (draft && Object.keys(draft.values).length > 0) {
       setValues(draft.values);
       setStep(draft.step);
+      if (draft.id) setSubmissionId(draft.id);
       setStatus("form");
       window.history.replaceState(
         { status: "form", step: draft.step } satisfies HistoryState,
@@ -126,8 +144,8 @@ export default function AuditForm() {
   }, [reduced]);
 
   useEffect(() => {
-    if (status === "form") saveDraft(values, step);
-  }, [values, step, status]);
+    if (status === "form") saveDraft(values, step, submissionId);
+  }, [values, step, status, submissionId]);
 
   const industry = values.q8 as string | undefined;
 
@@ -186,12 +204,15 @@ export default function AuditForm() {
 
   const submit = async () => {
     if (honey) return;
+    const id = submissionId || newSubmissionId();
+    if (!submissionId) setSubmissionId(id);
+    saveDraft(values, step, id);
     setStatus("sending");
     try {
       const res = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ values, honey }),
+        body: JSON.stringify({ values, honey, submissionId: id }),
       });
       const result = (await res.json().catch(() => null)) as { success?: boolean } | null;
       if (!res.ok || result?.success !== true) throw new Error("send failed");

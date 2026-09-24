@@ -6,6 +6,7 @@ import {
   INDUSTRY_SECTIONS,
   VISITOR_AUTORESPONSE_TEXT,
   type AuditField,
+  type AuditSection,
 } from "@/config/audit";
 
 const { nav } = PROATOPS;
@@ -250,8 +251,89 @@ async function sendViaFormSubmitFallback(values: Values, origin: string) {
   }
 }
 
+/* ---- Google Sheet log ------------------------------------------------ */
+
+/**
+ * One row per submission, one column per question.
+ *
+ * Every field from every industry block is sent on every submission, blank
+ * where it doesn't apply. The first row written fixes the column order, so
+ * sending only the fields one visitor saw would leave later industries'
+ * columns tacked on at the far right in whatever order they happened to
+ * arrive. Industry columns carry their block's name because two blocks ask
+ * the same thing ("Repeat customers" is in both Retail and Hospitality) and
+ * keyed by bare label one would silently overwrite the other.
+ *
+ * Every value is prefixed with an apostrophe, which Sheets reads as "this is
+ * text" and does not display. Without it a phone number like "+91 98…" is
+ * parsed as a formula and lands as #ERROR!, and a free-text "2-5" or "3/4"
+ * is turned into a date.
+ */
+function sheetRow(values: Values, submissionId: string): Record<string, string> {
+  /* First key, so it is the column right after the timestamp: the one the
+     sheet matches on to update a retried submission instead of adding it. */
+  const row: Record<string, string> = { "Submission ID": submissionId };
+  const put = (label: string, id: string) => {
+    const v = str(values[id]);
+    row[label] = v.trim() ? `'${v}` : "";
+  };
+
+  const [profile, ...rest] = AUDIT_SECTIONS;
+  for (const f of profile.fields) put(f.label, f.id);
+
+  /* "Luxury / Fashion" is an alias of the Retail block — same object, so it
+     is written once, not twice. */
+  const seen = new Set<AuditSection>();
+  for (const block of Object.values(INDUSTRY_SECTIONS)) {
+    if (seen.has(block)) continue;
+    seen.add(block);
+    const name = block.title.replace(/\s+METRICS$/i, "");
+    for (const f of block.fields) put(`${name} — ${f.label}`, f.id);
+  }
+
+  for (const section of rest) for (const f of section.fields) put(f.label, f.id);
+  return row;
+}
+
+/**
+ * Appends the submission to the Google Sheet behind GOOGLE_SHEET_WEBHOOK_URL
+ * (an Apps Script web app; the URL carries its own ?key=).
+ *
+ * Best-effort by design: it never throws and never changes the response the
+ * visitor gets. The sheet is a record, the email is the notification — a
+ * slow or failing sheet must not cost anyone their submission. Awaited
+ * rather than fired-and-forgotten because a serverless function is frozen
+ * as soon as it responds, and anything still in flight is lost with it.
+ *
+ * Sent as text/plain: Apps Script reads the raw body either way, and a JSON
+ * content type buys nothing here.
+ */
+async function logToSheet(values: Values, submissionId: string): Promise<void> {
+  const url = process.env.GOOGLE_SHEET_WEBHOOK_URL;
+  if (!url) return;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10_000);
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(sheetRow(values, submissionId)),
+      redirect: "follow",
+      signal: ctrl.signal,
+    });
+    const out = (await res.json().catch(() => null)) as { success?: boolean; message?: string } | null;
+    if (!res.ok || out?.success !== true) {
+      console.error("Audit sheet log failed:", res.status, out?.message ?? "no JSON body");
+    }
+  } catch (err) {
+    console.error("Audit sheet log failed:", err);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function POST(req: Request) {
-  let body: { values?: Values; honey?: string };
+  let body: { values?: Values; honey?: string; submissionId?: string };
   try {
     body = await req.json();
   } catch {
@@ -282,8 +364,24 @@ export async function POST(req: Request) {
     );
   }
 
+  /* Recorded in parallel with delivery, whichever delivery path runs — the
+     sheet fills even while email is still going through the fallback. */
+  const [response] = await Promise.all([
+    deliver(values, email, req.headers.get("origin") || PROATOPS.meta.domain),
+    /* Accepted only in the shape the client generates; anything else (an
+       old cached page, a hand-rolled POST) gets a fresh id. Overwriting
+       another visitor's row would take guessing their random UUID, which
+       is never shown anywhere but the sheet itself. */
+    logToSheet(
+      values,
+      /^[a-z0-9-]{8,64}$/i.test(str(body.submissionId)) ? str(body.submissionId) : crypto.randomUUID()
+    ),
+  ]);
+  return response;
+}
+
+async function deliver(values: Values, email: string, origin: string): Promise<Response> {
   const apiKey = process.env.RESEND_API_KEY;
-  const origin = req.headers.get("origin") || PROATOPS.meta.domain;
   if (!apiKey) {
     /* On Vercel the server-side relay cannot succeed — FormSubmit sits
        behind Cloudflare, which refuses requests from data-centre IPs. Trying
