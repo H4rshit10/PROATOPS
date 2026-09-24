@@ -504,7 +504,7 @@ export const V2_CONFIRMATION = {
 export const V2_FOOTER = {
   brand: "PROATOPS",
   descriptor: "Business Operations & Management",
-  line: "You Own the Business. We Run the Operation.",
+  line: "Where Businesses Become Scalable.",
   columns: [
     {
       heading: "COMPANY",

@@ -52,7 +52,7 @@ export const PROATOPS = {
   meta: {
     title: "PROATOPS — Professional Operations & Management",
     description:
-      "You Own the Business. We Run the Operation. Founded by operators who ran the floor at Anytime Fitness, Cult.fit, Gold's Gym and Healthism — we embed dedicated management and assume operational responsibility for multi-unit fitness locations.",
+      "Where Businesses Become Scalable. Founded by operators who ran the floor at Anytime Fitness, Cult.fit, Gold's Gym and Healthism — we embed dedicated management and assume operational responsibility for multi-unit fitness locations.",
     domain: "https://www.proatops.in",
     coordinates: "28.6139° N / 77.2090° E · EST. 2026",
   },
@@ -74,9 +74,9 @@ export const PROATOPS = {
 
   hero: {
     eyebrow: "BUSINESS OPERATIONS & MANAGEMENT",
-    headlineLine1: "YOU OWN THE BUSINESS.",
-    headlineLine2: "WE RUN THE",
-    headlineScript: "Operation.",
+    headlineLine1: "WHERE BUSINESSES",
+    headlineLine2: "BECOME",
+    headlineScript: "Scalable.",
     subhead:
       "We help fitness businesses improve operations, build high-performing teams, increase revenue and create systems that scale.",
     primaryCta: "Talk to Us",
@@ -352,7 +352,7 @@ export const PROATOPS = {
     columns: FOOTER_COLUMNS,
     backToTop: "BACK TO TOP",
     legal: "© 2026 PROATOPS. ALL RIGHTS RESERVED.",
-    signoff: "YOU OWN THE BUSINESS. WE RUN THE OPERATION.",
+    signoff: "WHERE BUSINESSES BECOME SCALABLE.",
     wordmark: "PROATOPS",
   },
 
