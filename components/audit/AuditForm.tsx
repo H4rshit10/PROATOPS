@@ -9,6 +9,8 @@ import {
   AUDIT_THANKS,
   AUDIT_THEME,
   INDUSTRY_SECTIONS,
+  SCHEMELESS_LINK,
+  VISITOR_AUTORESPONSE_TEXT,
   type AuditSection,
 } from "@/config/audit";
 import { CONTACT_EMAIL } from "@/lib/contact";
@@ -211,7 +213,12 @@ export default function AuditForm() {
         for (const section of sections) {
           for (const f of section.fields) {
             const v = values[f.id];
-            const text = Array.isArray(v) ? v.join(", ") : (v ?? "").toString();
+            let text = Array.isArray(v) ? v.join(", ") : (v ?? "").toString();
+            /* The relay sends plain text, and a mail client will only turn a
+               bare "instagram.com/x" into a link inconsistently — with a
+               scheme in front of it, reliably. Applied to the links question
+               alone, so no other answer gets rewritten. */
+            if (f.id === "q2") text = text.replace(SCHEMELESS_LINK, "$1https://$2");
             if (text.trim()) flat[f.label] = text;
           }
         }
@@ -225,6 +232,11 @@ export default function AuditForm() {
             _subject: `Business audit — ${(values.q1 ?? "New submission").toString()}`,
             _template: "table",
             _replyto: email,
+            /* Parity with the server route: whichever path actually sends,
+               the visitor gets the same acknowledgement. Without this the
+               confirmation arrived only on the Resend path, so in production
+               — where this relay is the path that runs — nobody got one. */
+            _autoresponse: VISITOR_AUTORESPONSE_TEXT,
             _captcha: "false",
           }),
         });

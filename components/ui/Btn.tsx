@@ -108,7 +108,9 @@ export function BtnInline({
   return (
     <a
       href={href}
-      className={`group inline-flex items-center gap-2.5 font-mono text-mono-sm uppercase tracking-tracker transition-colors duration-op-micro ease-op-micro ${
+      /* min-h on touch widths only — as bare inline text this sat at 16px
+         tall, under the 24px WCAG target minimum. */
+      className={`group inline-flex min-h-[44px] items-center gap-2.5 font-mono text-mono-sm uppercase tracking-tracker transition-colors duration-op-micro ease-op-micro sm:min-h-[24px] ${
         tone === "dark"
           ? "text-op-white hover:text-op-crimson"
           : "text-op-charcoal hover:text-op-crimson"

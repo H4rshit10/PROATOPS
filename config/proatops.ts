@@ -35,7 +35,6 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Field Dispatches", href: "/#dispatches" },
       { label: "What We Do", href: "/#what-we-do" },
-      { label: "Our Model", href: "/#model" },
       { label: "The Protocol", href: "/#protocol" },
       { label: "Sectors", href: "/#sectors" },
     ],
@@ -66,7 +65,6 @@ export const PROATOPS = {
     links: [
       { label: "DISPATCHES", href: "/#dispatches" },
       { label: "WHAT WE DO", href: "/#what-we-do" },
-      { label: "OUR MODEL", href: "/#model" },
       { label: "THE PROTOCOL", href: "/#protocol" },
       { label: "SECTORS", href: "/#sectors" },
       { label: "PHILOSOPHY", href: "/#philosophy" },
@@ -253,33 +251,6 @@ export const PROATOPS = {
     ],
   },
 
-  model: {
-    eyebrow: "MANAGEMENT ARCHITECTURE",
-    headline: "TRADITIONAL CONSULTING ADVISES.",
-    headlineScript: "Proatops Executes.",
-    traditional: {
-      title: "TRADITIONAL CONSULTANCY",
-      tagline: "Zero operational accountability",
-      steps: [
-        "Identifies surface bottlenecks",
-        "Delivers generic 80-page slide decks",
-        "Provides theoretical recommendations",
-        "Leaves execution to exhausted owners",
-      ],
-    },
-    proatops: {
-      title: "THE PROATOPS MODEL",
-      tagline: "Embedded daily execution",
-      steps: [
-        "Audits revenue leaks and shift friction",
-        "Deploys trained managers and floor staff",
-        "Installs enforceable SOPs and live dashboards",
-        "Takes direct responsibility for daily P&L and KPIs",
-      ],
-    },
-    differentiator:
-      "Your ownership stays with you. Operational responsibility comes to us.",
-  },
 
   protocol: {
     eyebrow: "DEPLOYMENT PROTOCOL",

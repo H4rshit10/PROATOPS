@@ -673,3 +673,36 @@ export const AUDIT_THANKS = {
   backHome: "BACK TO HOME",
   errorBody: "Something went wrong sending your assessment. Please email us directly and we'll pick it up from there.",
 };
+
+/**
+ * The acknowledgement a visitor receives after submitting.
+ *
+ * Defined here, next to the copy it is built from, because two different
+ * transports send it — the Resend route and the browser-side relay — and
+ * they must not drift. It is built from AUDIT_THANKS so the email says
+ * exactly what the thank-you screen says.
+ */
+export const VISITOR_AUTORESPONSE_TEXT = `${AUDIT_THANKS.title}
+
+${AUDIT_THANKS.body.join("\n\n")}
+
+${AUDIT_THANKS.nextLabel}
+${AUDIT_THANKS.steps.map((s) => `${s.index} — ${s.title}: ${s.body}`).join("\n")}
+
+PROATOPS — Business Operations & Management
+admin@proatops.in`;
+
+/**
+ * A domain typed without a scheme ("instagram.com/x"), which no mail client
+ * links reliably. Used to normalise the links answer before it is sent.
+ *
+ * Deliberately no lookbehind. A lookbehind would be the obvious way to skip
+ * a domain that already carries "https://", but it is a *parse-time* syntax
+ * error on iOS Safari before 16.4 — and this module is imported by the audit
+ * form, so it would take the whole page down on those devices rather than
+ * degrade. The leading boundary group does the same job: an already-prefixed
+ * domain is preceded by "/", which is not a boundary character, so it never
+ * matches. The replacement must therefore preserve $1.
+ */
+export const SCHEMELESS_LINK =
+  /(^|[\s,;])((?:www\.)?[a-zA-Z0-9][\w-]*(?:\.[\w-]+)*\.(?:com|in|co|net|org|io|app|me|dev|shop|store|online|biz|info)(?:\/[^\s,]*)?)/g;

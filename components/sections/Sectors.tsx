@@ -25,7 +25,7 @@ export default function Sectors() {
       className="grain grain-dark relative scroll-mt-20 bg-op-charcoal py-section-gap"
     >
       <div className="shell-x relative z-[2] mx-auto max-w-shell">
-        <SectionRule index="05" label={sectors.eyebrow} tone="dark" />
+        <SectionRule index="04" label={sectors.eyebrow} tone="dark" />
 
         <Reveal>
           <h2 className="headline mt-8 max-w-5xl text-balance text-display-lg text-op-white">

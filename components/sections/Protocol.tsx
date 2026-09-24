@@ -129,7 +129,7 @@ export default function Protocol() {
       className="grain relative scroll-mt-20 overflow-x-clip bg-op-parchment py-section-gap"
     >
       <div className="shell-x relative z-[2] mx-auto max-w-shell">
-        <SectionRule index="04" label={protocol.eyebrow} />
+        <SectionRule index="03" label={protocol.eyebrow} />
 
         <div className="mt-8 grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           {/* Sticky thesis column */}

@@ -57,7 +57,9 @@ export default function Dispatches() {
               href={dispatches.viewAllHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 whitespace-nowrap border-b border-op-rule-strong pb-1.5 font-mono text-mono-xs uppercase tracking-micro text-op-charcoal/70 transition-colors duration-op-slow ease-op-micro hover:border-op-crimson hover:text-op-crimson"
+              /* min-h on touch widths: as a bare inline link this was 14px
+                 tall, under the 24px WCAG target minimum. */
+              className="group inline-flex min-h-[44px] items-center gap-3 whitespace-nowrap border-b border-op-rule-strong pb-1.5 font-mono text-mono-xs uppercase tracking-micro text-op-charcoal/70 transition-colors duration-op-slow ease-op-micro hover:border-op-crimson hover:text-op-crimson sm:min-h-[24px]"
             >
               {dispatches.viewAll}
               <span

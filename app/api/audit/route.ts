@@ -1,7 +1,12 @@
 import { Resend } from "resend";
 import { CONTACT_EMAIL } from "@/lib/contact";
 import { PROATOPS } from "@/config/proatops";
-import { AUDIT_SECTIONS, AUDIT_THANKS, INDUSTRY_SECTIONS, type AuditField } from "@/config/audit";
+import {
+  AUDIT_SECTIONS,
+  INDUSTRY_SECTIONS,
+  VISITOR_AUTORESPONSE_TEXT,
+  type AuditField,
+} from "@/config/audit";
 
 const { nav } = PROATOPS;
 
@@ -67,11 +72,60 @@ function escapeHtml(s: string) {
     .replace(/"/g, "&quot;");
 }
 
-function row(label: string, value: string) {
+/* One pass, alternation ordered email-then-URL so the domain half of an
+   address is never re-matched as a bare domain. Run over already-escaped
+   text in a single replace rather than chained ones, so the pattern can
+   never re-enter the markup it just produced. */
+const LINK_RE =
+  /([^\s<>"@]+@[^\s<>"@]+\.[a-zA-Z]{2,})|((?:https?:\/\/|www\.)[^\s<>"]+)|([a-zA-Z0-9][\w-]*(?:\.[\w-]+)*\.(?:com|in|co|net|org|io|app|me|dev|shop|store|online|biz|info)(?:\/[^\s<>"]*)?)/g;
+
+const LINK_STYLE = 'style="color:#E11D2E;text-decoration:underline;"';
+
+/**
+ * Turns the links an owner pastes into links you can actually click.
+ *
+ * Q2 asks for "Website / Instagram / LinkedIn" and owners answer with
+ * whatever they have — "proatops.in", "instagram.com/proatops",
+ * "https://linkedin.com/company/x", often several in one line. Escaped and
+ * dropped straight into a table cell they arrive as dead text: mail clients
+ * auto-link a bare domain inconsistently and generally not at all when it
+ * carries no scheme. Every href therefore gets an explicit https:// when
+ * the answer omits one.
+ */
+function linkify(escaped: string): string {
+  return escaped.replace(LINK_RE, (match, mail, scheme) => {
+    /* A link closing a sentence must not swallow the punctuation. */
+    const trail = match.match(/[.,;:!?)]+$/)?.[0] ?? "";
+    const core = trail ? match.slice(0, -trail.length) : match;
+    if (!core) return match;
+    const href = mail
+      ? `mailto:${core}`
+      : scheme && !core.startsWith("www.")
+        ? core
+        : `https://${core}`;
+    return `<a href="${href}" ${LINK_STYLE}>${core}</a>${trail}`;
+  });
+}
+
+function row(label: string, value: string, link = true) {
   if (!value.trim()) return "";
+  const body = escapeHtml(value).replace(/\n/g, "<br/>");
   return `<tr><td style="padding:6px 14px 6px 0;color:#6b6b6b;white-space:nowrap;vertical-align:top;"><strong>${escapeHtml(
     label
-  )}</strong></td><td style="padding:6px 0;">${escapeHtml(value).replace(/\n/g, "<br/>")}</td></tr>`;
+  )}</strong></td><td style="padding:6px 0;">${link ? linkify(body) : body}</td></tr>`;
+}
+
+/** Phone gets its own row: a generic number pattern would light up revenue
+    figures and 1-10 ratings, so only this known field becomes a tel: link. */
+function telRow(label: string, value: string) {
+  if (!value.trim()) return "";
+  const digits = value.replace(/[^\d+]/g, "");
+  if (digits.replace(/\D/g, "").length < 7) return row(label, value, false);
+  return `<tr><td style="padding:6px 14px 6px 0;color:#6b6b6b;white-space:nowrap;vertical-align:top;"><strong>${escapeHtml(
+    label
+  )}</strong></td><td style="padding:6px 0;"><a href="tel:${digits}" ${LINK_STYLE}>${escapeHtml(
+    value
+  )}</a></td></tr>`;
 }
 
 function section(title: string, rows: string) {
@@ -97,7 +151,7 @@ function buildSheet(values: Values): string {
       row("Owner", `${g("q3")} — ${g("q4")}`),
       row("Website / Social", g("q2")),
       row("Email", g("q5")),
-      row("Phone / WhatsApp", g("q6")),
+      telRow("Phone / WhatsApp", g("q6")),
       row("City / Country", g("q7")),
     ].join("")
   );
@@ -154,15 +208,6 @@ function buildSheet(values: Values): string {
   </div>`;
 }
 
-const VISITOR_AUTORESPONSE_TEXT = `${AUDIT_THANKS.title}
-
-${AUDIT_THANKS.body.join("\n\n")}
-
-${AUDIT_THANKS.nextLabel}
-${AUDIT_THANKS.steps.map((s) => `${s.index} — ${s.title}: ${s.body}`).join("\n")}
-
-PROATOPS — Business Operations & Management
-${CONTACT_EMAIL}`;
 
 async function sendViaFormSubmitFallback(values: Values, origin: string) {
   const industry = str(values.q8);
@@ -240,6 +285,19 @@ export async function POST(req: Request) {
   const apiKey = process.env.RESEND_API_KEY;
   const origin = req.headers.get("origin") || PROATOPS.meta.domain;
   if (!apiKey) {
+    /* On Vercel the server-side relay cannot succeed — FormSubmit sits
+       behind Cloudflare, which refuses requests from data-centre IPs. Trying
+       anyway costs the visitor the full timeout before the browser relay
+       even starts, and buries a real 502 in the logs on every single
+       submission. Hand straight over to the client instead; anywhere else
+       (local, any non-Vercel host) the server relay still works, so it is
+       still attempted there. */
+    if (process.env.VERCEL) {
+      return Response.json(
+        { success: false, relay: true, message: "Send from the client." },
+        { status: 503 }
+      );
+    }
     return sendViaFormSubmitFallback(values, origin);
   }
 

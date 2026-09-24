@@ -221,7 +221,7 @@ export default function Footer() {
                   </p>
                   <a
                     href={CONTACT_MAILTO}
-                    className="mt-6 inline-block border-b border-op-border pb-0.5 font-mono text-mono-sm uppercase tracking-tracker text-op-white transition-colors duration-op-micro ease-op-micro hover:border-op-crimson hover:text-op-crimson"
+                    className="mt-6 inline-flex min-h-[44px] items-center border-b border-op-border pb-0.5 font-mono text-mono-sm uppercase tracking-tracker text-op-white transition-colors duration-op-micro ease-op-micro hover:border-op-crimson hover:text-op-crimson sm:min-h-[24px]"
                   >
                     {CONTACT_EMAIL}
                   </a>
@@ -229,15 +229,25 @@ export default function Footer() {
 
                 {footer.columns.map((col) => (
                   <nav key={col.heading} aria-label={col.heading}>
-                    <h3 className="border-b border-op-border pb-3 font-mono text-mono-xs uppercase tracking-micro text-op-crimson">
+                    {/* h2, not h3: these sit directly under the footer
+                        landmark with no h2 above them, so h3 skips a level.
+                        On /audit — an h1 and nothing else — that was the only
+                        heading-order break on the site. */}
+                    <h2 className="border-b border-op-border pb-3 font-mono text-mono-xs uppercase tracking-micro text-op-crimson">
                       {col.heading}
-                    </h3>
-                    <ul className="mt-4 space-y-3">
+                    </h2>
+                    {/* `inline-flex` + `min-h-[44px]` rather than the bare
+                        inline anchors these were: at 14px tall and stacked
+                        three deep, they sat well under the 24px WCAG target
+                        minimum and were easy to mis-tap on a phone. The link
+                        box grows, not the type, so the footer looks the same
+                        on desktop where the row gap already separated them. */}
+                    <ul className="mt-2 sm:mt-4">
                       {col.links.map((link) => (
                         <li key={link.label}>
                           <a
                             href={link.href}
-                            className="font-mono text-mono-sm uppercase tracking-tracker text-op-white/70 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
+                            className="inline-flex min-h-[44px] items-center font-mono text-mono-sm uppercase tracking-tracker text-op-white/70 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson sm:min-h-[36px]"
                           >
                             {link.label}
                           </a>
@@ -256,7 +266,7 @@ export default function Footer() {
                     page, find nothing, and do nothing. */}
                 <a
                   href="/#top"
-                  className="group flex items-center gap-2.5 font-mono text-mono-xs uppercase tracking-micro text-op-white/50 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson"
+                  className="group flex min-h-[44px] items-center gap-2.5 font-mono text-mono-xs uppercase tracking-micro text-op-white/50 transition-colors duration-op-micro ease-op-micro hover:text-op-crimson sm:min-h-[24px]"
                 >
                   <span
                     aria-hidden="true"
