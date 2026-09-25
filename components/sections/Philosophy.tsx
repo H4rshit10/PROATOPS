@@ -19,7 +19,7 @@ export default function Philosophy() {
       className="grain relative scroll-mt-20 overflow-hidden bg-op-parchment py-section-gap"
     >
       <div className="shell-x relative z-[2] mx-auto max-w-shell">
-        <SectionRule index="05" label={philosophy.eyebrow} />
+        <SectionRule index="04" label={philosophy.eyebrow} />
 
         <div className="mt-10 sm:mt-14">
           <Reveal>

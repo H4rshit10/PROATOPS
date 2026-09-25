@@ -36,7 +36,6 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Field Dispatches", href: "/#dispatches" },
       { label: "What We Do", href: "/#what-we-do" },
       { label: "The Protocol", href: "/#protocol" },
-      { label: "Sectors", href: "/#sectors" },
     ],
   },
   {
@@ -66,7 +65,6 @@ export const PROATOPS = {
       { label: "DISPATCHES", href: "/#dispatches" },
       { label: "WHAT WE DO", href: "/#what-we-do" },
       { label: "THE PROTOCOL", href: "/#protocol" },
-      { label: "SECTORS", href: "/#sectors" },
       { label: "PHILOSOPHY", href: "/#philosophy" },
     ],
     cta: "BOOK AN AUDIT",
@@ -289,19 +287,6 @@ export const PROATOPS = {
     ],
   },
 
-  sectors: {
-    eyebrow: "DEPLOYMENT SECTORS",
-    headline:
-      "BUILT FOR FITNESS TODAY. DESIGNED TO MANAGE BUSINESSES TOMORROW.",
-    current: [
-      "Commercial Gym Networks",
-      "Boutique Fitness Studios",
-      "Reformer & Mat Pilates Hubs",
-      "Functional Training & Strength Facilities",
-      "Wellness & Recovery Centers",
-    ],
-    note: "Starting with Fitness & Wellness. Expanding to multi-unit retail, hospitality, and healthcare franchise operations.",
-  },
 
   philosophy: {
     eyebrow: "OUR CORE PHILOSOPHY",
