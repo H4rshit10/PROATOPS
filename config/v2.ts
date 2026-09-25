@@ -532,7 +532,7 @@ export const V2_FOOTER = {
   ],
   socialHeading: "SOCIAL",
   social: [
-    { label: "LinkedIn", href: "https://www.linkedin.com" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/proatops/" },
     { label: "Instagram", href: "https://www.instagram.com/proatops" },
   ],
 };
