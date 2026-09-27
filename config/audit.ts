@@ -62,7 +62,7 @@ export type AuditSection = {
 };
 
 export const AUDIT_INTRO = {
-  eyebrow: "BUSINESS AUDIT",
+  eyebrow: "BUSINESS OPERATIONS & INTELLIGENCE PLATFORM",
   title: "LET'S UNDERSTAND YOUR BUSINESS.",
   lede: "Before we recommend anything, we want to understand how your business operates today.",
   body: "This assessment helps the Proatops team understand your business model, people, operations, revenue engine, challenges and growth ambitions so we can identify where opportunities or operational gaps may exist.",
