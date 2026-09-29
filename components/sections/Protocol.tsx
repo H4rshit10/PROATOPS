@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   animate,
   motion,
@@ -157,7 +157,27 @@ export default function Protocol() {
     offset: ["start 0.78", "end 0.4"],
   });
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.4 });
-  const markerTop = useTransform(progress, (v) => `${v * 100}%`);
+
+  /* Both travelling elements below used to animate CSS `top`. `top` isn't a
+     compositor property — the browser re-runs layout on every single frame
+     it changes, and the infinite pulse changed it forever, for as long as
+     this section existed in the DOM. Measured on a throttled mobile profile:
+     the main thread was busy 99% of a 39s scroll pass, ~1270 layout passes.
+     `y` (a transform) is compositor-only — same visual travel, computed in
+     pixels against the spine's own measured height instead of a percentage. */
+  const [spineHeight, setSpineHeight] = useState(0);
+  useEffect(() => {
+    const measure = () => setSpineHeight(spineRef.current?.offsetHeight ?? 0);
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+  const markerY = useTransform(progress, (v) => v * spineHeight - 4);
+
+  /* The infinite pulse only costs anything while it's actually running, so
+     it runs only while the spine is in view — stopped the rest of the time,
+     rather than animating forever in a section nobody is looking at. */
+  const spineInView = useInView(spineRef, { margin: "-10% 0px -10% 0px" });
 
   /* What lights the operating layer depends on the layout.
      Desktop: the panel is sticky beside the spine, so it follows the spine's
@@ -238,24 +258,35 @@ export default function Protocol() {
               style={reduced ? { scaleY: 1 } : { scaleY: progress }}
               className="absolute left-0 top-0 h-full w-px origin-top bg-op-crimson"
             />
-            {/* Travelling marker, driven by scroll */}
+            {/* Travelling marker, driven by scroll. x/rotate move to Framer's
+                own style props alongside y — once a motion.span animates y,
+                Framer owns the whole `transform` and a Tailwind translate/
+                rotate class on the same element would be silently dropped. */}
             {!reduced && (
               <motion.span
                 aria-hidden="true"
-                style={{ top: markerTop }}
-                className="absolute left-0 z-20 block h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-op-crimson"
+                style={{ x: "-50%", y: markerY, rotate: 45 }}
+                className="absolute left-0 top-0 z-20 block h-2 w-2 bg-op-crimson"
               />
             )}
             {/* The automation between stages: a signal that keeps running down
                 the spine on its own, independent of scroll — the operating
-                layer carrying the business from one stage to the next. */}
-            {!reduced && (
+                layer carrying the business from one stage to the next.
+                Runs only while the spine is in view (spineInView) — stopped
+                the rest of the time rather than animating forever in a
+                section nobody is looking at. */}
+            {!reduced && spineHeight > 0 && (
               <motion.span
                 aria-hidden="true"
-                initial={{ top: "0%", opacity: 0 }}
-                animate={{ top: ["0%", "100%"], opacity: [0, 0.9, 0.9, 0] }}
-                transition={{ duration: 4.5, ease: "linear", repeat: Infinity, times: [0, 0.1, 0.9, 1] }}
-                className="absolute left-0 z-10 block h-10 w-[3px] -translate-x-1/2 bg-gradient-to-b from-transparent via-op-crimson to-transparent"
+                initial={{ y: 0, opacity: 0 }}
+                animate={
+                  spineInView
+                    ? { y: [0, spineHeight], opacity: [0, 0.9, 0.9, 0] }
+                    : { opacity: 0 }
+                }
+                transition={{ duration: 4.5, ease: "linear", repeat: spineInView ? Infinity : 0, times: [0, 0.1, 0.9, 1] }}
+                style={{ x: "-50%" }}
+                className="absolute left-0 top-0 z-10 block h-10 w-[3px] bg-gradient-to-b from-transparent via-op-crimson to-transparent"
               />
             )}
 

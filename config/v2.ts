@@ -404,7 +404,6 @@ export const V2_ENGAGEMENTS = {
       title: "BUSINESS AUDIT",
       outcome: "CLARITY",
       body: "What's wrong, why it's happening, and what should be fixed first.",
-      deliverables: ["Business diagnosis", "Gap & root-cause analysis", "Priority roadmap"],
     },
     {
       index: "02",
@@ -412,7 +411,6 @@ export const V2_ENGAGEMENTS = {
       title: "BUILD & IMPLEMENT",
       outcome: "STRUCTURE",
       body: "A business that runs through systems, not memory and individuals.",
-      deliverables: ["SOPs and workflows", "KRAs, KPIs and reporting", "Sales, management and tech systems"],
     },
     {
       index: "03",
@@ -420,7 +418,6 @@ export const V2_ENGAGEMENTS = {
       title: "PERFORMANCE PARTNERSHIP",
       outcome: "VISIBILITY + ACCOUNTABILITY",
       body: "Who's performing, where revenue leaks, and what management should do next.",
-      deliverables: ["Dashboards and KPIs", "Weekly and monthly reviews", "Accountability and optimization"],
     },
     {
       index: "04",
@@ -428,7 +425,6 @@ export const V2_ENGAGEMENTS = {
       title: "MANAGEMENT PARTNERSHIP",
       outcome: "CONTROL",
       body: "Active management of managers, operations, sales, CX and reviews.",
-      deliverables: ["Manage managers directly", "Track operations, sales and CX", "Resolve issues and run reviews"],
     },
     {
       index: "05",
@@ -436,7 +432,6 @@ export const V2_ENGAGEMENTS = {
       title: "OPERATING PARTNERSHIP",
       outcome: "FREEDOM TO SCALE",
       body: "The owner focuses on vision, capital, strategy and expansion — Proatops operates the agreed functions.",
-      deliverables: ["Agreed operating responsibility", "People, operations and revenue", "Technology and intelligence"],
     },
   ],
 };

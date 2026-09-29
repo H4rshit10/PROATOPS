@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef, type ReactNode } from "react";
+import { useDrawnChildren } from "@/components/motion/DrawIn";
+
 /**
  * The PROATOPS glyph set.
  *
@@ -20,16 +25,25 @@ const S = {
   strokeLinejoin: "miter" as const,
 };
 
-function Frame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+/**
+ * Every glyph shares this frame, so the stroke-draw reveal (useDrawnChildren,
+ * shared with CapabilityIcon.tsx) lives in one place rather than being
+ * reimplemented per icon set.
+ */
+function Frame({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const ref = useRef<SVGSVGElement>(null);
+  const drawn = useDrawnChildren(children, ref);
+
   return (
     <svg
+      ref={ref}
       viewBox="0 0 24 24"
       aria-hidden="true"
       focusable="false"
       className={className}
       {...S}
     >
-      {children}
+      {drawn}
     </svg>
   );
 }

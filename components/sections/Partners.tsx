@@ -4,12 +4,16 @@ import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
 import { PROATOPS } from "@/config/proatops";
 
-const { partners, foundingBand } = PROATOPS;
+const { partners } = PROATOPS;
 
 /**
- * The credibility sequence that closes the above-the-fold film: a warm paper
- * strip carrying the partner marks, then a dark band that hands off to the
- * body of the site.
+ * The credibility strip that closes the above-the-fold film: a warm paper
+ * band carrying the partner marks.
+ *
+ * Used to be followed by a second dark handoff band, removed at the owner's
+ * request — it sat directly against Ticker (also dark), so the top of the
+ * page ran Hero(dark) -> paper -> dark -> dark before reaching parchment.
+ * Now: Hero(dark) -> paper -> Ticker(dark) -> parchment, one dark band, not two.
  *
  * On logos — each entry in `partners.items` renders its `logo` file when one
  * is set and a typographic wordmark otherwise. No third-party mark is ever
@@ -109,56 +113,6 @@ export default function Partners() {
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- dark band: the handoff out of the hero sequence ---- */}
-      <section
-        aria-label={foundingBand.label}
-        className="grain grain-dark relative overflow-hidden bg-pa-ink"
-      >
-        {/* Hairline of red at the seam, echoing the crown light in the hero. */}
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-px"
-          style={{
-            background:
-              "linear-gradient(to right, transparent 0%, rgba(255,31,45,0.5) 18%, rgba(255,31,45,0.18) 52%, transparent 88%)",
-          }}
-        />
-
-        <div className="shell-x relative z-[1] mx-auto max-w-shell">
-          <div className="flex flex-col gap-6 py-7 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:py-8">
-            <Reveal y={10} blur={false}>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2.5">
-                <span
-                  aria-hidden="true"
-                  className="text-[15px] leading-none text-pa-red"
-                >
-                  +
-                </span>
-                <span className="font-mono text-mono-xs uppercase tracking-micro text-pa-chalk-2">
-                  {foundingBand.label}
-                </span>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.1} y={10} blur={false}>
-              <div className="flex items-center gap-6">
-                <span
-                  aria-hidden="true"
-                  className="hidden h-px w-14 bg-pa-hair-2 lg:block"
-                />
-                <p className="font-mono text-mono-xs uppercase leading-[1.85] tracking-micro text-pa-chalk-3">
-                  {foundingBand.statement.map((line) => (
-                    <span key={line} className="block lg:text-right">
-                      {line}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>

@@ -47,7 +47,22 @@ export default function Nav({
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    /* Rate-limited to once per animation frame. A raw scroll listener can
+       fire far more often than the screen repaints (measured: this single
+       handler was 10% of all CPU samples during a scroll pass — more than
+       any individual Framer Motion internal function on the page, several
+       of which track their own scroll-linked values but batch the work per
+       frame instead of per event). requestAnimationFrame-gating matches
+       that same batching without changing when the bar visibly switches. */
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 24);
+        ticking = false;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

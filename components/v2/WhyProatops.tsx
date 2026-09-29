@@ -98,16 +98,6 @@ export default function V2WhyProatops() {
                         </span>
                       </div>
                       <p className="mt-3 max-w-xl text-body-md text-op-charcoal/80">{lvl.body}</p>
-                      <ul className="mt-4 flex flex-wrap gap-2.5">
-                        {lvl.deliverables.map((d) => (
-                          <li
-                            key={d}
-                            className="border border-op-rule-strong px-4 py-2 font-mono text-[0.7rem] uppercase tracking-wide text-op-charcoal/70"
-                          >
-                            {d}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   </li>
                 </Reveal>

@@ -132,14 +132,6 @@ export const PROATOPS = {
     ],
   },
 
-  /* ---- Dark band closing the above-the-fold sequence ----
-     The brand list lived here too and repeated the strip directly above it.
-     Saying it once, in the strip, is stronger. */
-  foundingBand: {
-    label: "OPERATIONAL RESPONSIBILITY, NOT ADVICE.",
-    statement: ["BUILT FOR FITNESS TODAY,", "DESIGNED TO MANAGE BUSINESSES TOMORROW."],
-  },
-
   /* ---- Operational ticker ----
      Two counter-running rows. The upper carries the six domains, the lower the
      daily disciplines behind them, so the band reads as a live manifest rather
