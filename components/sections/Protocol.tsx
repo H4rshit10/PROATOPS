@@ -96,16 +96,6 @@ function Stage({ stage }: { stage: (typeof protocol.steps)[number] }) {
         <p className="mt-3 max-w-lg text-pretty text-body-md text-op-charcoal/75">
           {stage.desc}
         </p>
-        <ul className="mt-4 flex flex-wrap gap-2">
-          {stage.delivers.map((d) => (
-            <li
-              key={d}
-              className="border border-op-rule-strong px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-wide text-op-charcoal/70"
-            >
-              {d}
-            </li>
-          ))}
-        </ul>
       </motion.div>
     </li>
   );

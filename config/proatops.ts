@@ -272,7 +272,6 @@ export const PROATOPS = {
         outcome: "CLARITY",
         verb: "DIAGNOSE",
         desc: "What is wrong, why it is happening, and what should be fixed first.",
-        delivers: ["Business diagnosis", "Gap & root-cause analysis", "Priority roadmap"],
       },
       {
         step: "02",
@@ -280,7 +279,6 @@ export const PROATOPS = {
         outcome: "STRUCTURE",
         verb: "DESIGN + DEPLOY",
         desc: "A business that runs through systems instead of memory and individuals.",
-        delivers: ["SOPs + workflows", "KRAs, KPIs + reporting", "Sales, management & tech systems"],
       },
       {
         step: "03",
@@ -288,7 +286,6 @@ export const PROATOPS = {
         outcome: "VISIBILITY + ACCOUNTABILITY",
         verb: "MEASURE + IMPROVE",
         desc: "Who is performing, where revenue leaks, and what management should do next.",
-        delivers: ["Dashboards + KPIs", "Weekly / monthly reviews", "Accountability + optimization"],
       },
       {
         step: "04",
@@ -296,7 +293,6 @@ export const PROATOPS = {
         outcome: "CONTROL",
         verb: "MANAGE + OPTIMIZE",
         desc: "Active management of managers, operations, sales, CX and reviews.",
-        delivers: ["Manage managers", "Track ops, sales + CX", "Resolve issues + run reviews"],
       },
       {
         step: "05",
@@ -304,7 +300,6 @@ export const PROATOPS = {
         outcome: "FREEDOM TO SCALE",
         verb: "OPERATE + SCALE",
         desc: "The owner focuses on vision, capital, strategy and expansion while Proatops operates agreed functions.",
-        delivers: ["Agreed operating responsibility", "People, ops + revenue", "Technology + intelligence"],
       },
     ],
     /* The operating layer that runs underneath every stage — it switches on
