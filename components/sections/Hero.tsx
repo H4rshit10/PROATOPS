@@ -170,7 +170,7 @@ export default function Hero() {
 
       <div className="shell-x relative z-[2] mx-auto flex w-full max-w-shell flex-1 flex-col">
         {/* ---- headline block, vertically centred in the remaining space ---- */}
-        <div className="flex flex-1 flex-col justify-center py-10 xl:pr-[190px]">
+        <div className="flex flex-1 flex-col justify-center py-10 hero-body xl:pr-[190px]">
           {/* Eyebrow */}
           <Enter delay={0.15} y={0}>
             <div className="flex items-center gap-5">
@@ -185,7 +185,7 @@ export default function Hero() {
           </Enter>
 
           {/* Headline — the existing word reveal, unchanged in timing or mechanism */}
-          <div className="mt-6 sm:mt-8">
+          <div className="mt-6 sm:mt-8 hero-headline">
             <WordReveal
               as="h1"
               text={hero.headlineLine1}
@@ -201,7 +201,7 @@ export default function Hero() {
                 className="headline text-display-xl text-pa-chalk"
                 delay={0.62}
               />
-              <span className="text-[clamp(2.9rem,9vw,7.4rem)] leading-[0.9]">
+              <span className="hero-script text-[clamp(2.9rem,9vw,7.4rem)] leading-[0.9]">
                 <ScriptWord>{hero.headlineScript}</ScriptWord>
               </span>
             </div>
@@ -209,14 +209,14 @@ export default function Hero() {
 
           {/* Subhead */}
           <Enter delay={1.15}>
-            <p className="mt-8 max-w-[34rem] text-body-md leading-[1.75] text-pa-chalk-2/85 sm:mt-10">
+            <p className="mt-8 max-w-[34rem] text-body-md leading-[1.75] text-pa-chalk-2/85 sm:mt-10 hero-sub">
               {hero.subhead}
             </p>
           </Enter>
 
           {/* Actions */}
           <Enter delay={1.28}>
-            <div className="mt-9 flex flex-wrap items-center gap-3.5 sm:mt-10 sm:gap-4">
+            <div className="mt-9 flex flex-wrap items-center gap-3.5 sm:mt-10 sm:gap-4 hero-ctas">
               <PrimaryCta>{hero.primaryCta}</PrimaryCta>
               <ScrambleButton
                 href="#what-we-do"

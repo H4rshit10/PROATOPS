@@ -31,6 +31,26 @@
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-micro: 180ms;
   --dur-slow: 420ms;
+
+  /* Small type, phone-first. The tracked mono caps were 10px/11px at every
+     width — a deliberate hairline look at desktop scale, but at arm's length
+     on a phone below the 11pt floor Apple and Google both give for legible
+     text. Phones get one step up; from 640px they are exactly what they
+     were, so the desktop layout (and the nav row measured to fit to the
+     pixel at 1440px) is unchanged. Consumed by the fontSize tokens in
+     tailwind.config.ts. */
+  --fs-mono-xs: 0.6875rem;
+  --fs-mono-sm: 0.75rem;
+  --fs-body-sm: 0.875rem;
+}
+/* Width alone would hand the desktop sizes to a phone held sideways (844px
+   wide, ~390px tall). A real tablet or desktop is also tall. */
+@media (min-width: 640px) and (min-height: 500px) {
+  :root {
+    --fs-mono-xs: 0.625rem;
+    --fs-mono-sm: 0.6875rem;
+    --fs-body-sm: 0.8125rem;
+  }
 }
 
 /* ========== BASE ========== */
@@ -213,9 +233,12 @@ body {
 .op-field:focus-visible {
   outline: none;
 }
+/* Up, never down: this used to drop to 15px from 640px, and 640px is not
+   "desktop" — an iPhone held sideways (844px) and every iPad clear it, and
+   on those iOS still zooms the page on focus below 16px. */
 @media (min-width: 640px) {
   .op-field {
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
   }
 }
 
@@ -268,8 +291,13 @@ select.op-field--dark option {
   border-color: var(--op-border);
   color: var(--op-white);
 }
-.op-choice:hover {
-  border-color: var(--op-crimson);
+/* Pointer devices only. On touch, iOS and Android both leave :hover applied
+   to whatever was last tapped — so un-ticking a checkbox left it with a
+   crimson border, reading as still half-selected. */
+@media (hover: hover) and (pointer: fine) {
+  .op-choice:hover {
+    border-color: var(--op-crimson);
+  }
 }
 .op-choice[data-selected="true"] {
   background: var(--op-crimson);
@@ -287,6 +315,51 @@ select.op-field--dark option {
 }
 .op-scale:first-child {
   border-left-width: 1px;
+}
+/* Phones held sideways: the display sizes scale with viewport *width*, so at
+   852x393 the hero headline filled nearly all ~320px under the bar and pushed
+   its buttons off-screen. On short landscape screens they scale with height
+   instead. The hero's script word keeps its ~1.06x relation to the caps. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .text-display-xl {
+    font-size: clamp(2.25rem, 11vh, 3.25rem);
+  }
+  .text-display-lg {
+    font-size: clamp(1.9rem, 9vh, 2.75rem);
+  }
+  .hero-script {
+    font-size: clamp(2.4rem, 12vh, 3.5rem);
+  }
+  /* The hero's vertical rhythm, tightened so its buttons land on the first
+     screen. Hooks in Hero.tsx. Scoped under #top on purpose: Tailwind v3
+     emits its responsive variants (sm:mt-10 …) at the very end of the
+     stylesheet, after this block, so a bare class loses to them. */
+  #top .hero-body {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  #top .hero-headline {
+    margin-top: 0.75rem;
+  }
+  #top .hero-sub {
+    margin-top: 1rem;
+    line-height: 1.55;
+  }
+  #top .hero-ctas {
+    margin-top: 1.25rem;
+  }
+}
+
+/* Phones wrap the strip into two rows of five (see ScaleField): each row
+   needs its own left edge, and row two drops its top border so the seam
+   between the rows is one line, not two. Matches Tailwind's sm breakpoint. */
+@media (max-width: 639px) {
+  .op-scale:nth-child(5n + 1) {
+    border-left-width: 1px;
+  }
+  .op-scale:nth-child(n + 6) {
+    border-top-width: 0;
+  }
 }
 
 /* ========== HERO ATMOSPHERE ==========
@@ -676,8 +749,10 @@ select.op-field--dark option {
   transform-origin: 50% 100%;
   transition: transform 340ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.group:hover .pa-mark .pa-mark-pin-h {
-  transform: translateY(-7%);
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .pa-mark .pa-mark-pin-h {
+    transform: translateY(-7%);
+  }
 }
 
 /* ========== DIAGRAM GROUND ==========
@@ -759,8 +834,13 @@ select.op-field--dark option {
   width: max-content;
   animation: marqueeScroll 34s linear infinite;
 }
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
+/* Pause-on-hover for pointers only. On a phone, a scroll gesture that starts
+   on the band registers as a hover and never releases — the marquee froze
+   for the rest of the visit. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
 }
 @keyframes marqueeScroll {
   0% {

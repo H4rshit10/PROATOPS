@@ -46,7 +46,9 @@ function PartnerMark({
         {item.name}
       </span>
       {item.sub && (
-        <span className="mt-1.5 whitespace-nowrap font-mono text-[0.5rem] uppercase tracking-[0.24em] text-[#15181A]/55 sm:text-[0.5625rem]">
+        /* Was 8px at 55% ink on phones — unreadable. Size and contrast up,
+           tracking down, so the lockup stays about as wide as it was. */
+        <span className="mt-1.5 whitespace-nowrap font-mono text-[0.625rem] uppercase tracking-[0.14em] text-[#15181A]/70 sm:text-[0.6875rem]">
           {item.sub}
         </span>
       )}

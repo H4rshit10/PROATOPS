@@ -219,7 +219,10 @@ function Scale10({
 }) {
   return (
     <div>
-      <div role="radiogroup" aria-label={field.label} className="flex">
+      {/* Two rows of five on phones: ten across a 320px screen made each
+          number a 28px target, easy to mis-tap. From sm up it is the single
+          connected strip it was. */}
+      <div role="radiogroup" aria-label={field.label} className="grid grid-cols-5 sm:flex">
         {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
           <label
             key={n}

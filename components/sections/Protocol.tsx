@@ -89,7 +89,7 @@ function Stage({ stage }: { stage: (typeof protocol.steps)[number] }) {
           <h3 className="headline text-[1.9rem] leading-none tracking-display text-op-charcoal sm:text-[2.5rem]">
             {stage.name}
           </h3>
-          <span className="border border-op-crimson/50 px-2.5 py-1 font-mono text-[0.68rem] uppercase tracking-wide text-op-crimson">
+          <span className="border border-op-crimson/50 px-2.5 py-1 font-mono text-mono-sm uppercase tracking-wide text-op-crimson">
             {stage.outcome}
           </span>
         </div>

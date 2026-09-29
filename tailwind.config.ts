@@ -24,6 +24,10 @@ const config: Config = {
     extend: {
       screens: {
         xs: "400px",
+        /* Keep every screen a plain min-width value. A `raw` screen here
+           (tried for short landscape phones) makes Tailwind v3 silently drop
+           all arbitrary min-[…]/max-[…] variants project-wide — it hid the
+           nav descriptor. Short-landscape rules live in globals.css. */
       },
       colors: {
         op: {
@@ -104,13 +108,15 @@ const config: Config = {
         /* Body — Montserrat. */
         "body-lg": ["1.0625rem", { lineHeight: "1.62", letterSpacing: "0em" }],
         "body-md": ["0.9375rem", { lineHeight: "1.6", letterSpacing: "0em" }],
-        "body-sm": ["0.8125rem", { lineHeight: "1.55", letterSpacing: "0em" }],
+        /* body-sm / mono-sm / mono-xs are one step larger on phones and exactly
+           their old sizes from 640px — see the --fs-* vars in globals.css. */
+        "body-sm": ["var(--fs-body-sm)", { lineHeight: "1.55", letterSpacing: "0em" }],
         /* Technical trackers — JetBrains Mono. */
         "mono-sm": [
-          "0.6875rem",
+          "var(--fs-mono-sm)",
           { lineHeight: "1.4", letterSpacing: "0.12em" },
         ],
-        "mono-xs": ["0.625rem", { lineHeight: "1.4", letterSpacing: "0.16em" }],
+        "mono-xs": ["var(--fs-mono-xs)", { lineHeight: "1.4", letterSpacing: "0.16em" }],
       },
       letterSpacing: {
         micro: "0.16em",
