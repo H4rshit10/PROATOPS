@@ -385,16 +385,59 @@ export const V2_OS = {
   stack: ["DATA", "INTELLIGENCE", "AI", "SCALE"],
 };
 
-/* §22 — ENGAGEMENT MODELS */
+/* §22 — ENGAGEMENT LEVELS
+   Five levels of involvement rather than four unordered "partner" types —
+   the same business, choosing how deep Proatops goes. Sourced from the
+   admin team's internal clarity deck (the ladder + deliverables), rewritten
+   for a visitor rather than a staff member: the deck's audit-team framing
+   ("Admin rule: explain the outcome first") stays a writing principle here,
+   not literal on-page text. */
 export const V2_ENGAGEMENTS = {
   index: "16",
-  eyebrow: "ENGAGEMENT",
-  headline: "HOW BUSINESSES WORK WITH PROATOPS",
-  models: [
-    { key: "operating", title: "OPERATING PARTNER", body: "For owners who want Proatops to take responsibility for agreed business functions." },
-    { key: "performance", title: "PERFORMANCE PARTNER", body: "For businesses with an existing team that need systems, KPIs, accountability and performance management." },
-    { key: "transformation", title: "TRANSFORMATION PARTNER", body: "For businesses that need to redesign their operating structure." },
-    { key: "growth", title: "GROWTH PARTNER", body: "For businesses preparing for new locations, markets or scale." },
+  eyebrow: "ENGAGEMENT LEVELS",
+  headline: "WHAT YOU ACTUALLY GET AT EACH STAGE.",
+  subhead: "Same business. Five different levels of Proatops involvement — you choose where to start.",
+  levels: [
+    {
+      index: "01",
+      key: "audit",
+      title: "BUSINESS AUDIT",
+      outcome: "CLARITY",
+      body: "What's wrong, why it's happening, and what should be fixed first.",
+      deliverables: ["Business diagnosis", "Gap & root-cause analysis", "Priority roadmap"],
+    },
+    {
+      index: "02",
+      key: "build",
+      title: "BUILD & IMPLEMENT",
+      outcome: "STRUCTURE",
+      body: "A business that runs through systems, not memory and individuals.",
+      deliverables: ["SOPs and workflows", "KRAs, KPIs and reporting", "Sales, management and tech systems"],
+    },
+    {
+      index: "03",
+      key: "performance",
+      title: "PERFORMANCE PARTNERSHIP",
+      outcome: "VISIBILITY + ACCOUNTABILITY",
+      body: "Who's performing, where revenue leaks, and what management should do next.",
+      deliverables: ["Dashboards and KPIs", "Weekly and monthly reviews", "Accountability and optimization"],
+    },
+    {
+      index: "04",
+      key: "management",
+      title: "MANAGEMENT PARTNERSHIP",
+      outcome: "CONTROL",
+      body: "Active management of managers, operations, sales, CX and reviews.",
+      deliverables: ["Manage managers directly", "Track operations, sales and CX", "Resolve issues and run reviews"],
+    },
+    {
+      index: "05",
+      key: "operating",
+      title: "OPERATING PARTNERSHIP",
+      outcome: "FREEDOM TO SCALE",
+      body: "The owner focuses on vision, capital, strategy and expansion — Proatops operates the agreed functions.",
+      deliverables: ["Agreed operating responsibility", "People, operations and revenue", "Technology and intelligence"],
+    },
   ],
 };
 

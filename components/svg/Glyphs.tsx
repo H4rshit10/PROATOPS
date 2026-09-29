@@ -401,11 +401,14 @@ export const INDUSTRY_GLYPHS: Record<string, (p: GlyphProps) => React.ReactEleme
   "multi-location": GlyphMultiLocation,
 };
 
+/* Keyed to V2_ENGAGEMENTS.levels[].key. Reused rather than drawn new —
+   gap/systems/view/performance/operating already carry the right concept. */
 export const ENGAGEMENT_GLYPHS: Record<string, (p: GlyphProps) => React.ReactElement> = {
+  audit: GlyphGapMap,
+  build: GlyphSystems,
+  performance: GlyphManagementView,
+  management: GlyphPerformancePartner,
   operating: GlyphOperatingPartner,
-  performance: GlyphPerformancePartner,
-  transformation: GlyphTransformation,
-  growth: GlyphGrowthPartner,
 };
 
 export const DELIVERABLE_GLYPHS: Record<string, (p: GlyphProps) => React.ReactElement> = {

@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "@/components/motion/Reveal";
+import WordReveal from "@/components/motion/WordReveal";
 import { RuleDraw } from "@/components/motion/Revealers";
 import { ENGAGEMENT_GLYPHS, GlyphCheck } from "@/components/svg/Glyphs";
 import { SectionRule } from "@/components/ui/Marker";
@@ -54,31 +55,71 @@ export default function V2WhyProatops() {
           </div>
         </div>
 
-        {/* §22 — engagement models */}
+        {/* §22 — engagement levels: a ladder, not a set of unordered tiles.
+            Same business, five depths of involvement — 01 stands alone
+            (an audit commits to nothing beyond itself), 02-05 read as
+            increasing depth, which is why the row carries its own index
+            rather than just a glyph. */}
         <div className="mt-24">
           <RuleDraw />
-          <h3 className="headline mt-12 text-display-md tracking-display text-op-charcoal">
-            {V2_ENGAGEMENTS.headline}
-          </h3>
+          <div className="mt-12 max-w-3xl">
+            <h3 className="mt-0">
+              <WordReveal
+                as="span"
+                text={V2_ENGAGEMENTS.headline}
+                className="headline block text-display-md tracking-display text-op-charcoal"
+              />
+            </h3>
+            <Reveal delay={0.15}>
+              <p className="mt-4 text-pretty text-body-md text-op-charcoal/75">
+                {V2_ENGAGEMENTS.subhead}
+              </p>
+            </Reveal>
+          </div>
 
-          <div className="mt-10 grid gap-px border border-op-rule-strong bg-op-rule-strong sm:grid-cols-2 lg:grid-cols-4">
-            {V2_ENGAGEMENTS.models.map((m, i) => {
-              const Glyph = ENGAGEMENT_GLYPHS[m.key];
+          <ol className="mt-12 border-t border-op-rule-strong">
+            {V2_ENGAGEMENTS.levels.map((lvl, i) => {
+              const Glyph = ENGAGEMENT_GLYPHS[lvl.key];
               return (
-                <Reveal key={m.key} delay={i * 0.07}>
-                  <div className="group h-full bg-op-parchment p-7 transition-colors duration-op-slow ease-op-micro hover:bg-op-charcoal">
-                    {Glyph && <Glyph className="h-9 w-9 text-op-crimson" />}
-                    <h4 className="mt-6 font-mono text-mono-sm uppercase tracking-tracker text-op-charcoal transition-colors duration-op-slow ease-op-micro group-hover:text-op-white">
-                      {m.title}
-                    </h4>
-                    <p className="mt-3 text-body-sm text-op-charcoal/75 transition-colors duration-op-slow ease-op-micro group-hover:text-op-white/70">
-                      {m.body}
-                    </p>
-                  </div>
+                <Reveal key={lvl.key} delay={i * 0.06}>
+                  <li className="beam-card grid grid-cols-[auto_1fr] items-start gap-5 border-b border-op-rule-strong py-8 sm:grid-cols-[auto_auto_1fr] sm:gap-8">
+                    <span className="font-mono text-mono-sm tabular text-op-crimson">{lvl.index}</span>
+                    {Glyph && (
+                      <Glyph className="hidden h-9 w-9 text-op-charcoal/70 sm:block" />
+                    )}
+                    <div className="col-span-2 sm:col-span-1">
+                      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                        <h4 className="headline text-display-sm tracking-display text-op-charcoal">
+                          {lvl.title}
+                        </h4>
+                        <span className="font-mono text-[0.7rem] uppercase tracking-wide text-op-crimson">
+                          {lvl.outcome}
+                        </span>
+                      </div>
+                      <p className="mt-3 max-w-xl text-body-md text-op-charcoal/80">{lvl.body}</p>
+                      <ul className="mt-4 flex flex-wrap gap-2.5">
+                        {lvl.deliverables.map((d) => (
+                          <li
+                            key={d}
+                            className="border border-op-rule-strong px-4 py-2 font-mono text-[0.7rem] uppercase tracking-wide text-op-charcoal/70"
+                          >
+                            {d}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
                 </Reveal>
               );
             })}
-          </div>
+          </ol>
+
+          <Reveal delay={0.1}>
+            <p className="mt-8 max-w-2xl text-pretty text-body-md text-op-charcoal/70">
+              Most engagements start at 01. Where they end depends on what the
+              audit finds — not the other way around.
+            </p>
+          </Reveal>
         </div>
 
         {/* §23 — is this you? */}
