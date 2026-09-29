@@ -249,7 +249,13 @@ export function ShinyButton({
           className={`shiny-cta inline-flex items-center justify-center gap-3 ${sizeClass} ${className}`}
           data-tone={tone}
         >
-          <span>{children}</span>
+          {/* No shrink target of its own (no min-width, no flex-shrink-0)
+              meant a tight flex row squeezed this into wrapping onto
+              multiple lines while the fixed h-11/h-14 clipped it — a real
+              case, not theoretical: a longer nav descriptor did exactly
+              this at 1280px. The label should never wrap; if the row is
+              genuinely out of room, something else has to give. */}
+          <span className="whitespace-nowrap">{children}</span>
         </a>
       </Magnetic>
     </>

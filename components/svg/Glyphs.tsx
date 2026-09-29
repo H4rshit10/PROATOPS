@@ -10,7 +10,7 @@
  * models, audit deliverables, then the structural marks.
  */
 
-type GlyphProps = { className?: string };
+export type GlyphProps = { className?: string };
 
 const S = {
   fill: "none",

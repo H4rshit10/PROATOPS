@@ -71,7 +71,7 @@ export const PROATOPS = {
   },
 
   hero: {
-    eyebrow: "BUSINESS OPERATIONS & MANAGEMENT",
+    eyebrow: "BUSINESS OPERATIONS & INTELLIGENCE PLATFORM",
     headlineLine1: "WHERE BUSINESSES",
     headlineLine2: "BECOME",
     headlineScript: "Scalable.",
@@ -194,97 +194,125 @@ export const PROATOPS = {
     ],
   },
 
+  /* ---- What customers actually buy ----
+     From the "What customers buy" clarity deck. The six fitness-floor domains
+     this replaced described tasks; the deck's point is that the tasks are not
+     the product — the operating outcome is. */
   whatWeDo: {
-    eyebrow: "OPERATIONAL SCOPE",
-    /* Headline closes on a script word, the same device as the hero's
-       "WE RUN THE Operation." — one callback, so the page reads as one voice. */
-    headline: "SIX DOMAINS. ONE ACCOUNTABLE",
-    headlineScript: "Operator.",
-    /* `icon` selects a line glyph in components/ui/icons/CapabilityIcon.tsx.
-       `tagline` renders in the Allura script — keep it to two or three words;
-       a flowing script loses legibility fast past that. */
+    eyebrow: "WHAT YOU ACTUALLY BUY",
+    /* Closes on a script word — the same device as the hero's "BECOME
+       Scalable." — so the page keeps one voice. */
+    headline: "NOT TOOLS. A BETTER-OPERATED",
+    headlineScript: "Business.",
+    lede: "The visible tools are not the product. The operating outcome is the product.",
+    /* `icon` selects a glyph in components/ui/icons/CapabilityIcon.tsx.
+       `tagline` renders in the Allura script — two or three words at most. */
     items: [
       {
         code: "01",
-        title: "OPERATIONS",
-        tagline: "the daily machine",
+        title: "CONTROL",
+        tagline: "command, not chasing",
         icon: "gear",
-        desc: "Full ownership of facility workflows, equipment uptime, opening/closing checklists, and floor cleanliness.",
+        desc: "The owner gains command over execution, managers, systems and priorities.",
       },
       {
         code: "02",
-        title: "PEOPLE",
-        tagline: "the right hands",
-        icon: "people",
-        desc: "End-to-end hiring, standardized onboarding, shift scheduling, and continuous staff performance management.",
+        title: "PERFORMANCE",
+        tagline: "measured, not guessed",
+        icon: "chart",
+        desc: "The business improves sales, accountability, productivity, retention and decision-making.",
       },
       {
         code: "03",
-        title: "SALES",
-        tagline: "every conversion",
-        icon: "chart",
-        desc: "Structured conversion scripts, front-desk closing playbooks, PT sales pipelines, and automated renewal triggers.",
-      },
-      {
-        code: "04",
-        title: "SYSTEMS",
-        tagline: "rules that hold",
-        icon: "layers",
-        desc: "Non-negotiable SOPs, cash flow auditing, real-time KPI dashboards, and daily operational reporting.",
-      },
-      {
-        code: "05",
-        title: "CUSTOMER EXPERIENCE",
-        tagline: "every single visit",
-        icon: "heart",
-        desc: "Standardized member journeys, onboarding check-ins, retention workflows, and hospitality standards.",
-      },
-      {
-        code: "06",
-        title: "GROWTH",
-        tagline: "the next location",
+        title: "SCALABILITY",
+        tagline: "growth without chaos",
         icon: "growth",
-        desc: "Unit margin optimization, pricing elasticity, secondary revenue streams, and multi-location expansion blueprints.",
+        desc: "The business gains the structure and infrastructure required to grow without multiplying chaos.",
       },
+    ],
+    /* The value proposition, as a four-step shift. */
+    shiftLabel: "THE SHIFT",
+    shift: ["OWNER-DEPENDENT", "SYSTEM-DRIVEN", "MEASURABLE", "SCALABLE"],
+  },
+
+  /* ---- Problem → outcome ----
+     The deck's rule for the admin team — "explain the outcome first; the
+     tools come second" — is the structure of this section: every row names
+     a problem an owner recognises, then the outcome it becomes. */
+  outcomes: {
+    eyebrow: "PROBLEM → OUTCOME",
+    headline: "THE PROBLEMS WE SOLVE — AND WHAT THEY BECOME.",
+    problemLabel: "WHAT THE OWNER SEES",
+    outcomeLabel: "WHAT THE BUSINESS GETS",
+    /* `glyph` keys into OUTCOME_GLYPHS in components/sections/Outcomes.tsx. */
+    rows: [
+      { glyph: "owner", problem: "Everything depends on the owner", outcome: "OWNER INDEPENDENCE", result: "Less daily owner chasing" },
+      { glyph: "people", problem: "The team works, but accountability is weak", outcome: "MANAGEMENT CONTROL", result: "Clear ownership and review" },
+      { glyph: "systems", problem: "Processes differ by person or location", outcome: "OPERATIONAL CONSISTENCY", result: "Repeatable execution" },
+      { glyph: "sales", problem: "Leads exist, but revenue leaks", outcome: "REVENUE PERFORMANCE", result: "Stronger conversion and retention" },
+      { glyph: "view", problem: "The owner can't clearly see what is happening", outcome: "BUSINESS VISIBILITY", result: "KPIs, dashboards and reviews" },
+      { glyph: "automation", problem: "Too much manual follow-up and fragmented work", outcome: "AUTOMATION & EFFICIENCY", result: "Less repetitive chasing" },
+      { glyph: "scale", problem: "Growth is planned, but systems are not ready", outcome: "SCALABLE INFRASTRUCTURE", result: "Growth without chaos" },
     ],
   },
 
 
+  /* ---- Five stages ----
+     From the clarity deck's "5 engagement levels" and "what we deliver at
+     each stage": same business, a deeper level of Proatops involvement at
+     each step. `verb` is the deck's own footer for each stage. */
   protocol: {
-    eyebrow: "DEPLOYMENT PROTOCOL",
-    headline: "SIX STAGES FROM AUDIT TO SCALE.",
+    eyebrow: "FIVE STAGES",
+    headline: "FROM CLARITY TO FREEDOM TO SCALE.",
+    lede: "Same business. A different level of Proatops involvement at each stage — most start with the audit.",
     steps: [
       {
         step: "01",
-        name: "AUDIT",
-        desc: "We evaluate your unit economics, staffing churn, and operational leaks.",
+        name: "BUSINESS AUDIT",
+        outcome: "CLARITY",
+        verb: "DIAGNOSE",
+        desc: "What is wrong, why it is happening, and what should be fixed first.",
+        delivers: ["Business diagnosis", "Gap & root-cause analysis", "Priority roadmap"],
       },
       {
         step: "02",
-        name: "STRATEGY",
-        desc: "We map the exact staffing blueprint, SOP layer, and revenue targets.",
+        name: "BUILD & IMPLEMENT",
+        outcome: "STRUCTURE",
+        verb: "DESIGN + DEPLOY",
+        desc: "A business that runs through systems instead of memory and individuals.",
+        delivers: ["SOPs + workflows", "KRAs, KPIs + reporting", "Sales, management & tech systems"],
       },
       {
         step: "03",
-        name: "DEPLOY",
-        desc: "We place trained operational managers and install daily tracking systems.",
+        name: "PERFORMANCE PARTNERSHIP",
+        outcome: "VISIBILITY + ACCOUNTABILITY",
+        verb: "MEASURE + IMPROVE",
+        desc: "Who is performing, where revenue leaks, and what management should do next.",
+        delivers: ["Dashboards + KPIs", "Weekly / monthly reviews", "Accountability + optimization"],
       },
       {
         step: "04",
-        name: "MANAGE",
-        desc: "We take full operational responsibility for daily floor execution.",
+        name: "MANAGEMENT PARTNERSHIP",
+        outcome: "CONTROL",
+        verb: "MANAGE + OPTIMIZE",
+        desc: "Active management of managers, operations, sales, CX and reviews.",
+        delivers: ["Manage managers", "Track ops, sales + CX", "Resolve issues + run reviews"],
       },
       {
         step: "05",
-        name: "OPTIMIZE",
-        desc: "We track retention, conversion metrics, and payroll discipline.",
-      },
-      {
-        step: "06",
-        name: "SCALE",
-        desc: "We expand your footprint to new locations without operational decay.",
+        name: "OPERATING PARTNERSHIP",
+        outcome: "FREEDOM TO SCALE",
+        verb: "OPERATE + SCALE",
+        desc: "The owner focuses on vision, capital, strategy and expansion while Proatops operates agreed functions.",
+        delivers: ["Agreed operating responsibility", "People, ops + revenue", "Technology + intelligence"],
       },
     ],
+    /* The operating layer that runs underneath every stage — it switches on
+       layer by layer as the stages scroll past, ending in data, technology
+       and AI: the automation that carries the business between stages. */
+    layerLabel: "PROATOPS OPERATING LAYER",
+    layers: ["PEOPLE", "PROCESS", "MANAGEMENT", "PERFORMANCE", "DATA", "TECHNOLOGY", "AI"],
+    result: "A business that can operate and scale without everything depending on the owner.",
   },
 
 

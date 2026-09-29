@@ -102,8 +102,15 @@ export default function Nav({
               {nav.brand}
             </span>
           </span>
+          {/* 1440px, not xl: the descriptor grew when it changed from
+              "Business Operations & Management" to "...& Intelligence
+              Platform", and between 1280 and 1439px the row could no longer
+              hold brand + descriptor + links + CTA — the CTA got squeezed
+              onto three lines. Measured at 1440+: children 1168px + two 24px
+              gaps = the 1216px content box exactly, zero overflow, and the
+              shell is capped at that width from there up. */}
           <span
-            className={`hidden whitespace-nowrap font-mono text-mono-xs uppercase tracking-micro transition-colors duration-op-slow ease-op-micro xl:inline ${
+            className={`hidden whitespace-nowrap font-mono text-mono-xs uppercase tracking-micro transition-colors duration-op-slow ease-op-micro min-[1440px]:inline ${
               onDark ? "text-pa-chalk-3" : "text-op-muted"
             }`}
           >

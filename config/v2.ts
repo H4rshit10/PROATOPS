@@ -14,7 +14,7 @@
 
 export const V2_NAV = {
   brand: "PROATOPS",
-  descriptor: "Business Operations & Management",
+  descriptor: "Business Operations & Intelligence Platform",
   links: [
     { label: "What We Do", href: "/what-we-do" },
     { label: "Industries", href: "/industries" },
@@ -468,7 +468,7 @@ export const V2_FAQ = {
   items: [
     {
       q: "Do you only work with fitness businesses?",
-      a: "No. Proatops is a Business Operations & Management company. Our operating experience began strongly in fitness and wellness, but our operating framework is designed for businesses across industries.",
+      a: "No. Proatops is a Business Operations & Intelligence Platform. Our operating experience began strongly in fitness and wellness, but our operating framework is designed for businesses across industries.",
     },
     {
       q: "Do you replace our existing team?",
@@ -546,7 +546,7 @@ export const V2_CONFIRMATION = {
 /* §27 — FOOTER */
 export const V2_FOOTER = {
   brand: "PROATOPS",
-  descriptor: "Business Operations & Management",
+  descriptor: "Business Operations & Intelligence Platform",
   line: "Where Businesses Become Scalable.",
   columns: [
     {

@@ -689,7 +689,7 @@ ${AUDIT_THANKS.body.join("\n\n")}
 ${AUDIT_THANKS.nextLabel}
 ${AUDIT_THANKS.steps.map((s) => `${s.index} — ${s.title}: ${s.body}`).join("\n")}
 
-PROATOPS — Business Operations & Management
+PROATOPS — Business Operations & Intelligence Platform
 admin@proatops.in`;
 
 /**

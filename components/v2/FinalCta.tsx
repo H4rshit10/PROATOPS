@@ -29,6 +29,7 @@ export default function V2FinalCta() {
         <h2 className="mt-8 max-w-5xl">
           <WordReveal
             as="span"
+            trigger="view"
             text={V2_FINAL.headline}
             className="headline block text-display-lg tracking-display text-op-white"
           />

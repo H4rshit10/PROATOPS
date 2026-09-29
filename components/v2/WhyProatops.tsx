@@ -66,6 +66,7 @@ export default function V2WhyProatops() {
             <h3 className="mt-0">
               <WordReveal
                 as="span"
+                trigger="view"
                 text={V2_ENGAGEMENTS.headline}
                 className="headline block text-display-md tracking-display text-op-charcoal"
               />

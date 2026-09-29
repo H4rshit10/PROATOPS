@@ -1,6 +1,9 @@
 "use client";
 
+import { Fragment } from "react";
+import { motion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
+import WordReveal from "@/components/motion/WordReveal";
 import { SectionRule } from "@/components/ui/Marker";
 import ProximityGrid, {
   ProximityBorder,
@@ -8,27 +11,33 @@ import ProximityGrid, {
 import CapabilityIcon, {
   type CapabilityIconName,
 } from "@/components/ui/icons/CapabilityIcon";
+import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 import { PROATOPS } from "@/config/proatops";
 
 const { whatWeDo } = PROATOPS;
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 /**
- * Six domains on a disciplined 3×2 grid.
+ * What customers actually buy: control, performance, scalability.
  *
- * The previous asymmetric bento gave wide cells the same content as narrow
- * ones, so the wide cells were mostly empty and row heights jumped with copy
- * length. Asymmetry only earns its place when the larger cells carry more.
- * These carry the same anatomy, so they get the same width.
- *
- * Every cell has an identical skeleton, top to bottom:
+ * Three outcomes on one row, each cell with the same skeleton, top to bottom:
  *   index · icon   →   title + script tagline   →   rule + description
- * The description block is pushed to the floor with `mt-auto`, so rules and
- * body copy align across a row no matter how many lines each description runs.
+ * The description is pushed to the floor with `mt-auto`, so the rules and body
+ * copy line up across the row however long each description runs.
  *
- * Three hover layers, sequenced: the border lights on approach (ProximityGrid),
- * the cell inverts to charcoal on entry, and the outline index turns crimson.
+ * Hover is sequenced in three layers: the border lights on approach
+ * (ProximityGrid), the cell inverts to charcoal on entry, the outline index
+ * turns crimson.
+ *
+ * Below the cells, the value proposition as a four-step shift. Each step
+ * lights in turn and the connector between two steps draws before the next
+ * one lights, so the rail reads left to right as a progression rather than
+ * arriving all at once.
  */
 export default function WhatWeDo() {
+  const reduced = useReducedMotionSafe();
+
   return (
     <section
       id="what-we-do"
@@ -37,20 +46,33 @@ export default function WhatWeDo() {
       <div className="shell-x relative z-[2] mx-auto max-w-shell">
         <SectionRule index="02" label={whatWeDo.eyebrow} />
 
-        <Reveal>
-          <h2 className="headline mt-8 max-w-5xl text-display-lg text-op-charcoal lg:max-w-none">
-            {whatWeDo.headline}{" "}
-            <span className="script inline-block text-[1.18em] leading-[0.8] text-op-crimson">
-              {whatWeDo.headlineScript}
-            </span>
-          </h2>
+        <h2 className="headline mt-8 max-w-5xl text-display-lg text-op-charcoal lg:max-w-none">
+          <WordReveal as="span" trigger="view" text={whatWeDo.headline} />{" "}
+          {/* A span, not <Reveal> — Reveal renders a div, which a heading
+              cannot contain. The script word lands after the last word of the
+              caps line has risen. */}
+          <motion.span
+            initial={reduced ? false : { opacity: 0, y: "0.25em" }}
+            whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, delay: 0.55, ease: EASE }}
+            className="script inline-block text-[1.18em] leading-[0.8] text-op-crimson"
+          >
+            {whatWeDo.headlineScript}
+          </motion.span>
+        </h2>
+
+        <Reveal delay={0.15}>
+          <p className="mt-6 max-w-2xl text-pretty text-body-lg text-op-charcoal/75">
+            {whatWeDo.lede}
+          </p>
         </Reveal>
 
-        <ProximityGrid className="mt-12 grid grid-cols-1 gap-px border border-op-rule-strong bg-op-rule-strong sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
+        <ProximityGrid className="mt-12 grid grid-cols-1 gap-px border border-op-rule-strong bg-op-rule-strong sm:mt-16 md:grid-cols-3">
           {whatWeDo.items.map((item, i) => (
             <Reveal
               key={item.code}
-              delay={(i % 3) * 0.07}
+              delay={i * 0.08}
               y={20}
               blur={false}
               className="h-full bg-op-parchment"
@@ -61,9 +83,6 @@ export default function WhatWeDo() {
               >
                 <ProximityBorder />
 
-                {/* Row 1 — outline index and icon. The index used to be a ghost
-                    numeral in the corner, where it collided with the body copy.
-                    Here it owns the header row, so it cannot overlap anything. */}
                 <div className="relative z-[2] flex items-start justify-between">
                   <span
                     aria-hidden="true"
@@ -80,9 +99,8 @@ export default function WhatWeDo() {
                   </span>
                 </div>
 
-                {/* Row 2 — title and script tagline */}
                 <div className="relative z-[2] mt-8">
-                  <h3 className="font-display text-[2rem] uppercase leading-[0.92] tracking-display text-op-charcoal transition-colors duration-500 ease-op-editorial group-hover:text-op-white sm:text-[2.25rem]">
+                  <h3 className="font-display text-[2rem] uppercase leading-[0.92] tracking-display text-op-charcoal transition-colors duration-500 ease-op-editorial group-hover:text-op-white sm:text-[2.5rem]">
                     {item.title}
                   </h3>
                   <p className="script mt-1.5 text-[1.85rem] leading-none text-op-crimson sm:text-[2rem]">
@@ -90,15 +108,15 @@ export default function WhatWeDo() {
                   </p>
                 </div>
 
-                {/* Row 3 — pinned to the floor. The description reserves four
-                    lines so the crimson rules line up across a row even where
-                    one description wraps further than its neighbours. */}
                 <div className="relative z-[2] mt-auto pt-8">
                   <span
                     aria-hidden="true"
                     className="block h-px w-10 bg-op-crimson transition-all duration-500 ease-op-editorial group-hover:w-24"
                   />
-                  <p className="mt-5 min-h-[calc(0.8125rem*1.7*4)] max-w-[36ch] text-pretty text-body-sm leading-[1.7] text-op-charcoal/70 transition-colors duration-500 ease-op-editorial group-hover:text-op-white/70">
+                  {/* Reserves three lines (3 × 1.65em) so the crimson rules
+                      line up across the row even where one description is a
+                      line shorter than its neighbours. */}
+                  <p className="mt-5 min-h-[4.95em] max-w-[36ch] text-pretty text-body-md leading-[1.65] text-op-charcoal/75 transition-colors duration-500 ease-op-editorial group-hover:text-op-white/75">
                     {item.desc}
                   </p>
                 </div>
@@ -106,6 +124,51 @@ export default function WhatWeDo() {
             </Reveal>
           ))}
         </ProximityGrid>
+
+        {/* The shift — owner-dependent → system-driven → measurable → scalable */}
+        <div className="mt-14 border border-op-charcoal bg-op-charcoal px-6 py-8 sm:mt-16 sm:px-10 sm:py-10">
+          <p className="font-mono text-mono-xs uppercase tracking-micro text-op-crimson">
+            {whatWeDo.shiftLabel}
+          </p>
+          <ol className="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:gap-0">
+            {whatWeDo.shift.map((step, i) => {
+              const last = i === whatWeDo.shift.length - 1;
+              /* Step i lights at 0.35s intervals; its outgoing connector draws
+                 in the gap before step i + 1 lights. */
+              const at = i * 0.35;
+              return (
+                <Fragment key={step}>
+                  <motion.li
+                    initial={reduced ? false : { opacity: 0.28 }}
+                    whileInView={reduced ? undefined : { opacity: 1 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.45, delay: at, ease: EASE }}
+                    className={`headline shrink-0 text-[1.5rem] leading-none tracking-display sm:text-[1.9rem] ${
+                      last ? "text-op-crimson" : "text-op-white"
+                    }`}
+                  >
+                    {step}
+                  </motion.li>
+                  {!last && (
+                    <li aria-hidden="true" className="flex items-center md:mx-4 md:flex-1">
+                      <motion.span
+                        initial={reduced ? false : { scaleX: 0 }}
+                        whileInView={reduced ? undefined : { scaleX: 1 }}
+                        viewport={{ once: true, margin: "-80px" }}
+                        transition={{ duration: 0.3, delay: at + 0.15, ease: EASE }}
+                        className="hidden h-px flex-1 origin-left bg-op-white/35 md:block"
+                      />
+                      <span className="font-mono text-mono-sm text-op-crimson md:ml-1">
+                        <span className="md:hidden">&darr;</span>
+                        <span className="hidden md:inline">&rarr;</span>
+                      </span>
+                    </li>
+                  )}
+                </Fragment>
+              );
+            })}
+          </ol>
+        </div>
       </div>
     </section>
   );

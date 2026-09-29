@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment } from "react";
-import { motion } from "framer-motion";
+import { Fragment, useRef, type Ref } from "react";
+import { motion, useInView } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useMediaQuery";
 
 type WordRevealProps = {
@@ -9,6 +9,13 @@ type WordRevealProps = {
   className?: string;
   delay?: number;
   as?: "h1" | "h2" | "h3" | "p" | "span";
+  /**
+   * "mount" (default) plays as soon as the page loads — right for the hero,
+   * which is on screen at load. "view" waits until the text scrolls into
+   * view; anything further down the page needs it, or the reveal has already
+   * finished before anyone gets there.
+   */
+  trigger?: "mount" | "view";
 };
 
 /** Deterministic word-by-word rise — cubic-bezier(0.4, 0, 0.2, 1), no springs. */
@@ -17,9 +24,15 @@ export default function WordReveal({
   className,
   delay = 0,
   as: Tag = "h1",
+  trigger = "mount",
 }: WordRevealProps) {
   const reduced = useReducedMotionSafe();
   const words = text.split(" ");
+  /* `useInView` + `animate`, not `whileInView`: a percentage `y` inside an
+     overflow mask can stall under `whileInView` (see LineReveal). */
+  const ref = useRef<HTMLElement>(null);
+  const seen = useInView(ref, { once: true, margin: "-60px" });
+  const go = trigger === "mount" || seen;
 
   /* Reduced motion gets the text outright — no fade, no hidden initial state.
      Fading in from opacity 0 is still motion, and it leaves the copy invisible
@@ -29,7 +42,8 @@ export default function WordReveal({
   }
 
   return (
-    <Tag className={className}>
+    /* Ref<never> is assignable to every member of the Tag union. */
+    <Tag ref={ref as Ref<never>} className={className}>
       {/* `aria-label` on the visible markup below would do this job on a
          heading or paragraph, but a plain `span` has role "generic", which
          the ARIA spec explicitly excludes from taking an accessible name —
@@ -51,7 +65,7 @@ export default function WordReveal({
             <motion.span
               className="inline-block will-change-transform"
               initial={{ y: "110%" }}
-              animate={{ y: "0%" }}
+              animate={{ y: go ? "0%" : "110%" }}
               transition={{
                 duration: 0.6,
                 delay: delay + i * 0.045,

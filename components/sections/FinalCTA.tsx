@@ -100,6 +100,7 @@ export default function FinalCTA() {
 
             <WordReveal
               as="h2"
+              trigger="view"
               text={finalCta.headline}
               className="headline relative z-[2] mt-8 max-w-[16ch] text-balance text-display-xl text-op-charcoal"
             />
