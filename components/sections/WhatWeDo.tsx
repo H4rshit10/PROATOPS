@@ -84,19 +84,32 @@ export default function WhatWeDo() {
                 <ProximityBorder />
 
                 <div className="relative z-[2] flex items-start justify-between">
-                  <span
+                  {/* A small spring overshoot on arrival — a stamp, not a fade
+                      — so the index lands a beat ahead of the rest of the
+                      card rather than everything appearing at once. */}
+                  <motion.span
                     aria-hidden="true"
-                    className="font-display text-[3.4rem] leading-[0.8] tracking-display text-transparent transition-all duration-500 ease-op-editorial [--num-stroke:rgba(11,11,11,0.32)] group-hover:[--num-stroke:rgba(225,29,46,0.95)] sm:text-[3.75rem]"
+                    initial={reduced ? false : { opacity: 0, scale: 0.7 }}
+                    whileInView={reduced ? undefined : { opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.5, delay: i * 0.08, type: "spring", stiffness: 260, damping: 16 }}
+                    className="font-display text-[3.4rem] leading-[0.8] tracking-display text-transparent transition-[--num-stroke] duration-500 ease-op-editorial [--num-stroke:rgba(11,11,11,0.32)] group-hover:[--num-stroke:rgba(225,29,46,0.95)] sm:text-[3.75rem]"
                     style={{ WebkitTextStroke: "1px var(--num-stroke)" }}
                   >
                     {item.code}
-                  </span>
-                  <span className="grid h-10 w-10 place-items-center border border-op-rule-strong text-op-charcoal/70 transition-all duration-500 ease-op-editorial group-hover:border-op-crimson group-hover:text-op-white">
+                  </motion.span>
+                  <motion.span
+                    initial={reduced ? false : { opacity: 0, rotate: -10 }}
+                    whileInView={reduced ? undefined : { opacity: 1, rotate: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.5, delay: i * 0.08 + 0.1, ease: EASE }}
+                    className="grid h-10 w-10 place-items-center border border-op-rule-strong text-op-charcoal/70 transition-all duration-500 ease-op-editorial group-hover:border-op-crimson group-hover:text-op-white"
+                  >
                     <CapabilityIcon
                       name={item.icon as CapabilityIconName}
                       className="transition-transform duration-500 ease-op-editorial group-hover:scale-110"
                     />
-                  </span>
+                  </motion.span>
                 </div>
 
                 <div className="relative z-[2] mt-8">
@@ -150,18 +163,32 @@ export default function WhatWeDo() {
                     {step}
                   </motion.li>
                   {!last && (
-                    <li aria-hidden="true" className="flex items-center md:mx-4 md:flex-1">
+                    <li aria-hidden="true" className="relative hidden items-center md:mx-4 md:flex md:flex-1">
                       <motion.span
                         initial={reduced ? false : { scaleX: 0 }}
                         whileInView={reduced ? undefined : { scaleX: 1 }}
                         viewport={{ once: true, margin: "-80px" }}
                         transition={{ duration: 0.3, delay: at + 0.15, ease: EASE }}
-                        className="hidden h-px flex-1 origin-left bg-op-white/35 md:block"
+                        className="h-px flex-1 origin-left bg-op-white/35"
                       />
-                      <span className="font-mono text-mono-sm text-op-crimson md:ml-1">
-                        <span className="md:hidden">&darr;</span>
-                        <span className="hidden md:inline">&rarr;</span>
-                      </span>
+                      {/* The same hard-edged marker that travels the Five
+                          Stages spine — one signature move, reused rather
+                          than a second technique invented for this strip. */}
+                      {!reduced && (
+                        <motion.span
+                          initial={{ left: "0%", opacity: 0 }}
+                          whileInView={{ left: "100%", opacity: [0, 1, 1, 0] }}
+                          viewport={{ once: true, margin: "-80px" }}
+                          transition={{ duration: 0.5, delay: at + 0.15, ease: "linear" }}
+                          className="absolute top-1/2 z-10 block h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-op-crimson"
+                        />
+                      )}
+                      <span className="ml-1 font-mono text-mono-sm text-op-crimson">&rarr;</span>
+                    </li>
+                  )}
+                  {!last && (
+                    <li aria-hidden="true" className="flex items-center md:hidden">
+                      <span className="font-mono text-mono-sm text-op-crimson">&darr;</span>
                     </li>
                   )}
                 </Fragment>

@@ -95,8 +95,12 @@ export default function Outcomes() {
                   </p>
                 </motion.div>
 
-                {/* Connector — draws once the problem has landed */}
-                <div aria-hidden="true" className="flex items-center pl-[3.75rem] lg:px-3 lg:pl-3">
+                {/* Connector — draws once the problem has landed, then the
+                    same marker that runs the Five Stages spine and the
+                    homepage's shift strip travels it once. One recognizable
+                    move, used everywhere this page turns a claim into a
+                    result, rather than a different technique per section. */}
+                <div aria-hidden="true" className="relative flex items-center pl-[3.75rem] lg:px-3 lg:pl-3">
                   <motion.span
                     initial={reduced ? false : { scaleX: 0 }}
                     whileInView={reduced ? undefined : { scaleX: 1 }}
@@ -104,19 +108,30 @@ export default function Outcomes() {
                     transition={{ duration: 0.4, delay: i * 0.05 + 0.25, ease: EASE }}
                     className="hidden h-px flex-1 origin-left bg-op-crimson lg:block"
                   />
+                  {!reduced && (
+                    <motion.span
+                      initial={{ left: "0%", opacity: 0 }}
+                      whileInView={{ left: "100%", opacity: [0, 1, 1, 0] }}
+                      viewport={{ once: true, margin: "-60px" }}
+                      transition={{ duration: 0.4, delay: i * 0.05 + 0.3, ease: "linear" }}
+                      className="absolute top-1/2 z-10 hidden h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-op-crimson lg:block"
+                    />
+                  )}
                   <span className="font-mono text-mono-sm text-op-crimson">
                     <span className="lg:hidden">&darr;</span>
                     <span className="hidden lg:inline">&rarr;</span>
                   </span>
                 </div>
 
-                {/* Outcome */}
+                {/* Outcome — resolves into focus rather than sliding in: this
+                    is the thing being sold, so it should land with more
+                    weight than the problem it answers. */}
                 <motion.div
-                  initial={reduced ? false : { opacity: 0, x: 14 }}
-                  whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+                  initial={reduced ? false : { opacity: 0, scale: 0.94 }}
+                  whileInView={reduced ? undefined : { opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.05 + 0.4, ease: EASE }}
-                  className="pl-[3.75rem] lg:pl-6"
+                  transition={{ duration: 0.4, delay: i * 0.05 + 0.45, ease: EASE }}
+                  className="origin-left pl-[3.75rem] lg:pl-6"
                 >
                   <p className="headline text-[1.6rem] leading-none tracking-display text-op-crimson sm:text-[1.9rem]">
                     {row.outcome}
