@@ -53,7 +53,7 @@ export const V2_PROBLEM = {
   headlineA: "YOUR BUSINESS MAY NOT HAVE A GROWTH PROBLEM.",
   headlineB: "IT MAY HAVE AN OPERATING PROBLEM.",
   lead: ["The customers may be there.", "The team may be there.", "The product may be strong.", "The opportunity may be real."],
-  body: "But when people, processes, sales, customer experience and accountability don't work as one system, growth becomes harder than it should be.",
+  body: "But when people, processes, sales, customer experience and accountability do not work as one system, growth becomes harder than it should be.",
   prompt: "Sound familiar?",
   cards: [
     "Everything still comes to me.",
@@ -77,9 +77,9 @@ export const V2_CONSEQUENCE = {
     "Every location operating differently.",
     "Every employee interpreting the process differently.",
   ],
-  turn: "Eventually, the owner isn't building the business.",
+  turn: "Eventually, the owner is not building the business.",
   emphasis: "The owner is becoming the business.",
-  statement: "THAT'S THE PROBLEM PROATOPS SOLVES.",
+  statement: "THAT IS THE PROBLEM PROATOPS SOLVES.",
 };
 
 /* §5 — INTRODUCE PROATOPS */
@@ -100,8 +100,8 @@ export const V2_SOLUTION = {
 export const V2_DIFFERENTIATOR = {
   index: "04",
   eyebrow: "THE DIFFERENCE",
-  headlineA: "WE DON'T JUST TELL YOU WHAT TO DO.",
-  headlineB: "WE HELP MAKE SURE IT GETS DONE.",
+  headlineA: "WE DO NOT MERELY TELL YOU WHAT TO DO.",
+  headlineB: "WE HELP ENSURE IT GETS DONE.",
   flow: ["Diagnose", "Design", "Deploy", "Operate", "Measure", "Improve", "Scale"],
   statement: "A strategy sitting in a presentation does not improve a business. Execution does.",
 };
@@ -241,7 +241,7 @@ export const V2_INDUSTRIES_META = {
   subhead:
     "Different industries have different customers, products and economics. But every growing business eventually faces the same challenge:",
   question: "How do you make the business run consistently without everything depending on the owner?",
-  fallbackTitle: "DON'T SEE YOUR INDUSTRY?",
+  fallbackTitle: "YOUR INDUSTRY NOT LISTED?",
   fallbackBody:
     "If your business has people, customers, processes and performance to manage, we should be able to understand the operating problem.",
   fallbackCta: "TALK TO PROATOPS",
@@ -251,7 +251,7 @@ export const V2_INDUSTRIES_META = {
 export const V2_OWNER = {
   index: "07",
   eyebrow: "THE OWNER",
-  headline: "YOU DIDN'T BUILD YOUR BUSINESS TO SPEND YOUR LIFE MANAGING EVERY PROBLEM.",
+  headline: "YOU DID NOT BUILD YOUR BUSINESS TO SPEND YOUR LIFE MANAGING EVERY PROBLEM.",
   opening: "You built it to create something valuable.",
   turn: "But somewhere along the way, growth creates complexity.",
   complexity: ["More employees.", "More customers.", "More decisions.", "More locations.", "More systems.", "More problems."],
@@ -267,7 +267,7 @@ export const V2_OWNERSHIP = {
   headlineB: "WE TAKE OPERATING RESPONSIBILITY.",
   you: { title: "YOU", items: ["Vision", "Ownership", "Brand", "Capital Decisions", "Strategic Direction"] },
   us: { title: "PROATOPS", items: ["Operations", "People", "Systems", "Performance", "Reporting", "Execution"] },
-  statement: "You don't need to give up control to stop carrying every operational problem.",
+  statement: "You do not need to give up control to stop carrying every operational problem.",
 };
 
 /* §11 — THE BUSINESS AUDIT */
@@ -293,14 +293,14 @@ export const V2_PROCESS = {
   index: "10",
   eyebrow: "THE PROCESS",
   headlineA: "YOUR FIRST STEP IS NOT TO HIRE US.",
-  headlineB: "IT'S TO UNDERSTAND YOUR BUSINESS.",
+  headlineB: "IT IS TO UNDERSTAND YOUR BUSINESS.",
   steps: [
     { index: "01", title: "DISCOVER", body: "Understand the business." },
     { index: "02", title: "DIAGNOSE", body: "Identify operational gaps." },
     { index: "03", title: "PRIORITIZE", body: "Separate critical problems from noise." },
     { index: "04", title: "DESIGN", body: "Build the improvement roadmap." },
     { index: "05", title: "PRESENT", body: "Show the owner what should change." },
-    { index: "06", title: "OPERATE", body: "If there's a fit, Proatops can take responsibility for implementation and ongoing operations." },
+    { index: "06", title: "OPERATE", body: "If there is a fit, Proatops can take responsibility for implementation and ongoing operations." },
   ],
 };
 
@@ -325,7 +325,7 @@ export const V2_TRANSFORMATION = {
   index: "12",
   eyebrow: "THE SHIFT",
   headline: "FROM OWNER-DEPENDENT TO SYSTEM-DRIVEN.",
-  before: { title: "BEFORE PROATOPS", items: ["Owner-dependent", "Fragmented processes", "Unclear accountability", "Inconsistent performance", "Limited visibility", "Difficult expansion"] },
+  before: { title: "BEFORE PROATOPS", items: ["Owner dependency", "Fragmented processes", "Unclear accountability", "Inconsistent performance", "Limited visibility", "Difficult expansion"] },
   after: { title: "WITH PROATOPS", items: ["Clear ownership", "Standardized systems", "Accountable teams", "Measured performance", "Management visibility", "Scalable operation"] },
 };
 
@@ -369,7 +369,7 @@ export const V2_WHY = {
   adaptHeadlineA: "WE UNDERSTAND OPERATIONS.",
   adaptHeadlineB: "WE ADAPT THE OPERATING MODEL TO THE BUSINESS.",
   adaptBody: [
-    "We don't force every business into the same playbook.",
+    "We do not force every business into the same playbook.",
     "We identify the operating principles that matter, then build the systems around the economics, people, customers and complexity of that business.",
   ],
 };
@@ -403,21 +403,21 @@ export const V2_ENGAGEMENTS = {
       key: "audit",
       title: "BUSINESS AUDIT",
       outcome: "CLARITY",
-      body: "What's wrong, why it's happening, and what should be fixed first.",
+      body: "What is wrong, why it is happening, and what should be fixed first.",
     },
     {
       index: "02",
       key: "build",
       title: "BUILD & IMPLEMENT",
       outcome: "STRUCTURE",
-      body: "A business that runs through systems, not memory and individuals.",
+      body: "A business that runs through systems instead of memory and individuals.",
     },
     {
       index: "03",
       key: "performance",
       title: "PERFORMANCE PARTNERSHIP",
       outcome: "VISIBILITY + ACCOUNTABILITY",
-      body: "Who's performing, where revenue leaks, and what management should do next.",
+      body: "Who is performing, where revenue leaks, and what management should do next.",
     },
     {
       index: "04",
@@ -444,14 +444,14 @@ export const V2_FIT = {
   checks: [
     "Your business has grown more complex.",
     "Too many decisions still come back to you.",
-    "Your team works hard but performance isn't consistent.",
-    "You don't have enough visibility into daily performance.",
+    "Your team works hard but performance is not consistent.",
+    "You do not have enough visibility into daily performance.",
     "Different locations operate differently.",
     "Your processes depend on individuals.",
-    "You're planning expansion.",
+    "You are planning expansion.",
     "You want the business to operate without your constant involvement.",
   ],
-  close: "IF YOU RECOGNIZED YOUR BUSINESS IN TWO OR MORE OF THESE, LET'S TALK.",
+  close: "IF YOU RECOGNIZE YOUR BUSINESS IN TWO OR MORE OF THESE, WE SHOULD TALK.",
   cta: "BOOK A BUSINESS AUDIT",
 };
 
@@ -463,7 +463,7 @@ export const V2_FAQ = {
   items: [
     {
       q: "Do you only work with fitness businesses?",
-      a: "No. Proatops is a Business Operations & Intelligence Platform. Our operating experience began strongly in fitness and wellness, but our operating framework is designed for businesses across industries.",
+      a: "No. Proatops is a Business Operations & Intelligence Platform. Our operating experience began in fitness and wellness, but the framework is designed for businesses across industries.",
     },
     {
       q: "Do you replace our existing team?",
@@ -498,15 +498,15 @@ export const V2_FINAL = {
   coreA: "YOU OWN THE BUSINESS.",
   coreB: "WE BUILD THE MACHINE BEHIND IT.",
   coreStatement:
-    "You don't have to sell your business, replace your team, or give up control to stop carrying the entire operation yourself.",
+    "You do not have to sell your business, replace your team or give up control to stop carrying the entire operation yourself.",
 };
 
 /* §25 — CONTACT */
 export const V2_CONTACT = {
-  eyebrow: "LET'S TALK",
-  headline: "LET'S LOOK AT YOUR BUSINESS.",
+  eyebrow: "LET US TALK",
+  headline: "LET US LOOK AT YOUR BUSINESS.",
   subhead:
-    "Tell us where your business is today. We'll start by understanding where the operation is getting in the way of where you want to go.",
+    "Tell us where your business is today. We will start by understanding where the operation stands between you and your goals.",
   cta: "REQUEST A BUSINESS AUDIT",
   challenges: [
     "Owner dependency",
@@ -524,17 +524,17 @@ export const V2_CONTACT = {
 
 /* §26 — FORM CONFIRMATION */
 export const V2_CONFIRMATION = {
-  headline: "YOUR BUSINESS AUDIT REQUEST IS IN.",
+  headline: "WE HAVE YOUR BUSINESS AUDIT REQUEST.",
   body: [
-    "We've received your details.",
-    "Our team will review the information before the conversation so we can make the discussion relevant to your business — not give you a generic sales pitch.",
+    "We have received your details.",
+    "Our team will review your information before we speak, so the conversation is relevant to your business rather than a generic sales pitch.",
   ],
   nextLabel: "WHAT HAPPENS NEXT",
   steps: [
     { index: "01", body: "We review your business." },
     { index: "02", body: "We identify the likely operating questions." },
     { index: "03", body: "We speak with you." },
-    { index: "04", body: "If there's a genuine fit, we define the next step." },
+    { index: "04", body: "If there is a genuine fit, we define the next step." },
   ],
 };
 
@@ -559,7 +559,7 @@ export const V2_FOOTER = {
       heading: "START",
       links: [
         { label: "Book a Business Audit", href: "/audit" },
-        { label: "Let's Look at Your Business", href: "/audit" },
+        { label: "Let Us Look at Your Business", href: "/audit" },
       ],
     },
   ],
@@ -593,7 +593,7 @@ export type IndustryPage = {
 export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
   fitness: {
     headline: "YOUR MEMBERS FEEL THE OPERATION BEFORE THEY FEEL THE TRAINING.",
-    lede: "Fitness businesses live on retention, and retention is an operating outcome — consistent service, a team that knows what it owns, and sales that don't depend on one person.",
+    lede: "Fitness businesses live on retention, and retention is an operating outcome — consistent service, a team that knows what it owns and sales that do not depend on one person.",
     problems: [
       "Sales depend on one or two strong closers.",
       "Retention moves without anyone knowing why.",
@@ -603,11 +603,11 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
       "Performance is visible only after the month closes.",
     ],
     layers: ["operations", "people", "sales", "cx"],
-    statement: "Members don't renew because of equipment. They renew because the experience was the same every time they walked in.",
+    statement: "Members do not renew because of equipment. They renew because the experience was the same every time they walked in.",
   },
   retail: {
     headline: "YOUR BRAND DESERVES AN OPERATION AS REFINED AS YOUR PRODUCT.",
-    lede: "Luxury and retail businesses don't compete only on product. They compete on consistency, service, people, experience and execution.",
+    lede: "Luxury and retail businesses do not compete only on product. They compete on consistency, service, people, experience and execution.",
     problems: [
       "Inconsistent store execution.",
       "Sales team dependency.",
@@ -617,7 +617,7 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
       "Scaling challenges across locations.",
     ],
     layers: ["operations", "people", "sales", "cx"],
-    statement: "Your brand should be defined by the customer — not by operational inconsistency.",
+    statement: "Your brand should be defined by the customer experience — not by operational inconsistency.",
   },
   hospitality: {
     headline: "SERVICE IS A STANDARD, NOT A MOOD.",
@@ -628,14 +628,14 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
       "Reviews move before management does.",
       "Staff productivity is hard to see.",
       "Covers and revenue fluctuate without explanation.",
-      "New sites don't replicate the original.",
+      "New sites do not replicate the original.",
     ],
     layers: ["operations", "people", "cx", "performance"],
-    statement: "A guest remembers whether it was handled well. They never see the system that made sure it was.",
+    statement: "A guest remembers whether it was handled well, never the system that made sure it was.",
   },
   healthcare: {
     headline: "PROCESS DISCIPLINE IS PATIENT EXPERIENCE.",
-    lede: "Clinics and healthcare networks carry an operating burden most businesses don't: the process has to hold every single time.",
+    lede: "Clinics and healthcare networks carry an operating burden most businesses do not carry: the process has to hold every single time.",
     problems: [
       "Process compliance varies between sites.",
       "Patient experience depends on individuals.",
@@ -645,7 +645,7 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
       "Expansion strains the existing structure.",
     ],
     layers: ["operations", "systems", "cx", "performance"],
-    statement: "In healthcare, an inconsistent process isn't an operating inconvenience. It's a risk.",
+    statement: "In healthcare, an inconsistent process is not an operating inconvenience. It is a risk.",
   },
   consumer: {
     headline: "DEMAND IS NOT THE PROBLEM. FULFILLING IT CONSISTENTLY IS.",
@@ -659,7 +659,7 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
       "Growth plans outrun the operating structure.",
     ],
     layers: ["operations", "sales", "cx", "growth"],
-    statement: "Growth that the operation can't carry isn't growth. It's an expensive way to find your ceiling.",
+    statement: "Growth that the operation cannot carry is not growth. It is an expensive way to find your ceiling.",
   },
   "multi-location": {
     headline: "ONE BUSINESS. MULTIPLE LOCATIONS. ONE OPERATING STANDARD.",
@@ -668,12 +668,12 @@ export const INDUSTRY_PAGES: Record<string, IndustryPage> = {
       "Every location operates slightly differently.",
       "The original site outperforms the rest.",
       "Managers interpret the standard their own way.",
-      "Reporting isn't comparable across sites.",
+      "Reporting is not comparable across sites.",
       "The owner is the only common thread.",
       "Each new opening starts from scratch.",
     ],
     layers: ["operations", "systems", "performance", "growth"],
-    statement: "Replication isn't opening another location. It's being able to open the same one again.",
+    statement: "Replication is not opening another location. It is being able to open the same one again.",
   },
 };
 
@@ -686,7 +686,7 @@ export const V2_PAGES = {
     eyebrow: "WHAT WE OPERATE",
     headline: "SEVEN LAYERS. ONE OPERATING SYSTEM.",
     subhead:
-      "Seven layers that turn a business run on individual effort into one run on structure. We build them, and where agreed, we operate them.",
+      "Together, the layers turn a business run on individual effort into one run on structure. We build them and, where agreed, operate them.",
   },
   industries: {
     eyebrow: "INDUSTRIES",
@@ -713,8 +713,8 @@ export const V2_PAGES = {
       "Advice ends at the recommendation. An operating partner stays for the part that actually changes the business.",
   },
   about: {
-    eyebrow: "WHO'S BEHIND PROATOPS",
-    headline: "WE'VE RUN THE OPERATION, NOT JUST ADVISED ON IT.",
+    eyebrow: "WHO IS BEHIND PROATOPS",
+    headline: "WE HAVE RUN THE OPERATION, NOT MERELY ADVISED ON IT.",
     subhead:
       "Our operating experience comes from working inside real businesses — not simply studying them from the outside.",
   },
@@ -722,7 +722,7 @@ export const V2_PAGES = {
     eyebrow: "INSIGHTS",
     headline: "NOTES FROM THE OPERATION.",
     subhead:
-      "Operating notes on the problems that repeat across businesses — owner dependency, inconsistent execution, and the systems that resolve them.",
+      "Operating notes on the problems that repeat across businesses — owner dependency, inconsistent execution and the systems that resolve them.",
     empty: "The first operating notes are being written. Check back shortly.",
   },
 };

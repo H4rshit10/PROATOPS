@@ -23,7 +23,7 @@ export default function PrivacyPage() {
           heading: "WHAT WE COLLECT",
           body: [
             "The only information this site collects is what you type into the Business Audit form and choose to submit. That includes your name, business name, role, email address, phone number, location, and your answers to the assessment questions.",
-            "We do not run advertising trackers, behavioural profiling, or third-party analytics that identify you personally.",
+            "We do not use advertising trackers, behavioural profiling, or third-party analytics that identify you personally.",
           ],
         },
         {
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
           heading: "HOW IT REACHES US",
           body: [
             `Submissions are delivered by email to ${CONTACT_EMAIL}. Delivery is handled by a third-party email service acting on our behalf; your answers pass through that service in order to reach our inbox.`,
-            "The site is hosted on Vercel, which processes standard server request information such as IP address as part of serving the page.",
+            "The site is hosted on Vercel, which processes standard server request information such as your IP address as part of serving the page.",
           ],
         },
         {
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
         {
           heading: "YOUR CHOICES",
           body: [
-            "You can ask us what we hold about you, ask for it to be corrected, or ask for it to be deleted. Write to us and we will action it.",
+            "You can ask us what we hold about you, ask for it to be corrected, or ask for it to be deleted. Write to us and we will act on it.",
             "You are never required to complete the Business Audit to contact us — emailing us directly is always an option.",
           ],
         },

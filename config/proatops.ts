@@ -49,9 +49,9 @@ const FOOTER_COLUMNS: FooterColumn[] = [
 
 export const PROATOPS = {
   meta: {
-    title: "PROATOPS — Professional Operations & Management",
+    title: "PROATOPS — Business Operations & Intelligence Platform",
     description:
-      "Where Businesses Become Scalable. Founded by operators who ran the floor at Anytime Fitness, Cult.fit, Gold's Gym and Healthism — we embed dedicated management and assume operational responsibility for multi-unit fitness locations.",
+      "Where Businesses Become Scalable. Founded by operators who ran the floor at Anytime Fitness, Cult.fit, Gold's Gym and Healthism — we embed dedicated management and assume operational responsibility for multi-unit businesses.",
     domain: "https://www.proatops.in",
     coordinates: "28.6139° N / 77.2090° E · EST. 2026",
   },
@@ -307,8 +307,8 @@ export const PROATOPS = {
 
   philosophy: {
     eyebrow: "OUR CORE PHILOSOPHY",
-    headline: "YOUR BUSINESS SHOULDN’T DEPEND ON YOU BEING THERE EVERY DAY.",
-    body: "Most business owners end up trapped running daily errands instead of owning an asset. Proatops builds the people, processes, and accountability required to make your locations run predictably and profitably—even when the owner isn’t involved in daily decisions.",
+    headline: "YOUR BUSINESS SHOULD NOT DEPEND ON YOU BEING THERE EVERY DAY.",
+    body: "Most business owners end up trapped running daily errands instead of owning an asset. Proatops builds the people, processes and accountability required to make your locations run predictably and profitably — even when you are not involved in daily decisions.",
   },
 
   finalCta: {
@@ -322,7 +322,7 @@ export const PROATOPS = {
   audit: {
     title: "BOOK A BUSINESS AUDIT",
     intro:
-      "Four fields. We respond within two working days with an operational read on your locations.",
+      "Five fields. We respond within two working days with an operational read on your locations.",
     fields: {
       name: "FULL NAME",
       email: "EMAIL",
@@ -332,8 +332,8 @@ export const PROATOPS = {
     },
     locationOptions: [
       "Single location",
-      "2 – 4 locations",
-      "5 – 10 locations",
+      "2–4 locations",
+      "5–10 locations",
       "10+ locations",
       "Pre-launch",
     ],
@@ -361,8 +361,8 @@ export const PROATOPS = {
   notFound: {
     code: "404",
     eyebrow: "OFF THE GRID",
-    title: "THIS LOCATION ISN'T IN THE PROTOCOL.",
-    body: "The page you're looking for has been decommissioned or never existed. Every other coordinate is still live.",
+    title: "THIS LOCATION IS NOT IN THE PROTOCOL.",
+    body: "The page you are looking for has been decommissioned or never existed. Every other coordinate is still live.",
     cta: "RETURN TO BASE",
   },
 } as const;

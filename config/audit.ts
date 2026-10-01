@@ -63,7 +63,7 @@ export type AuditSection = {
 
 export const AUDIT_INTRO = {
   eyebrow: "BUSINESS OPERATIONS & INTELLIGENCE PLATFORM",
-  title: "LET'S UNDERSTAND YOUR BUSINESS.",
+  title: "LET US UNDERSTAND YOUR BUSINESS.",
   lede: "Before we recommend anything, we want to understand how your business operates today.",
   body: "This assessment helps the Proatops team understand your business model, people, operations, revenue engine, challenges and growth ambitions so we can identify where opportunities or operational gaps may exist.",
   time: "Estimated completion time: 8–12 minutes",
@@ -125,7 +125,7 @@ export const AUDIT_SECTIONS: AuditSection[] = [
       {
         id: "q9",
         label: "Briefly describe your business.",
-        helper: "What do you sell/provide, who are your customers and what makes your business different?",
+        helper: "What do you sell or provide, who are your customers and what makes your business different?",
         type: "textarea",
       },
     ],
@@ -260,7 +260,7 @@ export const AUDIT_SECTIONS: AuditSection[] = [
           "Meetings",
           "Manual tracking",
           "Owner observation",
-          "We don't have a formal system",
+          "We do not have a formal system",
           "Other",
         ],
       },
@@ -374,7 +374,7 @@ export const AUDIT_SECTIONS: AuditSection[] = [
       },
       {
         id: "q38",
-        label: "What are your approximate monthly sales/revenue trends?",
+        label: "What best describes your monthly sales/revenue trend?",
         type: "pills",
         options: ["Growing", "Stable", "Declining", "Highly inconsistent", "Prefer not to disclose"],
       },
@@ -398,7 +398,7 @@ export const AUDIT_SECTIONS: AuditSection[] = [
           "Calls",
           "CRM",
           "In-person feedback",
-          "We don't formally collect feedback",
+          "We do not formally collect feedback",
         ],
       },
       { id: "q42", label: "How are customer complaints handled?", type: "textarea" },
@@ -415,7 +415,7 @@ export const AUDIT_SECTIONS: AuditSection[] = [
     id: "finance",
     index: "08",
     title: "FINANCE & BUSINESS CONTROL",
-    intro: "This isn't an accounting audit — the goal is management visibility.",
+    intro: "This is not an accounting audit — the goal is management visibility.",
     fields: [
       { id: "q45", label: "How clearly can you see your business performance on a weekly basis?", type: "scale10" },
       {
@@ -510,7 +510,7 @@ export const AUDIT_SECTIONS: AuditSection[] = [
       { id: "q59", label: "What do you believe is the biggest thing holding the business back?", type: "textarea" },
       {
         id: "q60",
-        label: "What do you think Proatops could potentially help you with?",
+        label: "What do you think Proatops could help you with?",
         type: "checkboxes",
         options: [
           "Operations",
@@ -650,28 +650,28 @@ INDUSTRY_SECTIONS["Luxury / Fashion"] = INDUSTRY_SECTIONS.Retail;
 export const AUDIT_CTA = {
   submit: "REQUEST MY BUSINESS ASSESSMENT",
   submitting: "SUBMITTING",
-  subCta: "No generic pitch. No obligation. We first understand the business.",
+  subCta: "No generic pitch. No obligation. We start by understanding the business.",
   back: "BACK",
   next: "CONTINUE",
   step: (n: number, total: number) => `SECTION ${String(n).padStart(2, "0")} / ${String(total).padStart(2, "0")}`,
 };
 
 export const AUDIT_THANKS = {
-  title: "WE'VE GOT IT.",
+  title: "WE HAVE IT.",
   body: [
     "Thank you for giving us a closer look into your business.",
     "Our team will review your responses and identify the areas that may require deeper discussion.",
-    "If we see a potential fit, we'll come prepared to discuss your business — not sell you a generic package.",
+    "If we see a potential fit, we will come prepared to discuss your business, not to sell you a generic package.",
   ],
   nextLabel: "NEXT",
   steps: [
     { index: "01", title: "Business Review", body: "Our team reviews your responses." },
     { index: "02", title: "Diagnostic Conversation", body: "We discuss the areas that require context." },
     { index: "03", title: "Operational Assessment", body: "We identify priorities and opportunities." },
-    { index: "04", title: "Proatops Roadmap", body: "If there's a fit, we define what implementation could look like." },
+    { index: "04", title: "Proatops Roadmap", body: "If there is a fit, we define what implementation could look like." },
   ],
   backHome: "BACK TO HOME",
-  errorBody: "Something went wrong sending your assessment. Please email us directly and we'll pick it up from there.",
+  errorBody: "Your assessment could not be sent. Please email us directly and we will pick it up from there.",
 };
 
 /**

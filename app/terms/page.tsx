@@ -43,7 +43,7 @@ export default function TermsPage() {
           heading: "ACCURACY",
           body: [
             "We keep the content on this site current, but we do not warrant that everything is complete or free of error at all times.",
-            "Where figures describing our operating experience appear, they reflect cumulative experience across the businesses our team has operated.",
+            "Where figures describing our operating experience appear, they are cumulative across the businesses our team has operated.",
           ],
         },
         {
