@@ -6,47 +6,6 @@
  * else, so copy changes never require touching layout or motion code.
  */
 
-/**
- * Footer links are plain anchors — the audit used to be a JS-triggered
- * modal, which is why this type once carried an `action: "form"` escape
- * hatch, but the audit lives at its own route now like everything else.
- */
-export type FooterLink = {
-  label: string;
-  href: string;
-};
-
-export type FooterColumn = {
-  heading: string;
-  links: FooterLink[];
-};
-
-/* Every in-page anchor is prefixed "/" (not bare "#section") — this site now
-   has a second real page (/audit), and a bare hash href only resolves on
-   whatever page you're already on. From /audit, "#dispatches" tries to find
-   that id on /audit itself, finds nothing, and does nothing — which is
-   exactly the "the buttons don't work, I'm stuck" bug. "/#dispatches"
-   always resolves against the homepage regardless of where the click
-   happened, and is identical to a bare hash when already on "/" (same
-   pathname, so the browser scrolls in place rather than reloading). */
-const FOOTER_COLUMNS: FooterColumn[] = [
-  {
-    heading: "SITE",
-    links: [
-      { label: "Field Dispatches", href: "/#dispatches" },
-      { label: "What We Do", href: "/#what-we-do" },
-      { label: "The Protocol", href: "/#protocol" },
-    ],
-  },
-  {
-    heading: "CONTACT",
-    links: [
-      { label: "Book an Audit", href: "/audit" },
-      { label: "Philosophy", href: "/#philosophy" },
-    ],
-  },
-];
-
 export const PROATOPS = {
   meta: {
     title: "PROATOPS — Business Operations & Intelligence Platform",
@@ -59,14 +18,6 @@ export const PROATOPS = {
   nav: {
     brand: "PROATOPS",
     tagline: "PROFESSIONAL OPERATIONS",
-    /* This bar is shared across every page (Nav.tsx) — see the FOOTER_COLUMNS
-       comment above for why these are "/#section" and not bare "#section". */
-    links: [
-      { label: "DISPATCHES", href: "/#dispatches" },
-      { label: "WHAT WE DO", href: "/#what-we-do" },
-      { label: "THE PROTOCOL", href: "/#protocol" },
-      { label: "PHILOSOPHY", href: "/#philosophy" },
-    ],
     cta: "BOOK AN AUDIT",
   },
 
@@ -349,9 +300,6 @@ export const PROATOPS = {
   },
 
   footer: {
-    statement:
-      "Proatops assumes operational responsibility for multi-unit businesses. Owners retain ownership. We retain accountability.",
-    columns: FOOTER_COLUMNS,
     backToTop: "BACK TO TOP",
     legal: "© 2026 PROATOPS. ALL RIGHTS RESERVED.",
     signoff: "WHERE BUSINESSES BECOME SCALABLE.",

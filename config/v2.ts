@@ -26,25 +26,6 @@ export const V2_NAV = {
   cta: "BOOK A BUSINESS AUDIT",
 };
 
-/* §2 — HERO */
-export const V2_HERO = {
-  eyebrow: "BUSINESS OPERATIONS & MANAGEMENT",
-  headlineA: "YOU OWN THE BUSINESS.",
-  headlineB: "WE RUN THE OPERATION.",
-  subhead:
-    "Proatops is the operating partner for businesses that want stronger execution, better performance and scalable growth.",
-  support:
-    "We build the people, processes, systems and performance discipline behind your business — and, where required, take responsibility for running agreed functions.",
-  cta: "BOOK A BUSINESS AUDIT",
-  secondaryCta: "SEE HOW WE OPERATE",
-  /* The hero diagram's own labels — Proatops as the operating layer. */
-  diagram: {
-    top: "PROATOPS",
-    middle: ["PEOPLE", "PROCESS", "PERFORMANCE"],
-    lower: "BUSINESS",
-    base: "SCALE",
-  },
-};
 
 /* §3 — THE FIRST PSYCHOLOGICAL HOOK */
 export const V2_PROBLEM = {

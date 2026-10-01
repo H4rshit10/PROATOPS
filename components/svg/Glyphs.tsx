@@ -229,30 +229,6 @@ export function GlyphPerformancePartner({ className }: GlyphProps) {
   );
 }
 
-/** Transformation partner — a structure redrawn. */
-export function GlyphTransformation({ className }: GlyphProps) {
-  return (
-    <Frame className={className}>
-      <rect x="2.5" y="2.5" width="8" height="8" />
-      <rect x="13.5" y="13.5" width="8" height="8" strokeDasharray="2 2" />
-      <path d="M10.5 6.5h7v7" />
-      <path d="M15.5 11.5l2 2 2-2" />
-    </Frame>
-  );
-}
-
-/** Growth partner — the next stage prepared before it arrives. */
-export function GlyphGrowthPartner({ className }: GlyphProps) {
-  return (
-    <Frame className={className}>
-      <path d="M2.5 21.5h19" />
-      <rect x="3.5" y="15.5" width="5" height="6" />
-      <rect x="9.5" y="10.5" width="5" height="11" />
-      <rect x="15.5" y="4.5" width="5" height="17" strokeDasharray="2 2" />
-    </Frame>
-  );
-}
-
 /* ---------------- Audit deliverables (4) ---------------- */
 
 /** Operational gap map — where performance leaks. */
@@ -308,44 +284,6 @@ export function GlyphCheck({ className }: GlyphProps) {
     <Frame className={className}>
       <rect x="2.5" y="2.5" width="19" height="19" />
       <path d="M7 12.5l3.5 3.5L17.5 9" />
-    </Frame>
-  );
-}
-
-/** A flow step marker. */
-export function GlyphNode({ className }: GlyphProps) {
-  return (
-    <Frame className={className}>
-      <rect x="6.5" y="6.5" width="11" height="11" />
-      <path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4" />
-    </Frame>
-  );
-}
-
-/** Downward flow arrow, for vertical sequences. */
-export function GlyphFlowDown({ className }: GlyphProps) {
-  return (
-    <Frame className={className}>
-      <path d="M12 3v18M7 16l5 5 5-5" />
-    </Frame>
-  );
-}
-
-/** Rightward flow arrow, for horizontal sequences. */
-export function GlyphFlowRight({ className }: GlyphProps) {
-  return (
-    <Frame className={className}>
-      <path d="M3 12h18M16 7l5 5-5 5" />
-    </Frame>
-  );
-}
-
-/** A constraint / ceiling — growth meeting a hard limit. */
-export function GlyphCeiling({ className }: GlyphProps) {
-  return (
-    <Frame className={className}>
-      <path d="M2.5 5.5h19" strokeWidth={2} />
-      <path d="M12 21.5V9M7 14l5-5 5 5" />
     </Frame>
   );
 }

@@ -20,7 +20,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * it reads as being written rather than faded up — the one piece of human
  * gesture in an otherwise mechanical page.
  *
- * Untouched by the cinematic redesign: same clip path, same 1.05s delay, same
+ * Untouched by the cinematic redesign: same clip path, delay pulled in to 0.3s so it never trails the page, same
  * easing. Only the colour token moved from crimson to the hero red.
  */
 function ScriptWord({ children }: { children: string }) {
@@ -36,7 +36,7 @@ function ScriptWord({ children }: { children: string }) {
         className="script inline-block text-pa-red"
         initial={{ clipPath: "inset(0 100% -30% 0)" }}
         animate={{ clipPath: "inset(0 -12% -30% 0)" }}
-        transition={{ duration: 1.1, delay: 1.05, ease: EASE }}
+        transition={{ duration: 1.1, delay: 0.3, ease: EASE }}
       >
         {children}
       </motion.span>
@@ -190,7 +190,7 @@ export default function Hero() {
               as="h1"
               text={hero.headlineLine1}
               className="headline text-display-xl text-pa-chalk"
-              delay={0.32}
+              delay={0}
             />
             {/* The script has to sit on the same line as "WE RUN THE", so this
                 row is its own flex line rather than part of the WordReveal. */}
@@ -199,7 +199,7 @@ export default function Hero() {
                 as="span"
                 text={hero.headlineLine2}
                 className="headline text-display-xl text-pa-chalk"
-                delay={0.62}
+                delay={0.1}
               />
               <span className="hero-script text-[clamp(2.9rem,9vw,7.4rem)] leading-[0.9]">
                 <ScriptWord>{hero.headlineScript}</ScriptWord>
@@ -208,27 +208,23 @@ export default function Hero() {
           </div>
 
           {/* Subhead */}
-          <Enter delay={1.15}>
-            <p className="mt-8 max-w-[34rem] text-body-md leading-[1.75] text-pa-chalk-2/85 sm:mt-10 hero-sub">
-              {hero.subhead}
-            </p>
-          </Enter>
+          <p className="mt-8 max-w-[34rem] text-body-md leading-[1.75] text-pa-chalk-2/85 sm:mt-10 hero-sub">
+            {hero.subhead}
+          </p>
 
           {/* Actions */}
-          <Enter delay={1.28}>
-            <div className="mt-9 flex flex-wrap items-center gap-3.5 sm:mt-10 sm:gap-4 hero-ctas">
-              <PrimaryCta>{hero.primaryCta}</PrimaryCta>
-              <ScrambleButton
-                href="#what-we-do"
-                label={hero.secondaryCta}
-                tone="dark"
-              />
-            </div>
-          </Enter>
+          <div className="mt-9 flex flex-wrap items-center gap-3.5 sm:mt-10 sm:gap-4 hero-ctas">
+            <PrimaryCta>{hero.primaryCta}</PrimaryCta>
+            <ScrambleButton
+              href="#what-we-do"
+              label={hero.secondaryCta}
+              tone="dark"
+            />
+          </div>
         </div>
 
         {/* ---- capability bar pinned to the foot of the hero ---- */}
-        <Enter delay={1.42} className="border-t border-pa-hair">
+        <Enter delay={0.5} className="border-t border-pa-hair">
           <CapabilityBar />
         </Enter>
       </div>

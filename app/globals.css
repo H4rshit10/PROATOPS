@@ -850,3 +850,18 @@ select.op-field--dark option {
     transform: translate3d(-50%, 0, 0);
   }
 }
+
+/* ========== SMALL CRIMSON TEXT — WCAG AA ==========
+   #E11D2E is 3.8:1 on parchment and 4.1:1 on charcoal: fine for display type
+   (3:1 needed) but short of 4.5:1 for the 10-12px mono labels. Those labels
+   get an ink-matched crimson per surface; display headlines keep the brand
+   value. Specificity is raised on purpose so these beat the Tailwind utility
+   emitted later in the sheet. */
+body .font-mono.text-op-crimson,
+body .font-mono .text-op-crimson {
+  color: #c4152a; /* 4.8:1 on parchment */
+}
+body :is(.bg-op-charcoal, .bg-op-surface, .grain-dark, .blueprint-dark, .bg-pa-ink) .font-mono.text-op-crimson,
+body :is(.bg-op-charcoal, .bg-op-surface, .grain-dark, .blueprint-dark, .bg-pa-ink) .font-mono .text-op-crimson {
+  color: #ee3a49; /* 5.0:1 on charcoal */
+}

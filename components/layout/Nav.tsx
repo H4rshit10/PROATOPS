@@ -98,7 +98,7 @@ export default function Nav({
           : "border-op-rule-strong bg-op-parchment"
       }`}
     >
-      <div className="shell-x mx-auto flex h-[72px] max-w-shell items-center justify-between gap-6">
+      <div className="shell-x mx-auto flex h-[72px] max-w-shell items-center justify-between gap-6 min-[1440px]:gap-5">
         {/* Wordmark — the crimson crosshair is the mark. "/#top" (not bare
             "#top") so it actually goes home from any page, not just scrolls
             in place on whichever page is currently open. */}
@@ -133,7 +133,7 @@ export default function Nav({
           </span>
         </a>
 
-        <nav className="hidden items-center gap-6 xl:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-6 min-[1440px]:gap-[18px] xl:flex" aria-label="Primary">
           {nav.links.map((link) => (
             <a
               key={link.href}
@@ -161,19 +161,13 @@ export default function Nav({
         {onDark ? (
           <a
             href="/audit"
-            className="group hidden h-11 items-center gap-3 rounded-[999px] border border-pa-red/45 bg-white/[0.04] px-6 font-mono text-mono-sm uppercase tracking-tracker text-pa-chalk transition-all duration-300 ease-op-editorial hover:border-pa-red hover:bg-pa-red/10 md:inline-flex"
+            className="group hidden h-11 items-center gap-3 rounded-[999px] border border-pa-red/45 bg-white/[0.04] px-6 min-[1440px]:px-5 font-mono text-mono-sm uppercase tracking-tracker text-pa-chalk transition-all duration-300 ease-op-editorial hover:border-pa-red hover:bg-pa-red/10 md:inline-flex"
             style={{ boxShadow: "0 0 22px -8px rgba(255,31,45,0.75)" }}
           >
-            {nav.cta}
-            <span
-              aria-hidden="true"
-              className="transition-transform duration-300 ease-op-editorial group-hover:translate-x-1"
-            >
-              &rarr;
-            </span>
+            <span className="whitespace-nowrap">{nav.cta}</span>
           </a>
         ) : (
-          <ShinyButton href="/audit" className="hidden md:inline-flex">
+          <ShinyButton href="/audit" className="hidden md:inline-flex min-[1440px]:!px-5">
             {nav.cta}
           </ShinyButton>
         )}
