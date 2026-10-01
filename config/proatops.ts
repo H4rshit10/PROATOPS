@@ -233,18 +233,20 @@ export const PROATOPS = {
      a problem an owner recognises, then the outcome it becomes. */
   outcomes: {
     eyebrow: "PROBLEM → OUTCOME",
-    headline: "THE PROBLEMS WE SOLVE — AND WHAT THEY BECOME.",
+    headline: "THE PROBLEMS WE SOLVE, AND WHAT THEY BECOME.",
     problemLabel: "WHAT THE OWNER SEES",
     outcomeLabel: "WHAT THE BUSINESS GETS",
-    /* `glyph` keys into OUTCOME_GLYPHS in components/sections/Outcomes.tsx. */
+    /* `glyph` keys into OUTCOME_GLYPHS in components/sections/Outcomes.tsx.
+       Problems are full clauses; results are noun phrases — kept parallel so
+       the column reads as one voice. */
     rows: [
-      { glyph: "owner", problem: "Everything depends on the owner", outcome: "OWNER INDEPENDENCE", result: "Less daily owner chasing" },
-      { glyph: "people", problem: "The team works, but accountability is weak", outcome: "MANAGEMENT CONTROL", result: "Clear ownership and review" },
+      { glyph: "owner", problem: "Everything depends on the owner", outcome: "OWNER LEVERAGE", result: "Less daily chasing by the owner" },
+      { glyph: "people", problem: "The team works, but accountability is weak", outcome: "MANAGEMENT CONTROL", result: "Clear ownership and regular review" },
       { glyph: "systems", problem: "Processes differ by person or location", outcome: "OPERATIONAL CONSISTENCY", result: "Repeatable execution" },
       { glyph: "sales", problem: "Leads exist, but revenue leaks", outcome: "REVENUE PERFORMANCE", result: "Stronger conversion and retention" },
-      { glyph: "view", problem: "The owner can't clearly see what is happening", outcome: "BUSINESS VISIBILITY", result: "KPIs, dashboards and reviews" },
-      { glyph: "automation", problem: "Too much manual follow-up and fragmented work", outcome: "AUTOMATION & EFFICIENCY", result: "Less repetitive chasing" },
-      { glyph: "scale", problem: "Growth is planned, but systems are not ready", outcome: "SCALABLE INFRASTRUCTURE", result: "Growth without chaos" },
+      { glyph: "view", problem: "The owner cannot clearly see what is happening", outcome: "BUSINESS VISIBILITY", result: "KPIs, dashboards and reviews" },
+      { glyph: "automation", problem: "Manual follow-up and fragmented work slow the whole business", outcome: "AUTOMATION & EFFICIENCY", result: "Less repetitive follow-up" },
+      { glyph: "scale", problem: "Growth is planned, but the systems are not ready", outcome: "SCALABLE INFRASTRUCTURE", result: "Growth without chaos" },
     ],
   },
 
