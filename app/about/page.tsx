@@ -22,6 +22,7 @@ export default function AboutPage() {
     <main>
       <Nav />
       <V2PageHeader
+        art="ownership"
         eyebrow={page.eyebrow}
         headline={page.headline}
         subhead={page.subhead}

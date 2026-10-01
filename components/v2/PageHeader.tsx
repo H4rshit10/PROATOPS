@@ -2,6 +2,7 @@ import WordReveal from "@/components/motion/WordReveal";
 import Enter from "@/components/motion/Enter";
 import { Crosshair } from "@/components/ui/Marker";
 import { Btn } from "@/components/ui/Btn";
+import HeaderArt, { type HeaderArtName } from "@/components/svg/HeaderArt";
 
 /**
  * The opening block every standalone page shares.
@@ -17,16 +18,18 @@ export default function V2PageHeader({
   subhead,
   cta,
   secondary,
+  art,
 }: {
   eyebrow: string;
   headline: string;
   subhead: string;
   cta?: { label: string; href: string };
   secondary?: { label: string; href: string };
+  art?: HeaderArtName;
 }) {
   return (
-    <section className="grain grain-dark blueprint-dark bg-op-charcoal pt-[72px]">
-      <div className="shell-x mx-auto max-w-shell py-20 lg:py-28">
+    <section className="grain grain-dark blueprint-dark overflow-hidden bg-op-charcoal pt-[72px]">
+      <div className="shell-x relative mx-auto max-w-shell py-20 lg:py-28">
         <Enter delay={0.05}>
           <div className="flex items-center gap-3">
             <Crosshair />
@@ -64,6 +67,19 @@ export default function V2PageHeader({
               )}
             </div>
           </Enter>
+        )}
+
+        {/* Line art for the page's subject. Below xl it sits under the
+            buttons, left-aligned; from xl up it is set in the free corner to
+            the right of the standfirst and buttons, which end well short of
+            it, so it never meets the text. Purely decorative. */}
+        {art && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none mt-12 w-44 text-op-white/35 sm:w-52 xl:absolute xl:bottom-20 xl:right-16 xl:mt-0 xl:w-64"
+          >
+            <HeaderArt name={art} />
+          </div>
         )}
       </div>
     </section>

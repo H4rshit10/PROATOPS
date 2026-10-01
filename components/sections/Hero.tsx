@@ -53,7 +53,7 @@ function PrimaryCta({ children }: { children: string }) {
   return (
     <a
       href="/audit"
-      className="group relative inline-flex h-[54px] items-center justify-center gap-3 overflow-hidden rounded-[10px] px-8 text-left transition-transform duration-300 ease-op-editorial hover:-translate-y-[2px] sm:px-9"
+      className="group relative inline-flex h-[54px] items-center justify-center gap-3 overflow-hidden rounded-[10px] px-8 text-left transition-transform duration-300 ease-op-editorial hover:-translate-y-[2px] active:translate-y-0 active:scale-[0.98] sm:px-9"
       style={{
         background:
           "linear-gradient(105deg, #B90F18 0%, #E50914 46%, #FF1F2D 100%)",

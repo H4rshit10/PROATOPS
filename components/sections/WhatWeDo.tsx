@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/motion/Reveal";
 import WordReveal from "@/components/motion/WordReveal";
+import TrackMarker from "@/components/motion/TrackMarker";
 import { SectionRule } from "@/components/ui/Marker";
 import ProximityGrid, {
   ProximityBorder,
@@ -124,7 +125,7 @@ export default function WhatWeDo() {
                 <div className="relative z-[2] mt-auto pt-8">
                   <span
                     aria-hidden="true"
-                    className="block h-px w-10 bg-op-crimson transition-all duration-500 ease-op-editorial group-hover:w-24"
+                    className="block h-px w-24 origin-left scale-x-[0.4167] bg-op-crimson transition-transform duration-500 ease-op-editorial group-hover:scale-x-100"
                   />
                   {/* Reserves three lines (3 × 1.65em) so the crimson rules
                       line up across the row even where one description is a
@@ -174,15 +175,7 @@ export default function WhatWeDo() {
                       {/* The same hard-edged marker that travels the Five
                           Stages spine — one signature move, reused rather
                           than a second technique invented for this strip. */}
-                      {!reduced && (
-                        <motion.span
-                          initial={{ left: "0%", opacity: 0 }}
-                          whileInView={{ left: "100%", opacity: [0, 1, 1, 0] }}
-                          viewport={{ once: true, margin: "-80px" }}
-                          transition={{ duration: 0.5, delay: at + 0.15, ease: "linear" }}
-                          className="absolute top-1/2 z-10 block h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-op-crimson"
-                        />
-                      )}
+                      <TrackMarker delay={at + 0.15} duration={0.5} margin="-80px" />
                       <span className="ml-1 font-mono text-mono-sm text-op-crimson">&rarr;</span>
                     </li>
                   )}

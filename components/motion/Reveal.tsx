@@ -2,23 +2,26 @@
 
 import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useMediaQuery";
+import { EASE, DUR } from "@/lib/motion";
 import { ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
   delay?: number;
   y?: number;
+  /** Kept so existing call sites compile. Reveals no longer blur: animating
+      `filter` forces a repaint of the whole block every frame, which is the
+      most expensive thing a reveal can do on a phone. */
   blur?: boolean;
   className?: string;
   once?: boolean;
 };
 
-/** Deterministic reveal — cubic-bezier(0.4, 0, 0.2, 1), no springs. */
+/** The site's one scroll-in: opacity and a short rise, on the shared curve. */
 export default function Reveal({
   children,
   delay = 0,
-  y = 28,
-  blur = true,
+  y = 20,
   className,
   once = true,
 }: RevealProps) {
@@ -34,10 +37,10 @@ export default function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y, filter: blur ? "blur(6px)" : "none" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, margin: "-80px" }}
-      transition={{ duration: 0.5, delay, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: DUR, delay, ease: EASE }}
     >
       {children}
     </motion.div>

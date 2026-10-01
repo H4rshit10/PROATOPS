@@ -3,6 +3,7 @@
 import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 import WordReveal from "@/components/motion/WordReveal";
+import TrackMarker from "@/components/motion/TrackMarker";
 import { SectionRule } from "@/components/ui/Marker";
 import {
   GlyphIntelligence,
@@ -108,15 +109,7 @@ export default function Outcomes() {
                     transition={{ duration: 0.4, delay: i * 0.05 + 0.25, ease: EASE }}
                     className="hidden h-px flex-1 origin-left bg-op-crimson lg:block"
                   />
-                  {!reduced && (
-                    <motion.span
-                      initial={{ left: "0%", opacity: 0 }}
-                      whileInView={{ left: "100%", opacity: [0, 1, 1, 0] }}
-                      viewport={{ once: true, margin: "-60px" }}
-                      transition={{ duration: 0.4, delay: i * 0.05 + 0.3, ease: "linear" }}
-                      className="absolute top-1/2 z-10 hidden h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-op-crimson lg:block"
-                    />
-                  )}
+                  <TrackMarker delay={i * 0.05 + 0.3} duration={0.4} className="hidden lg:block" />
                   <span className="font-mono text-mono-sm text-op-crimson">
                     <span className="lg:hidden">&darr;</span>
                     <span className="hidden lg:inline">&rarr;</span>

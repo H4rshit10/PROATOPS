@@ -14,7 +14,7 @@ type Tone = "light" | "dark";
 type Variant = "primary" | "ghost";
 
 const base =
-  "group inline-flex items-center justify-center gap-3 rounded-sm font-mono uppercase tracking-tracker transition-all duration-300 ease-op-editorial hover:-translate-y-[2px]";
+  "group inline-flex items-center justify-center gap-3 rounded-sm font-mono uppercase tracking-tracker transition-[transform,background-color,border-color,color] duration-300 ease-op-editorial hover:-translate-y-[2px] active:translate-y-0 active:scale-[0.98] active:duration-100";
 
 const sizes = {
   md: "h-12 px-6 text-mono-sm",

@@ -3,6 +3,7 @@
 import { Fragment, useRef, type Ref } from "react";
 import { motion, useInView } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useMediaQuery";
+import { EASE } from "@/lib/motion";
 
 type WordRevealProps = {
   text: string;
@@ -69,7 +70,7 @@ export default function WordReveal({
               transition={{
                 duration: 0.6,
                 delay: delay + i * 0.045,
-                ease: [0.4, 0, 0.2, 1],
+                ease: EASE,
               }}
             >
               {word}

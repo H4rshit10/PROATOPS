@@ -28,6 +28,7 @@ export default function WhatWeDoPage() {
     <main>
       <Nav />
       <V2PageHeader
+        art="layers"
         eyebrow={page.eyebrow}
         headline={page.headline}
         subhead={page.subhead}

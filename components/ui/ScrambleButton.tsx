@@ -109,7 +109,7 @@ export default function ScrambleButton({
       onPointerLeave={stop}
       onFocus={start}
       onBlur={stop}
-      className={`group inline-flex h-[54px] items-center gap-3 rounded-[10px] border px-8 transition-colors duration-300 ease-op-editorial sm:px-9 ${
+      className={`group inline-flex h-[54px] items-center gap-3 rounded-[10px] border px-8 transition-[transform,color,background-color,border-color] duration-300 ease-op-editorial active:scale-[0.98] sm:px-9 ${
         onInk
           ? "border-pa-hair-2 bg-white/[0.03] text-pa-chalk hover:border-white/35 hover:bg-white/[0.07]"
           : "border-op-rule-strong bg-transparent text-op-charcoal hover:border-op-crimson hover:text-op-crimson"

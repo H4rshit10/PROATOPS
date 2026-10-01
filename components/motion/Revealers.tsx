@@ -61,7 +61,7 @@ export function LineReveal({
             className={`block ${lineClassName}`}
             initial={{ y: "115%" }}
             animate={inView ? { y: "0%" } : { y: "115%" }}
-            transition={{ duration: 0.62, delay: delay + i * stagger, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: 0.62, delay: delay + i * stagger, ease: EASE }}
           >
             {l}
           </motion.span>

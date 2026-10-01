@@ -44,6 +44,7 @@ export default function InsightsPage() {
     <main>
       <Nav />
       <V2PageHeader
+        art="ledger"
         eyebrow={page.eyebrow}
         headline={page.headline}
         subhead={page.subhead}

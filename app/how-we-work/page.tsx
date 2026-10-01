@@ -23,6 +23,7 @@ export default function HowWeWorkPage() {
     <main>
       <Nav />
       <V2PageHeader
+        art="method"
         eyebrow={page.eyebrow}
         headline={page.headline}
         subhead={page.subhead}

@@ -1,3 +1,4 @@
+import RuleLine from "@/components/motion/RuleLine";
 import type { ReactNode } from "react";
 
 export type Tone = "light" | "dark";
@@ -117,7 +118,7 @@ export function SectionRule({
       >
         {label}
       </span>
-      <span aria-hidden="true" className={`h-px flex-1 ${toneRule[tone]}`} />
+      <RuleLine className={`h-px flex-1 ${toneRule[tone]}`} />
       <Crosshair />
     </div>
   );

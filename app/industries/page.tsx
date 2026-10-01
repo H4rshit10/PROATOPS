@@ -24,6 +24,7 @@ export default function IndustriesPage() {
     <main>
       <Nav />
       <V2PageHeader
+        art="industries"
         eyebrow={page.eyebrow}
         headline={page.headline}
         subhead={page.subhead}

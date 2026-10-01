@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useMediaQuery";
+import { DRAW_ATTRS, DRAW_HIDDEN } from "@/components/motion/DrawIn";
 
 /**
  * The blueprint's diagrams, plotted as technical schematics.

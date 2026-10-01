@@ -148,7 +148,7 @@ export default function Nav({
               {/* Grows left-to-right on hover — 1px, accent only, no glow. */}
               <span
                 aria-hidden="true"
-                className={`absolute -bottom-0.5 left-0 h-px w-0 transition-all duration-300 ease-op-editorial group-hover:w-full ${
+                className={`absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-op-editorial group-hover:scale-x-100 ${
                   onDark ? "bg-pa-red" : "bg-op-crimson"
                 }`}
               />

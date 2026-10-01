@@ -27,6 +27,7 @@ export default function WhyProatopsPage() {
     <main>
       <Nav />
       <V2PageHeader
+        art="why"
         eyebrow={page.eyebrow}
         headline={page.headline}
         subhead={page.subhead}

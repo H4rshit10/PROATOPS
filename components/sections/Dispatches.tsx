@@ -110,7 +110,7 @@ export default function Dispatches() {
 
                 <span
                   aria-hidden="true"
-                  className="mt-5 h-px w-10 bg-op-crimson transition-all duration-op-slow ease-op-micro group-hover:w-20"
+                  className="mt-5 h-px w-20 origin-left scale-x-50 bg-op-crimson transition-transform duration-op-slow ease-op-editorial group-hover:scale-x-100"
                 />
 
                 <p className="mt-5 text-pretty text-body-sm text-op-white/70">

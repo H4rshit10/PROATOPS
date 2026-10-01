@@ -80,7 +80,7 @@ export default function ArrowRevealButton({
       onPointerLeave={() => setHovered(false)}
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
-      className={`group relative inline-flex h-[54px] items-center gap-5 overflow-hidden rounded-[10px] border pl-7 pr-[7px] transition-colors duration-300 ease-op-editorial ${
+      className={`group relative inline-flex h-[54px] items-center gap-5 overflow-hidden rounded-[10px] border pl-7 pr-[7px] transition-[transform,color,background-color,border-color] duration-300 ease-op-editorial active:scale-[0.98] ${
         onInk
           ? "border-pa-hair-2 bg-white/[0.03]"
           : "border-op-rule-strong bg-transparent"
